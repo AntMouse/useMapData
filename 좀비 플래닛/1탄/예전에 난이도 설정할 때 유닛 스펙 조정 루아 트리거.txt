@@ -1,0 +1,42 @@
+Trigger { -- 난이도에 따른 유닛 스펙조정
+	players = {P8},
+	conditions = {
+		Deaths(P7, Exactly, 1, "Fenix (Zealot)");
+		Switch("Switch 121", Cleared);
+		Never();
+	},
+	actions = {
+		PreserveTrigger();
+		SetSwitch("Switch 121", Set);
+		ModifyUnitHitPoints(1, "탱크", P6, "Anywhere", 100);
+		SetMemory(0x662364, SetTo, 0x003E8000);
+		SetMemory(0x662404, SetTo, 0x00006400);
+		SetMemory(0x65FF0C, Subtract, 0x0000000A);
+		SetMemory(0x656F3C, Subtract, 0x00000064); -- 4
+		SetMemory(0x656F00, Subtract, 0x00140000);
+		SetMemory(0x656F04, Subtract, 0x00000014);
+		SetMemory(0x656EF8, Subtract, 0x00000003);
+		SetMemory(0x656F10, Subtract, 0x00060000); -- 8
+	},
+}
+
+Trigger { --
+	players = {P8},
+	conditions = {
+		Deaths(P7, Exactly, 2, "Fenix (Zealot)");
+		Switch("Switch 122", Cleared);
+	},
+	actions = {
+		PreserveTrigger();
+		SetSwitch("Switch 122", Set);
+		ModifyUnitHitPoints(1, "탱크", P6, "Anywhere", 100);
+		SetMemory(0x662364, SetTo, 0x001F4000);
+		SetMemory(0x662404, SetTo, 0x00015E00);
+		SetMemory(0x65FF0C, Subtract, 0x00000002);
+		SetMemory(0x656F3C, Subtract, 0x00000014); -- 4
+		SetMemory(0x656F00, Subtract, 0x000A0000);
+		SetMemory(0x656F04, Subtract, 0x0000000A);
+		SetMemory(0x656EF8, Subtract, 0x00000001);
+		SetMemory(0x656F10, Subtract, 0x00020000); -- 8
+	},
+}

@@ -1,0 +1,46 @@
+Trigger { -- 시작 전 로케 이동 장소에 더미 유닛 생산하기
+	players = {P6},
+	conditions = {
+		Always();
+	},
+	actions = {
+		CreateUnitWithProperties(1, "Zerg Defiler", "misson", P8, {
+			clocked = false,
+			burrowed = true,
+			intransit = false,
+			hallucinated = false,
+			invincible = true,
+			hitpoint = 100,
+			shield = 100,
+			energy = 100,
+			resource = 0,
+			hanger = 0,
+		});
+	    GiveUnits(1, "Zerg Defiler", P8, "misson", P11);
+	},
+}
+
+121~125 스위치 사용.
+미션1 바리게이트 체력 난이도에 따른 차이 체크.
+탱크 피통 체크.
+각종 유닛 스펙 체크.
+
+이지모드
+
+부르들링30(50)
+뮤탈영웅딜 20(26)
+퀸피통 100(450)
+탱크피 2만(4000)
+영저 15(18)
+아칸 딜200(300)계수150 아머180(190)
+자좀 딜 50(70)
+
+노말모드
+
+부르들링40(50)
+뮤탈영웅딜 24(26)
+퀸피통 350(450)
+탱크피 8천(4000)
+영저 17(18)
+아칸 딜280(300)계수150 아머188(190)
+자좀 딜 60(70)

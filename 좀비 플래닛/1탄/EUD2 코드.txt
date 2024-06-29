@@ -1,0 +1,924 @@
+import tempcustomText as tct;
+
+var txtPtr, btnPtr, btnPos, oldCP;
+const trgk = $T('Artanis & safhfh');
+const bunsin1 = [0, 0, 0, 0, 0, 0, 0, 0];
+const bunsin2 = [0, 0, 0, 0, 0, 0, 0, 0];
+const marine = [0, 0, 0, 0, 0, 0, 0, 0];
+var test1 = 0;
+var test2 = 0;
+var test3 = 0;
+var test4 = 0;
+
+
+
+
+const ClassicTriggerExecTimer0 = EUDArray(8);
+function ClassicTriggerExec0() {
+    if (ClassicTriggerExecTimer0[getcurpl()] == 1) {
+        SetMemory(0x6635F4, (8), 0x00030000);
+        SetMemory(0x58D3F8, (7), 0x00000032);
+        SetMemory(0x58D3FC, (7), 0x00000100);
+        SetMemory(0x6623E8, (7), 0x0000C800);
+    }
+    if (ClassicTriggerExecTimer0[getcurpl()] > 0) {
+        ClassicTriggerExecTimer0[getcurpl()] += 1;
+    }
+
+}
+const ClassicTriggerExecTimer1 = EUDArray(8);
+function ClassicTriggerExec1() {
+    if (ClassicTriggerExecTimer1[getcurpl()] == 1) {
+        SetMemory(0x6623E8, (7), 0x0000C800);
+        SetMemory(0x6635F4, (8), 0x00030000);
+        SetMemory(0x58D3F8, (7), 0x000000AA);
+        SetMemory(0x58D3FC, (7), 0x00000100);
+        SetMemory(0x58D410, (7), 0x00000001);
+    }
+    if (ClassicTriggerExecTimer1[getcurpl()] > 0) {
+        ClassicTriggerExecTimer1[getcurpl()] += 1;
+    }
+
+}
+const ClassicTriggerExecTimer2 = EUDArray(8);
+function ClassicTriggerExec2() {
+    if (ClassicTriggerExecTimer2[getcurpl()] == 1) {
+        SetMemory(0x6623E8, (7), 0x0000C800);
+        SetMemory(0x58D3F8, (7), 0x000000AA);
+        SetMemory(0x58D3FC, (7), 0x00000100);
+        SetMemory(0x58D410, (7), 0x00000001);
+    }
+    if (ClassicTriggerExecTimer2[getcurpl()] > 0) {
+        ClassicTriggerExecTimer2[getcurpl()] += 1;
+    }
+
+}
+const ClassicTriggerExecTimer3 = EUDArray(8);
+function ClassicTriggerExec3() {
+    if (ClassicTriggerExecTimer3[getcurpl()] == 1) {
+        SetMemory(0x663600, (8), 0x00030000);
+        SetMemory(0x58D3F8, (7), 0x000000AA);
+        SetMemory(0x58D3FC, (7), 0x00000000);
+        SetMemory(0x58D410, (7), 0x00000000);
+        SetMemory(0x656F1C, (8), 0x000000C8);
+    }
+    if (ClassicTriggerExecTimer3[getcurpl()] > 0) {
+        ClassicTriggerExecTimer3[getcurpl()] += 1;
+    }
+
+}
+const ClassicTriggerExecTimer4 = EUDArray(8);
+function ClassicTriggerExec4() {
+    if (ClassicTriggerExecTimer4[getcurpl()] == 1) {
+        SetMemory(0x58D3D4, (7), 0x00000001);
+    }
+    if (ClassicTriggerExecTimer4[getcurpl()] > 0) {
+        ClassicTriggerExecTimer4[getcurpl()] += 1;
+    }
+
+}
+const ClassicTriggerExecTimer5 = EUDArray(8);
+function ClassicTriggerExec5() {
+    if (ClassicTriggerExecTimer5[getcurpl()] == 1) {
+        PreserveTrigger();
+        tct.chatAnnouncement("\x04마인드 컨트롤 \x07", dwread_epd(90 * 12 + getcurpl()), "");
+        ClassicTriggerExecTimer5[getcurpl()] = 0;
+    }
+    if (ClassicTriggerExecTimer5[getcurpl()] > 0) {
+        ClassicTriggerExecTimer5[getcurpl()] += 1;
+    }
+
+}
+const ClassicTriggerExecTimer6 = EUDArray(8);
+function ClassicTriggerExec6() {
+    if (ClassicTriggerExecTimer6[getcurpl()] == 1) {
+        PreserveTrigger();
+        tct.chatAnnouncement("\x04마인드 컨트롤 \x07", dwread_epd(90 * 12 + getcurpl()), " \x1F/ \x04회피 \x07", dwread_epd(93 * 12 + getcurpl()), "");
+        ClassicTriggerExecTimer6[getcurpl()] = 0;
+    }
+    if (ClassicTriggerExecTimer6[getcurpl()] > 0) {
+        ClassicTriggerExecTimer6[getcurpl()] += 1;
+    }
+
+}
+const ClassicTriggerExecTimer7 = EUDArray(8);
+function ClassicTriggerExec7() {
+    if (ClassicTriggerExecTimer7[getcurpl()] == 1) {
+        PreserveTrigger();
+        tct.chatAnnouncement("\x04마인드 컨트롤 \x07", dwread_epd(90 * 12 + getcurpl()), " \x1F/ \x04회피 \x06사용 불가");
+        ClassicTriggerExecTimer7[getcurpl()] = 0;
+    }
+    if (ClassicTriggerExecTimer7[getcurpl()] > 0) {
+        ClassicTriggerExecTimer7[getcurpl()] += 1;
+    }
+
+}
+const ClassicTriggerExecTimer8 = EUDArray(8);
+function ClassicTriggerExec8() {
+    if (ClassicTriggerExecTimer8[getcurpl()] == 1) {
+        PreserveTrigger();
+        tct.chatAnnouncement("\x04마인드 컨트롤 \x07", dwread_epd(90 * 12 + getcurpl()), " \x1F/ \x04회피 \x06사용 불가");
+        ClassicTriggerExecTimer8[getcurpl()] = 0;
+    }
+    if (ClassicTriggerExecTimer8[getcurpl()] > 0) {
+        ClassicTriggerExecTimer8[getcurpl()] += 1;
+    }
+
+}
+const ClassicTriggerExecTimer9 = EUDArray(8);
+function ClassicTriggerExec9() {
+    if (ClassicTriggerExecTimer9[getcurpl()] == 1) {
+        PreserveTrigger();
+        tct.chatAnnouncement("\x04마인드 컨트롤 \x07", dwread_epd(90 * 12 + getcurpl()), " \x1F/ \x04회피 \x06사용 불가");
+        ClassicTriggerExecTimer9[getcurpl()] = 0;
+    }
+    if (ClassicTriggerExecTimer9[getcurpl()] > 0) {
+        ClassicTriggerExecTimer9[getcurpl()] += 1;
+    }
+
+}
+const ClassicTriggerExecTimer10 = EUDArray(8);
+function ClassicTriggerExec10() {
+    if (ClassicTriggerExecTimer10[getcurpl()] == 1) {
+        PreserveTrigger();
+        tct.chatAnnouncement("\x04마인드 컨트롤 \x07", dwread_epd(90 * 12 + getcurpl()), " \x1F/ \x04회피 \x06사용 불가");
+        ClassicTriggerExecTimer10[getcurpl()] = 0;
+    }
+    if (ClassicTriggerExecTimer10[getcurpl()] > 0) {
+        ClassicTriggerExecTimer10[getcurpl()] += 1;
+    }
+
+}
+const ClassicTriggerExecTimer11 = EUDArray(8);
+function ClassicTriggerExec11() {
+    if (ClassicTriggerExecTimer11[getcurpl()] == 1) {
+        PreserveTrigger();
+        tct.chatAnnouncement("\x04마인드 컨트롤 \x07", dwread_epd(90 * 12 + getcurpl()), " \x1F/ \x04회피 \x06사용 불가");
+        ClassicTriggerExecTimer11[getcurpl()] = 0;
+    }
+    if (ClassicTriggerExecTimer11[getcurpl()] > 0) {
+        ClassicTriggerExecTimer11[getcurpl()] += 1;
+    }
+
+}
+const ClassicTriggerExecTimer12 = EUDArray(8);
+function ClassicTriggerExec12() {
+    if (ClassicTriggerExecTimer12[getcurpl()] == 1) {
+        PreserveTrigger();
+        tct.chatAnnouncement("\x04마인드 컨트롤 \x07", dwread_epd(90 * 12 + getcurpl()), " \x1F/ \x04회피 \x07", dwread_epd(93 * 12 + getcurpl()), " \x1F/ \x04힐 \x06사용 불가");
+        ClassicTriggerExecTimer12[getcurpl()] = 0;
+    }
+    if (ClassicTriggerExecTimer12[getcurpl()] > 0) {
+        ClassicTriggerExecTimer12[getcurpl()] += 1;
+    }
+
+}
+const ClassicTriggerExecTimer13 = EUDArray(8);
+function ClassicTriggerExec13() {
+    if (ClassicTriggerExecTimer13[getcurpl()] == 1) {
+        PreserveTrigger();
+        tct.chatAnnouncement("\x04마인드 컨트롤 \x07", dwread_epd(90 * 12 + getcurpl()), " \x1F/ \x04회피 \x07", dwread_epd(93 * 12 + getcurpl()), " \x1F/ \x04힐 \x07", dwread_epd(94 * 12 + getcurpl()), "");
+        ClassicTriggerExecTimer13[getcurpl()] = 0;
+    }
+    if (ClassicTriggerExecTimer13[getcurpl()] > 0) {
+        ClassicTriggerExecTimer13[getcurpl()] += 1;
+    }
+
+}
+const ClassicTriggerExecTimer14 = EUDArray(8);
+function ClassicTriggerExec14() {
+    if (ClassicTriggerExecTimer14[getcurpl()] == 1) {
+        PreserveTrigger();
+        tct.chatAnnouncement("\x04마인드 컨트롤 \x07", dwread_epd(90 * 12 + getcurpl()), " \x1F/ \x04회피 \x06사용 불가 \x1F/ \x04힐 \x07", dwread_epd(94 * 12 + getcurpl()), "");
+        ClassicTriggerExecTimer14[getcurpl()] = 0;
+    }
+    if (ClassicTriggerExecTimer14[getcurpl()] > 0) {
+        ClassicTriggerExecTimer14[getcurpl()] += 1;
+    }
+
+}
+const ClassicTriggerExecTimer15 = EUDArray(8);
+function ClassicTriggerExec15() {
+    if (ClassicTriggerExecTimer15[getcurpl()] == 1) {
+        PreserveTrigger();
+        tct.chatAnnouncement("\x04마인드 컨트롤 \x07", dwread_epd(90 * 12 + getcurpl()), " \x1F/ \x04회피 \x06사용 불가 \x1F/ \x04힐 \x07", dwread_epd(94 * 12 + getcurpl()), "");
+        ClassicTriggerExecTimer15[getcurpl()] = 0;
+    }
+    if (ClassicTriggerExecTimer15[getcurpl()] > 0) {
+        ClassicTriggerExecTimer15[getcurpl()] += 1;
+    }
+
+}
+const ClassicTriggerExecTimer16 = EUDArray(8);
+function ClassicTriggerExec16() {
+    if (ClassicTriggerExecTimer16[getcurpl()] == 1) {
+        PreserveTrigger();
+        tct.chatAnnouncement("\x04마인드 컨트롤 \x07", dwread_epd(90 * 12 + getcurpl()), " \x1F/ \x04회피 \x06사용 불가 \x1F/ \x04힐 \x07", dwread_epd(94 * 12 + getcurpl()), "");
+        ClassicTriggerExecTimer16[getcurpl()] = 0;
+    }
+    if (ClassicTriggerExecTimer16[getcurpl()] > 0) {
+        ClassicTriggerExecTimer16[getcurpl()] += 1;
+    }
+
+}
+const ClassicTriggerExecTimer17 = EUDArray(8);
+function ClassicTriggerExec17() {
+    if (ClassicTriggerExecTimer17[getcurpl()] == 1) {
+        PreserveTrigger();
+        tct.chatAnnouncement("\x04마인드 컨트롤 \x07", dwread_epd(90 * 12 + getcurpl()), " \x1F/ \x04회피 \x06사용 불가 \x1F/ \x04힐 \x07", dwread_epd(94 * 12 + getcurpl()), "");
+        ClassicTriggerExecTimer17[getcurpl()] = 0;
+    }
+    if (ClassicTriggerExecTimer17[getcurpl()] > 0) {
+        ClassicTriggerExecTimer17[getcurpl()] += 1;
+    }
+
+}
+const ClassicTriggerExecTimer18 = EUDArray(8);
+function ClassicTriggerExec18() {
+    if (ClassicTriggerExecTimer18[getcurpl()] == 1) {
+        PreserveTrigger();
+        tct.chatAnnouncement("\x04마인드 컨트롤 \x07", dwread_epd(90 * 12 + getcurpl()), " \x1F/ \x04회피 \x06사용 불가 \x1F/ \x04힐 \x07", dwread_epd(94 * 12 + getcurpl()), "");
+        ClassicTriggerExecTimer18[getcurpl()] = 0;
+    }
+    if (ClassicTriggerExecTimer18[getcurpl()] > 0) {
+        ClassicTriggerExecTimer18[getcurpl()] += 1;
+    }
+
+}
+const ClassicTriggerExecTimer19 = EUDArray(8);
+function ClassicTriggerExec19() {
+    if (ClassicTriggerExecTimer19[getcurpl()] == 1) {
+        PreserveTrigger();
+        tct.chatAnnouncement("\x04마인드 컨트롤 \x07", dwread_epd(90 * 12 + getcurpl()), " \x1F/ \x04회피 \x07", dwread_epd(93 * 12 + getcurpl()), " \x1F/ \x04힐 \x07", dwread_epd(94 * 12 + getcurpl()), " \x1F/ \x04분신술 \x07", dwread_epd(95 * 12 + getcurpl()), "");
+        ClassicTriggerExecTimer19[getcurpl()] = 0;
+    }
+    if (ClassicTriggerExecTimer19[getcurpl()] > 0) {
+        ClassicTriggerExecTimer19[getcurpl()] += 1;
+    }
+
+}
+const ClassicTriggerExecTimer20 = EUDArray(8);
+function ClassicTriggerExec20() {
+    if (ClassicTriggerExecTimer20[getcurpl()] == 1) {
+        PreserveTrigger();
+        tct.chatAnnouncement("");
+        SetDeaths((13), (7), 1, (157));
+        ClassicTriggerExecTimer20[getcurpl()] = 0;
+    }
+    if (ClassicTriggerExecTimer20[getcurpl()] > 0) {
+        ClassicTriggerExecTimer20[getcurpl()] += 1;
+    }
+
+}
+function ClassicTriggerStarter0() {
+    if (
+        Deaths((7), (0), 1, (19)) && 
+        Deaths((7), (1), 24, (19))
+    ) {
+        if (ClassicTriggerExecTimer0[getcurpl()] == 0) {
+            ClassicTriggerExecTimer0[getcurpl()] = 1;
+            ClassicTriggerExec0();
+        }
+    }
+}
+function ClassicTriggerStarter1() {
+    if (
+        Deaths((6), (10), 1, (182)) && 
+        Memory(0x6623E8, (10), 0x00006400)
+    ) {
+        if (ClassicTriggerExecTimer1[getcurpl()] == 0) {
+            ClassicTriggerExecTimer1[getcurpl()] = 1;
+            ClassicTriggerExec1();
+        }
+    }
+}
+function ClassicTriggerStarter2() {
+    if (
+        Deaths((6), (10), 1, (182)) && 
+        Memory(0x6623E8, (10), 0x0000C800)
+    ) {
+        if (ClassicTriggerExecTimer2[getcurpl()] == 0) {
+            ClassicTriggerExecTimer2[getcurpl()] = 1;
+            ClassicTriggerExec2();
+        }
+    }
+}
+function ClassicTriggerStarter3() {
+    if (
+        CountdownTimer((1), 364) && 
+        CountdownTimer((0), 1) && 
+        Deaths((6), (0), 5, (169))
+    ) {
+        if (ClassicTriggerExecTimer3[getcurpl()] == 0) {
+            ClassicTriggerExecTimer3[getcurpl()] = 1;
+            ClassicTriggerExec3();
+        }
+    }
+}
+function ClassicTriggerStarter4() {
+    if (
+        CountdownTimer((1), 366) && 
+        CountdownTimer((0), 1) && 
+        Deaths((6), (0), 5, (169))
+    ) {
+        if (ClassicTriggerExecTimer4[getcurpl()] == 0) {
+            ClassicTriggerExecTimer4[getcurpl()] = 1;
+            ClassicTriggerExec4();
+        }
+    }
+}
+function ClassicTriggerStarter5() {
+    if (
+        Accumulate((13), (10), 2, (1)) && 
+        Command((13), (0), 1, (0))
+    ) {
+        if (ClassicTriggerExecTimer5[getcurpl()] == 0) {
+            ClassicTriggerExecTimer5[getcurpl()] = 1;
+            ClassicTriggerExec5();
+        }
+    }
+}
+function ClassicTriggerStarter6() {
+    if (
+        Accumulate((13), (10), 3, (1)) && 
+        Command((13), (0), 1, (0)) && 
+        Command((17), (10), 0, (68)) && 
+        Command((8), (10), 0, (68))
+    ) {
+        if (ClassicTriggerExecTimer6[getcurpl()] == 0) {
+            ClassicTriggerExecTimer6[getcurpl()] = 1;
+            ClassicTriggerExec6();
+        }
+    }
+}
+function ClassicTriggerStarter7() {
+    if (
+        Accumulate((13), (10), 3, (1)) && 
+        Command((13), (0), 1, (0)) && 
+        Command((18), (0), 1, (68))
+    ) {
+        if (ClassicTriggerExecTimer7[getcurpl()] == 0) {
+            ClassicTriggerExecTimer7[getcurpl()] = 1;
+            ClassicTriggerExec7();
+        }
+    }
+}
+function ClassicTriggerStarter8() {
+    if (
+        Accumulate((13), (10), 3, (1)) && 
+        Command((13), (0), 1, (0)) && 
+        Command((5), (0), 1, (68))
+    ) {
+        if (ClassicTriggerExecTimer8[getcurpl()] == 0) {
+            ClassicTriggerExecTimer8[getcurpl()] = 1;
+            ClassicTriggerExec8();
+        }
+    }
+}
+function ClassicTriggerStarter9() {
+    if (
+        Accumulate((13), (10), 3, (1)) && 
+        Command((13), (0), 1, (0)) && 
+        Command((6), (0), 1, (68))
+    ) {
+        if (ClassicTriggerExecTimer9[getcurpl()] == 0) {
+            ClassicTriggerExecTimer9[getcurpl()] = 1;
+            ClassicTriggerExec9();
+        }
+    }
+}
+function ClassicTriggerStarter10() {
+    if (
+        Accumulate((13), (10), 3, (1)) && 
+        Command((13), (0), 1, (0)) && 
+        Command((7), (0), 1, (68))
+    ) {
+        if (ClassicTriggerExecTimer10[getcurpl()] == 0) {
+            ClassicTriggerExecTimer10[getcurpl()] = 1;
+            ClassicTriggerExec10();
+        }
+    }
+}
+function ClassicTriggerStarter11() {
+    if (
+        Accumulate((13), (10), 3, (1)) && 
+        Command((13), (0), 1, (0)) && 
+        Command((8), (0), 1, (68))
+    ) {
+        if (ClassicTriggerExecTimer11[getcurpl()] == 0) {
+            ClassicTriggerExecTimer11[getcurpl()] = 1;
+            ClassicTriggerExec11();
+        }
+    }
+}
+function ClassicTriggerStarter12() {
+    if (
+        Accumulate((13), (10), 4, (1)) && 
+        Command((13), (0), 1, (0)) && 
+        Deaths((6), (10), 1, (10)) && 
+        Command((17), (10), 0, (68)) && 
+        Command((8), (10), 0, (68))
+    ) {
+        if (ClassicTriggerExecTimer12[getcurpl()] == 0) {
+            ClassicTriggerExecTimer12[getcurpl()] = 1;
+            ClassicTriggerExec12();
+        }
+    }
+}
+function ClassicTriggerStarter13() {
+    if (
+        Accumulate((13), (10), 4, (1)) && 
+        Command((13), (0), 1, (0)) && 
+        Deaths((6), (10), 0, (10)) && 
+        Command((17), (10), 0, (68)) && 
+        Command((8), (10), 0, (68))
+    ) {
+        if (ClassicTriggerExecTimer13[getcurpl()] == 0) {
+            ClassicTriggerExecTimer13[getcurpl()] = 1;
+            ClassicTriggerExec13();
+        }
+    }
+}
+function ClassicTriggerStarter14() {
+    if (
+        Accumulate((13), (10), 4, (1)) && 
+        Command((13), (0), 1, (0)) && 
+        Deaths((6), (10), 0, (10)) && 
+        Command((18), (0), 1, (68))
+    ) {
+        if (ClassicTriggerExecTimer14[getcurpl()] == 0) {
+            ClassicTriggerExecTimer14[getcurpl()] = 1;
+            ClassicTriggerExec14();
+        }
+    }
+}
+function ClassicTriggerStarter15() {
+    if (
+        Accumulate((13), (10), 4, (1)) && 
+        Command((13), (0), 1, (0)) && 
+        Deaths((6), (10), 0, (10)) && 
+        Command((8), (0), 1, (68))
+    ) {
+        if (ClassicTriggerExecTimer15[getcurpl()] == 0) {
+            ClassicTriggerExecTimer15[getcurpl()] = 1;
+            ClassicTriggerExec15();
+        }
+    }
+}
+function ClassicTriggerStarter16() {
+    if (
+        Accumulate((13), (10), 4, (1)) && 
+        Command((13), (0), 1, (0)) && 
+        Deaths((6), (10), 0, (10)) && 
+        Command((7), (0), 1, (68))
+    ) {
+        if (ClassicTriggerExecTimer16[getcurpl()] == 0) {
+            ClassicTriggerExecTimer16[getcurpl()] = 1;
+            ClassicTriggerExec16();
+        }
+    }
+}
+function ClassicTriggerStarter17() {
+    if (
+        Accumulate((13), (10), 4, (1)) && 
+        Command((13), (0), 1, (0)) && 
+        Deaths((6), (10), 0, (10)) && 
+        Command((6), (0), 1, (68))
+    ) {
+        if (ClassicTriggerExecTimer17[getcurpl()] == 0) {
+            ClassicTriggerExecTimer17[getcurpl()] = 1;
+            ClassicTriggerExec17();
+        }
+    }
+}
+function ClassicTriggerStarter18() {
+    if (
+        Accumulate((13), (10), 4, (1)) && 
+        Command((13), (0), 1, (0)) && 
+        Deaths((6), (10), 0, (10)) && 
+        Command((5), (0), 1, (68))
+    ) {
+        if (ClassicTriggerExecTimer18[getcurpl()] == 0) {
+            ClassicTriggerExecTimer18[getcurpl()] = 1;
+            ClassicTriggerExec18();
+        }
+    }
+}
+function ClassicTriggerStarter19() {
+    if (
+        Accumulate((13), (0), 5, (1)) && 
+        Command((13), (0), 1, (0))
+    ) {
+        if (ClassicTriggerExecTimer19[getcurpl()] == 0) {
+            ClassicTriggerExecTimer19[getcurpl()] = 1;
+            ClassicTriggerExec19();
+        }
+    }
+}
+function ClassicTriggerStarter20() {
+    if (
+        Accumulate((13), (0), 2, (1)) && 
+        Command((13), (10), 0, (0)) && 
+        Deaths((13), (10), 0, (157))
+    ) {
+        if (ClassicTriggerExecTimer20[getcurpl()] == 0) {
+            ClassicTriggerExecTimer20[getcurpl()] = 1;
+            ClassicTriggerExec20();
+        }
+    }
+}
+function ClassicTriggerExec() {
+    ClassicTriggerExec0();
+    ClassicTriggerExec1();
+    ClassicTriggerExec2();
+    ClassicTriggerExec3();
+    ClassicTriggerExec4();
+    ClassicTriggerExec5();
+    ClassicTriggerExec6();
+    ClassicTriggerExec7();
+    ClassicTriggerExec8();
+    ClassicTriggerExec9();
+    ClassicTriggerExec10();
+    ClassicTriggerExec11();
+    ClassicTriggerExec12();
+    ClassicTriggerExec13();
+    ClassicTriggerExec14();
+    ClassicTriggerExec15();
+    ClassicTriggerExec16();
+    ClassicTriggerExec17();
+    ClassicTriggerExec18();
+    ClassicTriggerExec19();
+    ClassicTriggerExec20();
+}
+function ClassicTriggerStarter() {
+    if (playerexist(P1)) {
+        setcurpl(P1);
+        ClassicTriggerStarter5();
+        ClassicTriggerStarter6();
+        ClassicTriggerStarter7();
+        ClassicTriggerStarter8();
+        ClassicTriggerStarter9();
+        ClassicTriggerStarter10();
+        ClassicTriggerStarter11();
+        ClassicTriggerStarter12();
+        ClassicTriggerStarter13();
+        ClassicTriggerStarter14();
+        ClassicTriggerStarter15();
+        ClassicTriggerStarter16();
+        ClassicTriggerStarter17();
+        ClassicTriggerStarter18();
+        ClassicTriggerStarter19();
+        ClassicTriggerStarter20();
+    }
+    if (playerexist(P2)) {
+        setcurpl(P2);
+        ClassicTriggerStarter5();
+        ClassicTriggerStarter6();
+        ClassicTriggerStarter7();
+        ClassicTriggerStarter8();
+        ClassicTriggerStarter9();
+        ClassicTriggerStarter10();
+        ClassicTriggerStarter11();
+        ClassicTriggerStarter12();
+        ClassicTriggerStarter13();
+        ClassicTriggerStarter14();
+        ClassicTriggerStarter15();
+        ClassicTriggerStarter16();
+        ClassicTriggerStarter17();
+        ClassicTriggerStarter18();
+        ClassicTriggerStarter19();
+        ClassicTriggerStarter20();
+    }
+    if (playerexist(P3)) {
+        setcurpl(P3);
+        ClassicTriggerStarter5();
+        ClassicTriggerStarter6();
+        ClassicTriggerStarter7();
+        ClassicTriggerStarter8();
+        ClassicTriggerStarter9();
+        ClassicTriggerStarter10();
+        ClassicTriggerStarter11();
+        ClassicTriggerStarter12();
+        ClassicTriggerStarter13();
+        ClassicTriggerStarter14();
+        ClassicTriggerStarter15();
+        ClassicTriggerStarter16();
+        ClassicTriggerStarter17();
+        ClassicTriggerStarter18();
+        ClassicTriggerStarter19();
+        ClassicTriggerStarter20();
+    }
+    if (playerexist(P4)) {
+        setcurpl(P4);
+        ClassicTriggerStarter5();
+        ClassicTriggerStarter6();
+        ClassicTriggerStarter7();
+        ClassicTriggerStarter8();
+        ClassicTriggerStarter9();
+        ClassicTriggerStarter10();
+        ClassicTriggerStarter11();
+        ClassicTriggerStarter12();
+        ClassicTriggerStarter13();
+        ClassicTriggerStarter14();
+        ClassicTriggerStarter15();
+        ClassicTriggerStarter16();
+        ClassicTriggerStarter17();
+        ClassicTriggerStarter18();
+        ClassicTriggerStarter19();
+        ClassicTriggerStarter20();
+    }
+    if (playerexist(P5)) {
+        setcurpl(P5);
+        ClassicTriggerStarter5();
+        ClassicTriggerStarter6();
+        ClassicTriggerStarter7();
+        ClassicTriggerStarter8();
+        ClassicTriggerStarter9();
+        ClassicTriggerStarter10();
+        ClassicTriggerStarter11();
+        ClassicTriggerStarter12();
+        ClassicTriggerStarter13();
+        ClassicTriggerStarter14();
+        ClassicTriggerStarter15();
+        ClassicTriggerStarter16();
+        ClassicTriggerStarter17();
+        ClassicTriggerStarter18();
+        ClassicTriggerStarter19();
+        ClassicTriggerStarter20();
+    }
+    if (playerexist(P6)) {
+        setcurpl(P6);
+    }
+    if (playerexist(P7)) {
+        setcurpl(P7);
+    }
+    if (playerexist(P8)) {
+        setcurpl(P8);
+        ClassicTriggerStarter0();
+        ClassicTriggerStarter1();
+        ClassicTriggerStarter2();
+        ClassicTriggerStarter3();
+        ClassicTriggerStarter4();
+    }
+}
+function WaitableTriggerExec() {
+}
+function onPluginStart() {
+    randomize();
+
+}
+function beforeTriggerExec() {
+    EUDPlayerLoop()();
+        WaitableTriggerExec();
+        ClassicTriggerExec();
+    EUDEndPlayerLoop();
+    ClassicTriggerStarter();
+}
+function afterTriggerExec() {
+    EUDPlayerLoop()();
+        if (getcurpl() == 7) {
+            if (
+                Deaths((6), (10), 1, (77)) && 
+                Switch((120), (3))
+            ) {
+                SetSwitch((120), (4));
+                wwrite(0x6564E0 + 2512 + 42 * 2, 30);
+                wwrite(0x6564E0 + 2512 + 36 * 2, 15);
+                wwrite(0x6564E0 + 2512 + 41 * 2, 50);
+                wwrite(0x6564E0 + 2512 + 49 * 2, 20);
+                wwrite(0x6564E0 + 2512 + 70 * 2, 200);
+                bwrite(0x65FD00 + 456 + 68 * 1, 180);
+                dwwrite(0x65FD00 + 9808 + 45 * 4, 25600);
+                dwwrite(0x65FD00 + 9808 + 5 * 4, 5120000);
+                ModifyUnitHitPoints(1, (5), (5), (64), 100);
+            }
+            if (
+                Deaths((6), (10), 2, (77)) && 
+                Switch((121), (3))
+            ) {
+                SetSwitch((121), (4));
+                wwrite(0x6564E0 + 2512 + 42 * 2, 40);
+                wwrite(0x6564E0 + 2512 + 36 * 2, 17);
+                wwrite(0x6564E0 + 2512 + 41 * 2, 60);
+                wwrite(0x6564E0 + 2512 + 49 * 2, 24);
+                wwrite(0x6564E0 + 2512 + 70 * 2, 280);
+                bwrite(0x65FD00 + 456 + 68 * 1, 188);
+                dwwrite(0x65FD00 + 9808 + 45 * 4, 89600);
+                dwwrite(0x65FD00 + 9808 + 5 * 4, 2048000);
+                ModifyUnitHitPoints(1, (5), (5), (64), 100);
+            }
+            if (
+                Deaths((6), (10), 3, (77)) && 
+                Switch((122), (3))
+            ) {
+                SetSwitch((122), (4));
+                wwrite(0x6564E0 + 2512 + 42 * 2, 50);
+                wwrite(0x6564E0 + 2512 + 36 * 2, 18);
+                wwrite(0x6564E0 + 2512 + 41 * 2, 70);
+                wwrite(0x6564E0 + 2512 + 49 * 2, 26);
+                wwrite(0x6564E0 + 2512 + 70 * 2, 300);
+                bwrite(0x65FD00 + 456 + 68 * 1, 190);
+                dwwrite(0x65FD00 + 9808 + 45 * 4, 115200);
+                dwwrite(0x65FD00 + 9808 + 5 * 4, 1024000);
+                ModifyUnitHitPoints(1, (5), (5), (64), 100);
+            }
+            if (
+                Bring((6), (0), 1, (7), (244)) && 
+                Bring((18), (0), 1, (0), (244)) && 
+                Deaths((6), (0), 5, (169)) && 
+                bread(0x58D2B0 + 0x207C * ((28) / 46) + (7) * (46 - 31 * ((28) / 46)) + ((28) % 46)) <= 0 && 
+                bread(0x58D2B0 + 0x207C * ((27) / 46) + (7) * (46 - 31 * ((27) / 46)) + ((27) % 46)) <= 0
+            ) {
+                bwrite(0x58D2B0 + 0x207C * ((28) / 46) + (7) * (46 - 31 * ((28) / 46)) + ((28) % 46), 1);
+                bwrite(0x58D2B0 + 0x207C * ((27) / 46) + (7) * (46 - 31 * ((27) / 46)) + ((27) % 46), 1);
+            }
+            if (
+                Bring((11), (0), 1, (156), (154)) && 
+                bread(0x58D2B0 + 0x207C * ((13) / 46) + (7) * (46 - 31 * ((13) / 46)) + ((13) % 46)) == 0
+            ) {
+                bwrite(0x58D2B0 + 0x207C * ((13) / 46) + (7) * (46 - 31 * ((13) / 46)) + ((13) % 46), 1);
+            }
+            if (
+                Bring((11), (10), 0, (156), (154)) && 
+                bread(0x58D2B0 + 0x207C * ((13) / 46) + (7) * (46 - 31 * ((13) / 46)) + ((13) % 46)) == 1
+            ) {
+                bwrite(0x58D2B0 + 0x207C * ((13) / 46) + (7) * (46 - 31 * ((13) / 46)) + ((13) % 46), 0);
+            }
+            if (
+                Bring((6), (0), 1, (7), (244)) && 
+                Bring((6), (0), 1, (17), (244)) && 
+                bread(0x58D2B0 + 0x207C * ((14) / 46) + (7) * (46 - 31 * ((14) / 46)) + ((14) % 46)) == 0
+            ) {
+                bwrite(0x58D2B0 + 0x207C * ((14) / 46) + (7) * (46 - 31 * ((14) / 46)) + ((14) % 46), 1);
+                bwrite(0x65FD00 + 14776 + 50 * 1, 73);
+            }
+        }
+    EUDEndPlayerLoop();
+    EUDPlayerLoop()();
+        if (getcurpl() == 0) {
+            if (
+                Bring((9), (10), 0, (0), (205)) && 
+                Bring((5), (10), 0, (0), (205)) && 
+                Bring((13), (10), 0, (0), (64)) && 
+                Deaths((13), (10), 0, (202))
+            ) {
+                marine[getcurpl()] = epdread_epd(EPD(0x628438));
+                CreateUnit(1, (0), (205), (5));
+                SetInvincibility((4), (0), (5), (205));
+                GiveUnits(1, (0), (5), (205), (9));
+                ModifyUnitHitPoints(1, (0), (9), (205), 100);
+            }
+        }
+    EUDEndPlayerLoop();
+    EUDPlayerLoop()();
+        if (getcurpl() == 1) {
+            if (
+                Bring((9), (10), 0, (0), (211)) && 
+                Bring((5), (10), 0, (0), (211)) && 
+                Bring((13), (10), 0, (0), (64)) && 
+                Deaths((13), (10), 0, (202))
+            ) {
+                marine[getcurpl()] = epdread_epd(EPD(0x628438));
+                CreateUnit(1, (0), (211), (5));
+                SetInvincibility((4), (0), (5), (211));
+                GiveUnits(1, (0), (5), (211), (9));
+                ModifyUnitHitPoints(1, (0), (9), (211), 100);
+            }
+        }
+    EUDEndPlayerLoop();
+    EUDPlayerLoop()();
+        if (getcurpl() == 2) {
+            if (
+                Bring((9), (10), 0, (0), (239)) && 
+                Bring((5), (10), 0, (0), (239)) && 
+                Bring((13), (10), 0, (0), (64)) && 
+                Deaths((13), (10), 0, (202))
+            ) {
+                marine[getcurpl()] = epdread_epd(EPD(0x628438));
+                CreateUnit(1, (0), (239), (5));
+                SetInvincibility((4), (0), (5), (239));
+                GiveUnits(1, (0), (5), (239), (9));
+                ModifyUnitHitPoints(1, (0), (9), (239), 100);
+            }
+        }
+    EUDEndPlayerLoop();
+    EUDPlayerLoop()();
+        if (getcurpl() == 3) {
+            if (
+                Bring((9), (10), 0, (0), (240)) && 
+                Bring((5), (10), 0, (0), (240)) && 
+                Bring((13), (10), 0, (0), (64)) && 
+                Deaths((13), (10), 0, (202))
+            ) {
+                marine[getcurpl()] = epdread_epd(EPD(0x628438));
+                CreateUnit(1, (0), (240), (5));
+                SetInvincibility((4), (0), (5), (240));
+                GiveUnits(1, (0), (5), (240), (9));
+                ModifyUnitHitPoints(1, (0), (9), (240), 100);
+            }
+        }
+    EUDEndPlayerLoop();
+    EUDPlayerLoop()();
+        if (getcurpl() == 4) {
+            if (
+                Bring((9), (10), 0, (0), (242)) && 
+                Bring((5), (10), 0, (0), (242)) && 
+                Bring((13), (10), 0, (0), (64))
+            ) {
+                marine[getcurpl()] = epdread_epd(EPD(0x628438));
+                CreateUnit(1, (0), (242), (5));
+                SetInvincibility((4), (0), (5), (242));
+                GiveUnits(1, (0), (5), (242), (9));
+                ModifyUnitHitPoints(1, (0), (9), (242), 100);
+            }
+            if (
+                MemoryX(0x596A18 + 81, AtLeast, 1, 1 << (8 * (81 % 4))) && 
+                Switch((123), (2)) && 
+                Command((0), (0), 1, (0))
+            ) {
+                RemoveUnit((0), (0));
+                RemoveUnit((0), (1));
+                RemoveUnit((0), (2));
+                RemoveUnit((0), (3));
+                test1 = epdread_epd(EPD(0x628438));
+                CreateUnit(1, (87), (42), (4));
+                test2 = epdread_epd(EPD(0x628438));
+                CreateUnit(1, (99), (42), (4));
+                test3 = epdread_epd(EPD(0x628438));
+                CreateUnit(1, (102), (42), (4));
+                test4 = epdread_epd(EPD(0x628438));
+                CreateUnit(1, (104), (42), (4));
+            }
+            if (
+                Accumulate((13), (0), 4, (1)) && 
+                Switch((123), (2)) && 
+                Command((4), (0), 1, (87)) && 
+                Deaths((0), (1), 0, (94)) && 
+                MemoryEPD(test1 + 0x008 / 4, AtMost, 76800)
+            ) {
+                SetDeaths((0), (7), 1071, (94));
+                SetDeaths((0), (7), 100, (181));
+            }
+            if (
+                Accumulate((13), (0), 4, (1)) && 
+                Switch((123), (2)) && 
+                Command((4), (0), 1, (99)) && 
+                Deaths((1), (1), 0, (94)) && 
+                MemoryEPD(test2 + 0x008 / 4, AtMost, 76800)
+            ) {
+                SetDeaths((1), (7), 1071, (94));
+                SetDeaths((1), (7), 100, (181));
+            }
+            if (
+                Accumulate((13), (0), 4, (1)) && 
+                Switch((123), (2)) && 
+                Command((4), (0), 1, (102)) && 
+                Deaths((2), (1), 0, (94)) && 
+                MemoryEPD(test3 + 0x008 / 4, AtMost, 76800)
+            ) {
+                SetDeaths((2), (7), 1071, (94));
+                SetDeaths((2), (7), 100, (181));
+            }
+            if (
+                Accumulate((13), (0), 4, (1)) && 
+                Switch((123), (2)) && 
+                Command((4), (0), 1, (104)) && 
+                Deaths((3), (1), 0, (94)) && 
+                MemoryEPD(test4 + 0x008 / 4, AtMost, 76800)
+            ) {
+                SetDeaths((3), (7), 1071, (94));
+                SetDeaths((3), (7), 100, (181));
+            }
+            if (
+                Switch((123), (2)) && 
+                Command((13), (0), 1, (0))
+            ) {
+                txtPtr = dwread_epd(EPD(0x640B58));
+                tct.print("알다리스 ", dwread_epd(94 * 12 + 0), "/ 듀란 ", dwread_epd(94 * 12 + 1), "/ 배틀 ", dwread_epd(94 * 12 + 2), "/ 인페듀란 ", dwread_epd(94 * 12 + 3), "");
+                SetMemory(0x640B58, SetTo, txtPtr);
+            }
+        }
+    EUDEndPlayerLoop();
+    EUDPlayerLoop()();
+        if (getcurpl() == 0 || getcurpl() == 1 || getcurpl() == 2 || getcurpl() == 3 || getcurpl() == 4) {
+            if (
+                Accumulate((13), (0), 4, (1)) && 
+                Command((13), (0), 1, (0)) && 
+                Deaths((13), (1), 0, (94)) && 
+                MemoryEPD(marine[getcurpl()] + 0x008 / 4, AtMost, 76800)
+            ) {
+                SetDeaths((13), (7), 1071, (94));
+                SetDeaths((13), (7), 100, (181));
+            }
+            if (
+                Accumulate((13), (0), 4, (1)) && 
+                Command((13), (0), 1, (0)) && 
+                Deaths((13), (1), 2, (94)) && 
+                MemoryEPD(marine[getcurpl()] + 0x008 / 4, AtMost, 76800)
+            ) {
+                RemoveUnit((8), (13));
+                KillUnit((69), (13));
+            }
+        }
+    EUDEndPlayerLoop();
+}
