@@ -1,0 +1,148 @@
+for (var i = 0; i < 3; i++) {
+        if (Devourer[i] == 0 && 
+            MemoryEPD(Devourer[i] + 0x08/4, AtMost, 0)) {
+        
+            Devourer[i] = epdread_epd(EPD(0x628438)); // 저장
+            CreateUnit(1, "Zerg Devourer", "Location 25", P6);
+        }
+        if (!MemoryEPD(Devourer[i] + 0x5C/4, Exactly, 0)) { // 타겟 인식
+
+            const TargetX, TargetY = posread_epd(Devourer[i] + 0x58/4); // 타겟 위치
+            if (MemoryXEPD(Devourer[i] + 0x54/4, AtLeast, 90*256, 0xFF00)) { // 공격 쿨타임
+                
+                SetMemoryXEPD(Devourer[i] + 0x54/4, SetTo, 90*256 - 1, 0xFF00);
+                const x, y = posread_epd(Devourer[i] + 0x28/4); // 디바우러 현재 위치
+                setloc("Location 228", x-64, y+64, x+64, y-64);
+                AcidUnit[i] = epdread_epd(EPD(0x628438)); // 공격용 유닛 생산 저장
+                CreateUnit(1, "Zerg Overlord", "Location 228", P7);
+                SetMemoryEPD(AcidUnit[i] + 0xDC/4, Add, 0xA00000); // 유닛 충돌 판정 무시
+
+                SetMemoryXEPD(AcidUnit[i] + 0x4C/4, SetTo, 6*256, 0xFF00); // 명령
+                SetMemoryEPD(AcidUnit[i] + 0x58/4, SetTo, TargetX + TargetY * 65536); // 좌표
+            }
+            if (AcidUnit[i] != 0 && 
+                !MemoryEPD(AcidUnit[i] + 0x28/4, Exactly, TargetX + TargetY * 65536)) {
+                
+                SetMemoryXEPD(AcidUnit[i] + 0x4C/4, SetTo, 6*256, 0xFF00); // 명령
+                SetMemoryEPD(AcidUnit[i] + 0x58/4, SetTo, TargetX + TargetY * 65536); // 좌표
+            }
+            if (AcidUnit[i] != 0 && 
+                MemoryXEPD(AcidUnit[i] + 0x28/4, AtLeast, TargetX - 8, 0xFFFF) &&
+                MemoryXEPD(AcidUnit[i] + 0x28/4, AtMost, TargetX + 8, 0xFFFF) &&
+                MemoryXEPD(AcidUnit[i] + 0x28/4, AtLeast, (TargetY - 8) * 65536, 0xFFFF0000) &&
+                MemoryXEPD(AcidUnit[i] + 0x28/4, AtMost, (TargetY + 8) * 65536, 0xFFFF0000)) {  
+
+                SetMemoryXEPD(AcidUnit[i] + 0x4C/4, SetTo, 0, 0xFF00); // 명령
+                setloc("Location 228", TargetX-64, TargetY+64, TargetX+64, TargetY-64);
+                AcidUnit[i] = 0;
+            }
+        }
+if (Devourer[i] != 0 && // 죽으면 다시 0으로
+            MemoryEPD(Devourer[i] + 0x08/4, AtMost, 0)) {
+        
+            Devourer[i] = 0;
+        }    
+    }    
+
+------------------------
+
+
+foreach(unit : GameUnit.cploop){ // GameUnit
+		foreach(dead : unit.dying){} // 사망 시 발동
+        if (Switch("Switch 28", Set)) { // 디바우러 있을 때 켜지고 죽으면 5초 후에 꺼지는 스위치
+            unit.set_cp(0x64/4); // 유닛 타입
+            if (Deaths(CurrentPlayer, Exactly, $U("Zerg Devourer"), 0)) { // 디바우러 인식
+                unit.set_cp(0x5C/4); // 오더 타겟
+                if (!Deaths(CurrentPlayer, Exactly, 0, 0)) {
+                    unit.set_cp(0x54/4); // 무기 쿨타임
+                    if (DeathsX(CurrentPlayer, AtLeast, 90*256, 0, 0xFF00)) {
+                        
+                        SetDeathsX(CurrentPlayer, SetTo, 90*256 - 1, 0, 0xFF00);
+                        unit.set_cp(0x28/4); // 디바우러 위치
+                        const x, y = posread_cp(0);
+                        setloc("Location 228", x-64, y+64, x+64, y-64);
+                        CreateUnit(1, "Zerg Overlord", "Location 228", P7);
+
+                        unit.set_cp(0x58/4); // 타겟 유닛 좌표
+                        const TargetX, TargetY = posread_cp(0);
+                        unit.set_cp(0x4C/4); // 명령
+                        SetDeathsX(CurrentPlayer, SetTo, 6*256, 0, 0xFF00);
+
+
+                        setloc("Location 228", x-64, y+64, x+64, y-64);
+                    }
+                }
+            }
+        }
+    } 
+
+-------------------
+if (Switch("Switch 33", Set)) { // 마법 유닛 마법 사용
+            unit.set_cp(0x4C/4); // 8피 체크
+            if (DeathsX(CurrentPlayer, Exactly, $P8, 0, 0xFF)) {
+                unit.set_cp(0x54/4); // 마법쿨체크
+                if (DeathsX(CurrentPlayer, Exactly, 0, 0, 0xFF000000)) {
+                    unit.set_cp(0xA0/4); // 마나 체크
+                    if (DeathsX(CurrentPlayer, AtLeast, 250*16777216, 0, 0xFF000000)) {
+                        unit.set_cp(0x64/4); // 유닛 체크
+                        if (DeathsX(CurrentPlayer, Exactly, 45, 0, 0xFFFF)) {
+
+                            unit.set_cp(0x4C/4); // 명령
+                            SetDeathsX(CurrentPlayer, SetTo, 121*256, 0, 0xFF00);
+                            unit.set_cp(0x5C/4); // 타겟
+                            const OrderTarget = dwread_cp(0);
+                            SetDeaths(CurrentPlayer, SetTo, OrderTarget, 0);
+                        }
+                        unit.set_cp(0x64/4); // 유닛 체크
+                        if (DeathsX(CurrentPlayer, Exactly, 45, 0, 0xFFFF)) {
+
+                            unit.set_cp(0x28/4); // 현재 위치
+                            const x, y = posread_cp(0);
+                            setloc("Location 227", x, y);
+                            CreateUnit(1, "Zerg Overlord", "Location 227", P7);
+                            MoveLocation("Location 229", "Zerg Overlord", P7, "Location 227");
+                            KillUnitAt(1, "Zerg Overlord", "Location 227", P7);
+                        }                
+                    }
+                }
+            }
+        }
+
+
+----------------
+if (Switch("Switch 33", Cleared)) { // 잠시 꺼둠 나중에 확인
+            unit.set_cp(0x4C/4); // 8피 유닛 확인
+            if (DeathsX(CurrentPlayer, Exactly, $P7, 0, 0xFF)) {
+            unit.set_cp(0x54/4); // 마법쿨체크
+            if (DeathsX(CurrentPlayer, Exactly, 0, 0, 0xFF000000)) {
+                unit.set_cp(0xA0/4); // 마나체크(1)
+                if (DeathsX(CurrentPlayer, AtLeast, 250*16777216, 0, 0xFF000000)) {
+                    
+                }  
+                unit.set_cp(0xA0/4); // 마나체크(2)
+                if (DeathsX(CurrentPlayer, AtLeast, 200*16777216, 0, 0xFF000000)) {
+                    unit.set_cp(0x64/4); // 유닛타입
+                    if (DeathsX(CurrentPlayer, Exactly, $U("Zerg Queen"), 0, 0xFFFF)) {
+
+                        unit.set_cp(0x28/4); // 위치
+                        const x, y = posread_cp(0);
+                        setloc("Location 227", x, y);
+                        const SkillUnit = epdread_epd(EPD(0x628438));
+                        CreateUnit(1, "Zerg Overlord", "Location 227", P7);
+                        SetMemoryEPD(SkillUnit + 0xDC/4, Add, 0xA00000); // 유닛 충돌 판정 무시
+                        MoveLocation("Location 230", "Zerg Overlord", P7, "Location 227");
+                        SetMemoryXEPD(SkillUnit + 0x4C/4, SetTo, 0, 0xFF00); // 명령
+                        
+                        unit.set_cp(0x4C/4); // 명령
+                        SetDeathsX(CurrentPlayer, SetTo, 146*256, 0, 0xFF00);
+                        unit.set_cp(0x5C/4); // 대상
+                        SetDeaths(CurrentPlayer, SetTo, 0, 0);
+                    }
+                }                  
+            }
+            }
+
+            if (Bring(Force1, AtLeast, 6, "Men", "Location 230")) {
+                
+            }
+        }

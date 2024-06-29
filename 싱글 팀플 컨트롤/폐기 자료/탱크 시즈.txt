@@ -1,0 +1,90 @@
+if (Switch("Switch 34", Set)) { // 탱크 체크(1)
+            unit.set_cp(0x64/4); // 탱크 체크(1)
+            if (DeathsX(CurrentPlayer, Exactly, 5, 0, 0xFFFF)) {
+                unit.set_cp(0x4C/4); // 8피 체크
+                if (DeathsX(CurrentPlayer, Exactly, $P8, 0, 0xFF)) {
+                    unit.set_cp(0x124/4); // 공메모리
+                    if (DeathsX(CurrentPlayer, AtMost, 252*256, 0, 0xFF00)) {
+                        
+                        SetDeathsX(CurrentPlayer, Add, 1*256, 0, 0xFF00);
+                    }
+                    if (DeathsX(CurrentPlayer, AtLeast, 24*256, 0, 0xFF00)) {
+                        
+                        SetDeathsX(CurrentPlayer, SetTo, 0*256, 0, 0xFF00);
+                        unit.set_cp(0x28/4); // 좌표
+                        const x, y = posread_cp(0);
+                        setloc("Location 254", x, y);
+                        const SigeUnit = CUnit.from_read(EPD(0x628438));
+                        CreateUnit(1, "Scantid", "Location 65", P8);
+                        MoveUnit(1, "Scantid", P8, "Location 65", "Location 254");
+                        if (!Memory(0x628438, Exactly, SigeUnit.ptr)) {
+                            SigeUnit.remove_collision();  // 유닛 충돌 판정 무시
+                            MoveLocation("Location 252", "Scantid", P8, "Location 254");
+                            MoveLocation("Location 253", "Scantid", P8, "Location 254");
+                            SigeUnit.order = 0;
+                        }
+                        if (Bring(Force1, AtLeast, 1, "Men", "Location 252") &&
+                            Bring(Force1, Exactly, 0, "Men", "Location 253")) {
+                            unit.set_cp(0x4C/4); // 명령
+                            if (!DeathsX(CurrentPlayer, Exactly, 98*256 + 2*65536, 0, 0xFFFF00) &&
+                                !DeathsX(CurrentPlayer, Exactly, 98*256 + 3*65536, 0, 0xFFFF00) &&
+                                !DeathsX(CurrentPlayer, Exactly, 98*256 + 3*65536 + 1*16777216, 0, 0xFFFFFF00)) {
+                                
+                                SetDeathsX(CurrentPlayer, SetTo, 98*256, 0, 0xFF00);
+                                MoveLocation("Location 254", "Zerg Flag Beacon", P7, "Location 146");
+                                MoveLocation("Location 253", "Zerg Flag Beacon", P7, "Location 146");
+                                MoveLocation("Location 252", "Zerg Flag Beacon", P7, "Location 146");
+                            }                       
+                        }
+                        MoveLocation("Location 254", "Zerg Flag Beacon", P7, "Location 146");
+                        MoveLocation("Location 253", "Zerg Flag Beacon", P7, "Location 146");
+                        MoveLocation("Location 252", "Zerg Flag Beacon", P7, "Location 146");
+                    }
+                }
+            }
+        }
+        if (Switch("Switch 35", Set)) { // 탱크 체크(2)
+            unit.set_cp(0x64/4); // 탱크 체크(2)
+            if (DeathsX(CurrentPlayer, Exactly, 30, 0, 0xFFFF)) {
+                unit.set_cp(0x4C/4); // 8피 체크
+                if (DeathsX(CurrentPlayer, Exactly, $P8, 0, 0xFF)) {
+                    unit.set_cp(0x124/4); // 공메모리
+                    if (DeathsX(CurrentPlayer, AtMost, 252*256, 0, 0xFF00)) {
+                        
+                        SetDeathsX(CurrentPlayer, Add, 1*256, 0, 0xFF00);
+                    }
+                    if (DeathsX(CurrentPlayer, AtLeast, 30*256, 0, 0xFF00)) {
+                        
+                        SetDeathsX(CurrentPlayer, SetTo, 0, 0, 0xFF00);                
+                        unit.set_cp(0x28/4); // 좌표
+                        const x, y = posread_cp(0);
+                        setloc("Location 254", x, y);
+                        const TankUnit = CUnit.from_read(EPD(0x628438));
+                        CreateUnit(1, "Ursadon", "Location 65", P8);
+                        MoveUnit(1, "Ursadon", P8, "Location 65", "Location 254");
+                        if (!Memory(0x628438, Exactly, TankUnit.ptr)) {
+                            TankUnit.remove_collision();  // 유닛 충돌 판정 무시
+                            MoveLocation("Location 252", "Ursadon", P8, "Location 254");
+                            MoveLocation("Location 253", "Ursadon", P8, "Location 254");
+                            TankUnit.order = 0;
+                        }
+                        if (Bring(Force1, AtLeast, 1, "Men", "Location 253")) {
+                            unit.set_cp(0x4C/4); // 명령
+                            if (!DeathsX(CurrentPlayer, Exactly, 99*256, 0, 0xFFFF00) &&
+                                !DeathsX(CurrentPlayer, Exactly, 99*256 + 2*65536, 0, 0xFFFF00) &&
+                                !DeathsX(CurrentPlayer, Exactly, 99*256 + 3*65536, 0, 0xFFFF00) &&
+                                !DeathsX(CurrentPlayer, Exactly, 99*256 + 3*65536 + 1*16777216, 0, 0xFFFFFF00)) {
+                                
+                                SetDeathsX(CurrentPlayer, SetTo, 99*256, 0, 0xFF00);
+                                MoveLocation("Location 254", "Zerg Flag Beacon", P7, "Location 146");
+                                MoveLocation("Location 253", "Zerg Flag Beacon", P7, "Location 146");
+                                MoveLocation("Location 252", "Zerg Flag Beacon", P7, "Location 146");
+                            }
+                        }
+                        MoveLocation("Location 254", "Zerg Flag Beacon", P7, "Location 146");
+                        MoveLocation("Location 253", "Zerg Flag Beacon", P7, "Location 146");
+                        MoveLocation("Location 252", "Zerg Flag Beacon", P7, "Location 146");
+                    }
+                }
+            }
+        }

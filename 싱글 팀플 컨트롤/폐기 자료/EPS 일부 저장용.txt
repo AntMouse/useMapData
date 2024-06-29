@@ -1,0 +1,2148 @@
+const UnitType1_s1a3 = [ 43,50,37,1,0,7,67 ]; // 7 뮤탈,자폭,저글,고스트,마린,SC,하템
+const UnitType1_s1a4 = [ 32,34,61,65 ]; // 4 파뱃,메딕,닥템,질럿
+const UnitType1_s1a5 = [ 51,104 ]; // 2 인페케리건,인페듀란
+
+const UnitType1_m1a3 = [ 45,38,2 ]; // 3 퀸,히드라,벌처
+const UnitType1_m1a4 = [ 46,103,60 ]; // 3 디파,러커,커세어
+
+const UnitType1_l1a3 = [ 8,70,83 ]; // 3 레이스,스카웃,리버
+const UnitType1_l1a4 = [ 12,3,5,30,71,66 ]; // 6 배슬,골리앗,탱크(탱모드),탱크(시즈),아비터,드라군
+const UnitType1_l1a5 = [ 62,44,58 ]; // 3 디바,가디언,발키리
+const UnitType1_l1a6 = [ 39,12 ]; // 2 울트라,배틀
+const UnitType1_l1a7 = [ 72 ]; // 1 캐리어
+
+const HP_s1a3 = [ 14, 15,15, 16,16, 17,17, 18,18, 19 ];
+const HP_s1a4 = [ 14,14, 15,15, 16,16, 17,17, 18,18 ];
+const HP_s1a5 = [ 13, 14,14, 15,15, 16,16, 17,17, 18 ];
+
+const HP_m1a3 = [ 21,22,23,24,24,25,26,27,27,28 ];
+const HP_m1a4 = [ 21,21,22,23,24,24,25,26,27,27 ];
+
+const HP_l1a3 = [ 28,29,30,31,32,33,34,35,36,37 ];
+const HP_l1a4 = [ 27,28,29,30,31,32,33,34,35,36 ];
+const HP_l1a5 = [ 26,27,28,29,30,31,32,33,34,35 ];
+const HP_l1a6 = [ 25,26,27,28,29,30,31,32,33,34 ];
+const HP_l1a7 = [ 24,25,26,27,28,29,30,31,32,33 ];
+
+const HP_s1a3 = [ 3584,3712,3840,3968,4096,4224,4352,4480,4608,4736 ];
+const HP_s1a4 = [ 3456,3584,3712,3840,3968,4096,4224,4352,4480,4608 ];
+const HP_s1a5 = [ 3328,3456,3584,3712,3840,3968,4096,4224,4352,4480 ];
+
+const HP_m1a3 = [ 5376,5568,5760,5952,6144,6336,6528,6720,6912,7104 ];
+const HP_m1a4 = [ 5184,5376,5568,5760,5952,6144,6336,6528,6720,6912 ];
+
+const HP_l1a3 = [ 7168,7424,7680,7936,8192,8448,8704,8960,9216,9472 ];
+const HP_l1a4 = [ 6912,7168,7424,7680,7936,8192,8448,8704,8960,9216 ];
+const HP_l1a5 = [ 6656,6912,7168,7424,7680,7936,8192,8448,8704,8960 ];
+const HP_l1a6 = [ 6400,6656,6912,7168,7424,7680,7936,8192,8448,8704 ];
+
+const AcidSporeC1 = [ 0,3,6,9 ];
+const AcidSporeC2 = [ 3,6,9,9 ];
+
+const HP_s1a3 = [ 3584,3712,3968,4352,4736 ];
+const HP_s1a4 = [ 3456,3584,3840,4224,4608 ];
+const HP_s1a5 = [ 3328,3456,3712,4096,4480 ];
+
+const HP_m1a3 = [ 5376,5568,5952,6528,7104 ];
+const HP_m1a4 = [ 5184,5376,5760,6336,6912 ];
+
+const HP_ztl1a3 = [ 7168,7424,7936,8704,9472 ];
+const HP_ztl1a4 = [ 6912,7168,7680,8448,9216 ];
+const HP_ztl1a5 = [ 6656,6912,7424,8192,8960 ];
+const HP_ztl1a6 = [ 6400,7168,7936,8704,8704 ];
+const HP_ztl1a7 = [ 24,25,26,27,28,29,30,31,32,33 ];
+
+const Ps1a3EPD = EUDArray(384);
+const Ps1a4EPD = EUDArray(228);
+const Ps1a5EPD = EUDArray(48);
+const Pm1a3EPD = EUDArray(240);
+const Pm1a4EPD = EUDArray(120);
+const Pl1a3EPD = EUDArray(48);
+const Pl1a4EPD = EUDArray(144);
+const Pl1a5EPD = EUDArray(144);
+const Pl1a6EPD = EUDArray(72);
+
+const APTNumber1 = [ 0,150,150,150 ];
+const APTNumber2 = [ 0,0,150,150 ];
+
+for (var i = 0; i < 4; i++) {
+        for (var m = 0; m < 384; m++) { // S1A3
+            if (Ps1a3EPD[m] != 0 &&
+                MemoryXEPD(Ps1a3EPD[m] + 0x120/4, AtLeast, 1*256, 0xFF00) && // 패러사이트
+                MemoryXEPD(Ps1a3EPD[m] + 0x124/4, Exactly, AcidSporeC1[i]*65536, 0xFF0000)) { // 애시드 스포어
+                if (MemoryEPD(Ps1a3EPD[m] + 0x08/4, AtMost, HP_s1a3[i])) { // 체력(죽이기)
+                    
+                    SetMemoryXEPD(Ps1a3EPD[m] + 0x120/4, SetTo, 0*256, 0xFF00); // 패러사이트
+                    SetMemoryEPD(Ps1a3EPD[m] + 0x08/4, SetTo, 0); // 체력 빼기
+                    SetMemoryXEPD(Ps1a3EPD[m] + 0x4C/4, SetTo, 0, 0xFF00); // 죽이기
+                    Ps1a3EPD[m] = 0; // 초기화
+                }
+                if (MemoryEPD(Ps1a3EPD[m] + 0x08/4, AtLeast, (HP_s1a3[i]) + 1)) { // 체력(피빼기)
+                    
+                    SetMemoryXEPD(Ps1a3EPD[m] + 0x120/4, SetTo, 0*256, 0xFF00); // 패러사이트
+                    SetMemoryEPD(Ps1a3EPD[m] + 0x08/4, Subtract, HP_s1a3[i]); // 체력 빼기 
+                    SetMemoryXEPD(Ps1a3EPD[m] + 0x124/4, SetTo, AcidSporeC2[i]*65536, 0xFF0000); // 애시드 스포어
+                    SetMemoryXEPD(Ps1a3EPD[m] + 0x12C/4, SetTo, 152*16777216, 0xFF000000); // 스포어9 카운트 타이머
+                }
+            }           
+        }
+        for (var m = 0; m < 228; m++) { // S1A4
+            if (Ps1a4EPD[m] != 0 &&
+                MemoryXEPD(Ps1a4EPD[m] + 0x120/4, AtLeast, 1*256, 0xFF00) && // 패러사이트
+                MemoryXEPD(Ps1a4EPD[m] + 0x124/4, Exactly, AcidSporeC1[i]*65536, 0xFF0000)) { // 애시드 스포어
+                if (MemoryEPD(Ps1a4EPD[m] + 0x08/4, AtMost, HP_s1a4[i])) { // 체력(죽이기)
+                    
+                    SetMemoryXEPD(Ps1a4EPD[m] + 0x120/4, SetTo, 0*256, 0xFF00); // 패러사이트
+                    SetMemoryEPD(Ps1a4EPD[m] + 0x08/4, SetTo, 0); // 체력 빼기
+                    SetMemoryXEPD(Ps1a4EPD[m] + 0x4C/4, SetTo, 0, 0xFF00); // 죽이기
+                    Ps1a4EPD[m] = 0; // 초기화
+                }
+                if (MemoryEPD(Ps1a4EPD[m] + 0x08/4, AtLeast, (HP_s1a4[i]) + 1)) { // 체력(피빼기)
+                    
+                    SetMemoryXEPD(Ps1a4EPD[m] + 0x120/4, SetTo, 0*256, 0xFF00); // 패러사이트
+                    SetMemoryEPD(Ps1a4EPD[m] + 0x08/4, Subtract, HP_s1a4[i]); // 체력 빼기 
+                    SetMemoryXEPD(Ps1a4EPD[m] + 0x124/4, SetTo, AcidSporeC2[i]*65536, 0xFF0000); // 애시드 스포어
+                    SetMemoryXEPD(Ps1a4EPD[m] + 0x12C/4, SetTo, 152*16777216, 0xFF000000); // 스포어9 카운트 타이머
+                }
+            }           
+        }
+        for (var m = 0; m < 48; m++) { // S1A5 / L1A3
+            if (Ps1a5EPD[m] != 0 &&
+                MemoryXEPD(Ps1a5EPD[m] + 0x120/4, AtLeast, 1*256, 0xFF00) && // 패러사이트
+                MemoryXEPD(Ps1a5EPD[m] + 0x124/4, Exactly, AcidSporeC1[i]*65536, 0xFF0000)) { // 애시드 스포어
+                if (MemoryEPD(Ps1a5EPD[m] + 0x08/4, AtMost, HP_s1a5[i])) { // 체력(죽이기)
+                    
+                    SetMemoryXEPD(Ps1a5EPD[m] + 0x120/4, SetTo, 0*256, 0xFF00); // 패러사이트
+                    SetMemoryEPD(Ps1a5EPD[m] + 0x08/4, SetTo, 0); // 체력 빼기
+                    SetMemoryXEPD(Ps1a5EPD[m] + 0x4C/4, SetTo, 0, 0xFF00); // 죽이기
+                    Ps1a5EPD[m] = 0; // 초기화
+                }
+                if (MemoryEPD(Ps1a5EPD[m] + 0x08/4, AtLeast, (HP_s1a5[i]) + 1)) { // 체력(피빼기)
+                    
+                    SetMemoryXEPD(Ps1a5EPD[m] + 0x120/4, SetTo, 0*256, 0xFF00); // 패러사이트
+                    SetMemoryEPD(Ps1a5EPD[m] + 0x08/4, Subtract, HP_s1a5[i]); // 체력 빼기 
+                    SetMemoryXEPD(Ps1a5EPD[m] + 0x124/4, SetTo, AcidSporeC2[i]*65536, 0xFF0000); // 애시드 스포어
+                    SetMemoryXEPD(Ps1a5EPD[m] + 0x12C/4, SetTo, 152*16777216, 0xFF000000); // 스포어9 카운트 타이머
+                }
+            }
+            if (Pl1a3EPD[m] != 0 &&
+                MemoryXEPD(Pl1a3EPD[m] + 0x120/4, AtLeast, 1*256, 0xFF00) && // 패러사이트
+                MemoryXEPD(Pl1a3EPD[m] + 0x124/4, Exactly, AcidSporeC1[i]*65536, 0xFF0000)) { // 애시드 스포어
+                if (MemoryEPD(Pl1a3EPD[m] + 0x08/4, AtMost, HP_l1a3[i])) { // 체력(죽이기)
+                    
+                    SetMemoryXEPD(Pl1a3EPD[m] + 0x120/4, SetTo, 0*256, 0xFF00); // 패러사이트
+                    SetMemoryEPD(Pl1a3EPD[m] + 0x08/4, SetTo, 0); // 체력 빼기
+                    SetMemoryXEPD(Pl1a3EPD[m] + 0x4C/4, SetTo, 0, 0xFF00); // 죽이기
+                    Pl1a3EPD[m] = 0; // 초기화
+                }
+                if (MemoryEPD(Pl1a3EPD[m] + 0x08/4, AtLeast, (HP_l1a3[i]) + 1)) { // 체력(피빼기)
+                    
+                    SetMemoryXEPD(Pl1a3EPD[m] + 0x120/4, SetTo, 0*256, 0xFF00); // 패러사이트
+                    SetMemoryEPD(Pl1a3EPD[m] + 0x08/4, Subtract, HP_l1a3[i]); // 체력 빼기 
+                    SetMemoryXEPD(Pl1a3EPD[m] + 0x124/4, SetTo, AcidSporeC2[i]*65536, 0xFF0000); // 애시드 스포어
+                    SetMemoryXEPD(Pl1a3EPD[m] + 0x12C/4, SetTo, 152*16777216, 0xFF000000); // 스포어9 카운트 타이머
+                }
+            }           
+        }
+        for (var m = 0; m < 240; m++) { // M1A3
+            if (Pm1a3EPD[m] != 0 &&
+                MemoryXEPD(Pm1a3EPD[m] + 0x120/4, AtLeast, 1*256, 0xFF00) && // 패러사이트
+                MemoryXEPD(Pm1a3EPD[m] + 0x124/4, Exactly, AcidSporeC1[i]*65536, 0xFF0000)) { // 애시드 스포어
+                if (MemoryEPD(Pm1a3EPD[m] + 0x08/4, AtMost, HP_m1a3[i])) { // 체력(죽이기)
+                    
+                    SetMemoryXEPD(Pm1a3EPD[m] + 0x120/4, SetTo, 0*256, 0xFF00); // 패러사이트
+                    SetMemoryEPD(Pm1a3EPD[m] + 0x08/4, SetTo, 0); // 체력 빼기
+                    SetMemoryXEPD(Pm1a3EPD[m] + 0x4C/4, SetTo, 0, 0xFF00); // 죽이기
+                    Pm1a3EPD[m] = 0; // 초기화
+                }
+                if (MemoryEPD(Pm1a3EPD[m] + 0x08/4, AtLeast, (HP_m1a3[i]) + 1)) { // 체력(피빼기)
+                    
+                    SetMemoryXEPD(Pm1a3EPD[m] + 0x120/4, SetTo, 0*256, 0xFF00); // 패러사이트
+                    SetMemoryEPD(Pm1a3EPD[m] + 0x08/4, Subtract, HP_m1a3[i]); // 체력 빼기 
+                    SetMemoryXEPD(Pm1a3EPD[m] + 0x124/4, SetTo, AcidSporeC2[i]*65536, 0xFF0000); // 애시드 스포어
+                    SetMemoryXEPD(Pm1a3EPD[m] + 0x12C/4, SetTo, 152*16777216, 0xFF000000); // 스포어9 카운트 타이머
+                }
+            }           
+        }
+        for (var m = 0; m < 120; m++) { // M1A4
+            if (Pm1a4EPD[m] != 0 &&
+                MemoryXEPD(Pm1a4EPD[m] + 0x120/4, AtLeast, 1*256, 0xFF00) && // 패러사이트
+                MemoryXEPD(Pm1a4EPD[m] + 0x124/4, Exactly, AcidSporeC1[i]*65536, 0xFF0000)) { // 애시드 스포어
+                if (MemoryEPD(Pm1a4EPD[m] + 0x08/4, AtMost, HP_m1a4[i])) { // 체력(죽이기)
+                    
+                    SetMemoryXEPD(Pm1a4EPD[m] + 0x120/4, SetTo, 0*256, 0xFF00); // 패러사이트
+                    SetMemoryEPD(Pm1a4EPD[m] + 0x08/4, SetTo, 0); // 체력 빼기
+                    SetMemoryXEPD(Pm1a4EPD[m] + 0x4C/4, SetTo, 0, 0xFF00); // 죽이기
+                    Pm1a4EPD[m] = 0; // 초기화
+                }
+                if (MemoryEPD(Pm1a4EPD[m] + 0x08/4, AtLeast, (HP_m1a4[i]) + 1)) { // 체력(피빼기)
+                    
+                    SetMemoryXEPD(Pm1a4EPD[m] + 0x120/4, SetTo, 0*256, 0xFF00); // 패러사이트
+                    SetMemoryEPD(Pm1a4EPD[m] + 0x08/4, Subtract, HP_m1a4[i]); // 체력 빼기 
+                    SetMemoryXEPD(Pm1a4EPD[m] + 0x124/4, SetTo, AcidSporeC2[i]*65536, 0xFF0000); // 애시드 스포어
+                    SetMemoryXEPD(Pm1a4EPD[m] + 0x12C/4, SetTo, 152*16777216, 0xFF000000); // 스포어9 카운트 타이머
+                }
+            }           
+        }
+        for (var m = 0; m < 144; m++) { // L1A4 / L1A5
+            if (Pl1a4EPD[m] != 0 &&
+                MemoryXEPD(Pl1a4EPD[m] + 0x120/4, AtLeast, 1*256, 0xFF00) && // 패러사이트
+                MemoryXEPD(Pl1a4EPD[m] + 0x124/4, Exactly, AcidSporeC1[i]*65536, 0xFF0000)) { // 애시드 스포어
+                if (MemoryEPD(Pl1a4EPD[m] + 0x08/4, AtMost, HP_l1a4[i])) { // 체력(죽이기)
+                    
+                    SetMemoryXEPD(Pl1a4EPD[m] + 0x120/4, SetTo, 0*256, 0xFF00); // 패러사이트
+                    SetMemoryEPD(Pl1a4EPD[m] + 0x08/4, SetTo, 0); // 체력 빼기
+                    SetMemoryXEPD(Pl1a4EPD[m] + 0x4C/4, SetTo, 0, 0xFF00); // 죽이기
+                    Pl1a4EPD[m] = 0; // 초기화
+                }
+                if (MemoryEPD(Pl1a4EPD[m] + 0x08/4, AtLeast, (HP_l1a4[i]) + 1)) { // 체력(피빼기)
+                    
+                    SetMemoryXEPD(Pl1a4EPD[m] + 0x120/4, SetTo, 0*256, 0xFF00); // 패러사이트
+                    SetMemoryEPD(Pl1a4EPD[m] + 0x08/4, Subtract, HP_l1a4[i]); // 체력 빼기 
+                    SetMemoryXEPD(Pl1a4EPD[m] + 0x124/4, SetTo, AcidSporeC2[i]*65536, 0xFF0000); // 애시드 스포어
+                    SetMemoryXEPD(Pl1a4EPD[m] + 0x12C/4, SetTo, 152*16777216, 0xFF000000); // 스포어9 카운트 타이머
+                }
+            }    
+            if (Pl1a5EPD[m] != 0 &&
+                MemoryXEPD(Pl1a5EPD[m] + 0x120/4, AtLeast, 1*256, 0xFF00) && // 패러사이트
+                MemoryXEPD(Pl1a5EPD[m] + 0x124/4, Exactly, AcidSporeC1[i]*65536, 0xFF0000)) { // 애시드 스포어
+                if (MemoryEPD(Pl1a5EPD[m] + 0x08/4, AtMost, HP_l1a5[i])) { // 체력(죽이기)
+                    
+                    SetMemoryXEPD(Pl1a5EPD[m] + 0x120/4, SetTo, 0*256, 0xFF00); // 패러사이트
+                    SetMemoryEPD(Pl1a5EPD[m] + 0x08/4, SetTo, 0); // 체력 빼기
+                    SetMemoryXEPD(Pl1a5EPD[m] + 0x4C/4, SetTo, 0, 0xFF00); // 죽이기
+                    Pl1a5EPD[m] = 0; // 초기화
+                }
+                if (MemoryEPD(Pl1a5EPD[m] + 0x08/4, AtLeast, (HP_l1a5[i]) + 1)) { // 체력(피빼기)
+                    
+                    SetMemoryXEPD(Pl1a5EPD[m] + 0x120/4, SetTo, 0*256, 0xFF00); // 패러사이트
+                    SetMemoryEPD(Pl1a5EPD[m] + 0x08/4, Subtract, HP_l1a5[i]); // 체력 빼기 
+                    SetMemoryXEPD(Pl1a5EPD[m] + 0x124/4, SetTo, AcidSporeC2[i]*65536, 0xFF0000); // 애시드 스포어
+                    SetMemoryXEPD(Pl1a5EPD[m] + 0x12C/4, SetTo, 152*16777216, 0xFF000000); // 스포어9 카운트 타이머
+                }
+            }       
+        }
+        for (var m = 0; m < 72; m++) { // L1A6
+            if (Pl1a6EPD[m] != 0 &&
+                MemoryXEPD(Pl1a6EPD[m] + 0x120/4, AtLeast, 1*256, 0xFF00) && // 패러사이트
+                MemoryXEPD(Pl1a6EPD[m] + 0x124/4, Exactly, AcidSporeC1[i]*65536, 0xFF0000)) { // 애시드 스포어
+                if (MemoryEPD(Pl1a6EPD[m] + 0x08/4, AtMost, HP_l1a6[i])) { // 체력(죽이기)
+                    
+                    SetMemoryXEPD(Pl1a6EPD[m] + 0x120/4, SetTo, 0*256, 0xFF00); // 패러사이트
+                    SetMemoryEPD(Pl1a6EPD[m] + 0x08/4, SetTo, 0); // 체력 빼기
+                    SetMemoryXEPD(Pl1a6EPD[m] + 0x4C/4, SetTo, 0, 0xFF00); // 죽이기
+                    Pl1a6EPD[m] = 0; // 초기화
+                }
+                else { // 체력(피빼기)                  
+                    SetMemoryXEPD(Pl1a6EPD[m] + 0x120/4, SetTo, 0*256, 0xFF00); // 패러사이트
+                    SetMemoryEPD(Pl1a6EPD[m] + 0x08/4, Subtract, HP_l1a6[i]); // 체력 빼기
+                    SetMemoryXEPD(Pl1a6EPD[m] + 0x124/4, SetTo, AcidSporeC2[i]*65536, 0xFF0000); // 애시드 스포어 
+                    SetMemoryXEPD(Pl1a6EPD[m] + 0x124/4, SetTo, 152*16777216, 0xFF000000); // 스포어 카운트 타이머
+                    AcidSporeTime1(Pl1a6EPD[m], APTNumber1[i]);
+                    AcidSporeTime2(Pl1a6EPD[m], APTNumber1[i],APTNumber2[i]);
+                }
+            }           
+        }   
+    }
+    for (var i = 0; i < 360; i++) {
+        if (Ps1a3EPD[i] != 0) { 
+            if (MemoryEPD(Ps1a3EPD[i] + 0x08/4, AtMost, 0)) { // 체력
+                
+                Ps1a3EPD[i] = 0; // 초기화
+            }
+        }
+    }   
+
+
+
+foreach(unit : ZTS1A3.cploop){
+		foreach(dead : unit.dying){} //사망 시 발동
+        unit.move_cp(0x120/4); // 패러사이트
+        if (DeathsX(CurrentPlayer, AtLeast, 1*256, 0, 0xFF00)) { // 패러사이트 인식
+            unit.move_cp(0x124/4); // 애시드 스포어
+            for (var i = 0; i < 4; i++) {
+            if (DeathsX(CurrentPlayer, Exactly, AcidSporeC1[i]*65536, 0, 0xFF0000)) { // 애시드 스포어 중첩 체크
+                unit.move_cp(0x08/4); // 체력
+                if (Deaths(CurrentPlayer, AtMost, HP_s1a3[i], 0)) { // 체력 체크
+                    
+                    SetDeaths(CurrentPlayer, SetTo, 0, 0); // 체력 0으로 만들기
+                    unit.move_cp(0x4C/4); // 오더
+                    SetDeathsX(CurrentPlayer, SetTo, 0, 0, 0xFF00); // 죽이기
+                }
+
+                unit.move_cp(0x08/4); // 체력
+                if (Deaths(CurrentPlayer, AtLeast, HP_s1a3[i]+1, 0)) { // 체력 체크
+                    
+                    SetDeaths(CurrentPlayer, Subtract, HP_s1a3[i], 0); // 체력 빼기
+                    unit.move_cp(0x124/4); // 애시드 스포어
+                    SetDeathsX(CurrentPlayer, SetTo, AcidSporeC2[i]*65536, 0, 0xFF0000); // 애시드 스포어 중첩 조정
+                    SetDeathsX(CurrentPlayer, SetTo, 150*16777216, 0, 0xFF00); // 애시드 스포어 타이머
+                    unit.move_cp(0x128/4); // 애시드 스포어 타이머(2)
+                    SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + APTNumber1[i]*65536 + APTNumber1[i]*16777216, 0);
+                    unit.move_cp(0x12C/4); // 애시드 스포어 타이머(3)
+                    SetDeaths(CurrentPlayer, SetTo, APTNumber1[i]*1 + APTNumber2[i]*256 + APTNumber2[i]*65536 + APTNumber2[i]*16777216, 0);
+                    unit.move_cp(0x120/4); // 패러사이트
+                    SetDeathsX(CurrentPlayer, SetTo, 0, 0, 0xFF00); // 패러사이트 해제
+                }
+            }      
+            }
+        }
+    }
+
+
+foreach(unit : AllUnit.cploop){
+		foreach(dead : unit.dying){} //사망 시 발동
+        if (Switch("Switch 27", Set)) { // 아비터 있을 때 켜짐
+            unit.move_cp(0x118/4); // 스테이시스 필드
+            if (DeathsX(CurrentPlayer, Exactly, 101*256, 0, 0xFF00)) { // 스테이시스 필드
+                
+                SetDeathsX(CurrentPlayer, SetTo, 1*256, 0, 0xFF00);
+            }
+        }
+    }
+
+
+
+-----------------완성1본
+function beforeTriggerExec() {
+    foreach(unit : EUDLoopNewCUnit()){
+		switch(unit.unitType){
+			case $U("Zerg Mutalisk"): // 저그
+            case $U("Infested Terran"):
+            case $U("Zerg Broodling"):
+            case $U("Zerg Zergling"):
+            case $U("Terran Ghost"): // 테란
+			case $U("Terran Marine"):
+            case $U("Terran SCV"):
+				ZT_S1A3.add(unit);
+				break;   
+
+            case $U("Terran Firebat"): // 테란
+            case $U("Terran Medic"):
+				ZT_S1A4.add(unit);
+				break;
+
+            case $U("Infested Kerrigan"): // 저그
+				ZT_S1A5.add(unit);
+				break;
+
+            case $U("Protoss Interceptor"): // 플토
+            case $U("Protoss High Templar"):
+				P_S1A3.add(unit);
+				break; 
+
+            case $U("Protoss Dark Templar"): // 플토
+            case $U("Protoss Zealot"):
+				P_S1A4.add(unit);
+				break;    
+
+            case $U("Zerg Queen"): // 저그
+            case $U("Zerg Hydralisk"):
+            case $U("Terran Vulture"): // 테란
+				ZT_M1A3.add(unit);
+				break;
+
+            case $U("Zerg Defiler"): // 저그
+            case $U("Zerg Lurker"):
+				ZT_M1A4.add(unit);
+				break; 
+            
+            case $U("Protoss Corsair"): // 플토
+				P_M1A4.add(unit);
+				break; 
+
+            case $U("Terran Wraith"): // 테란
+				ZT_B1A3.add(unit);
+				break;
+
+            case $U("Terran Science Vessel"): // 테란
+            case $U("Terran Goliath"):
+            case 5: // 탱크
+				ZT_B1A4.add(unit);
+				break;  
+
+            case $U("Zerg Devourer"): // 저그
+            case $U("Zerg Guardian"):
+            case $U("Terran Valkyrie"): // 테란
+				ZT_B1A5.add(unit);
+				break; 
+
+            case $U("Zerg Ultralisk"): // 저그
+            case $U("Terran Battlecruiser"): // 테란
+				ZT_B1A6.add(unit);
+				break; 
+
+            case $U("Protoss Scout"): // 플토
+            case $U("Protoss Archon"):
+            case $U("Protoss Reaver"):
+				P_B1A3.add(unit);
+				break;
+
+            case $U("Protoss Arbiter"): // 플토
+            case $U("Protoss Dark Archon"):
+            case $U("Protoss Dragoon"):
+				P_B1A4.add(unit);
+				break; 
+
+            case $U("Protoss Carrier"): // 플토
+				P_B1A7.add(unit);
+				break; 
+            
+            case $U("Vulture Spider Mine"): // 마인
+				SpiderMine.add(unit);
+				break;
+		}
+	}
+
+    foreach(unit : ZT_S1A3.cploop){ // ZT_S1A3
+		foreach(dead : unit.dying){} //사망 시 발동
+        if (Switch("Switch 27", Set)) { //아비터 죽어도 14초 정도 유지 되나 확인해보기
+            unit.set_cp(0x118/4); // 스테이시스 필드
+            if (DeathsX(CurrentPlayer, Exactly, 101*256, 0, 0xFF00)) { // 스테이시스 필드
+                
+                SetDeathsX(CurrentPlayer, SetTo, 1*256, 0, 0xFF00);
+            }
+        }       
+        unit.set_cp(0x120/4); // 블라인드
+        if (DeathsX(CurrentPlayer, AtLeast, 1*16777216, 0, 0xFF000000)) { // 블라인드 인식
+
+            SetDeathsX(CurrentPlayer, SetTo, 0, 0, 0xFF000000);
+            unit.set_cp(0x124/4); // 애시드 스포어(1)
+            SetDeathsX(CurrentPlayer, SetTo, 9*65536 + 150*16777216, 0, 0xFFFF0000);
+            unit.set_cp(0x128/4); // 애시드 스포어(2)
+            SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+            unit.set_cp(0x12C/4); // 애시드 스포어(3)
+            SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+            unit.set_cp(0x114/4); // 인스네어
+            SetDeathsX(CurrentPlayer, Add, 1*65536, 0, 0xFF0000);
+        }
+
+        unit.set_cp(0x120/4); // 패러사이트
+        if (DeathsX(CurrentPlayer, AtLeast, 1*256, 0, 0xFF00)) { // 패러사이트 인식
+            unit.set_cp(0x124/4); // 애시드 스포어(1-1)
+            if (DeathsX(CurrentPlayer, Exactly, 0, 0, 0xFF0000)) {               
+                
+                SetDeathsX(CurrentPlayer, SetTo, 4*65536 + 150*16777216, 0, 0xFFFF0000);
+                unit.set_cp(0x128/4); // 애시드 스포어(2)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256, 0);
+                unit.set_cp(0x08/4); // 체력
+                SetDeaths(CurrentPlayer, Subtract, 3584, 0);        
+            }
+            unit.set_cp(0x124/4); // 애시드 스포어(1-2)
+            if (DeathsX(CurrentPlayer, Exactly, 3*65536, 0, 0xFF0000)) {               
+                
+                SetDeathsX(CurrentPlayer, SetTo, 7*65536 + 150*16777216, 0, 0xFFFF0000);
+                unit.set_cp(0x128/4); // 애시드 스포어(2)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+                unit.set_cp(0x12C/4); // 애시드 스포어(3)
+                SetDeaths(CurrentPlayer, SetTo, 150, 0);
+                unit.set_cp(0x08/4); // 체력
+                SetDeaths(CurrentPlayer, Subtract, 3968, 0);   
+            } 
+            unit.set_cp(0x124/4); // 애시드 스포어(1-3)
+            if (DeathsX(CurrentPlayer, Exactly, 6*65536, 0, 0xFF0000)) {               
+                
+                SetDeathsX(CurrentPlayer, SetTo, 10*65536 + 150*16777216, 0, 0xFFFF0000);
+                unit.set_cp(0x128/4); // 애시드 스포어(2)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+                unit.set_cp(0x12C/4); // 애시드 스포어(3)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+                unit.set_cp(0x08/4); // 체력
+                SetDeaths(CurrentPlayer, Subtract, 4352, 0);   
+            }   
+            unit.set_cp(0x124/4); // 애시드 스포어(1-4)
+            if (DeathsX(CurrentPlayer, Exactly, 9*65536, 0, 0xFF0000)) {               
+                
+                SetDeathsX(CurrentPlayer, SetTo, 10*65536 + 150*16777216, 0, 0xFFFF0000);
+                unit.set_cp(0x128/4); // 애시드 스포어(2)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+                unit.set_cp(0x12C/4); // 애시드 스포어(3)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+                unit.set_cp(0x08/4); // 체력
+                SetDeaths(CurrentPlayer, Subtract, 4736, 0);
+            }         
+            unit.set_cp(0x120/4); // 패러사이트
+            SetDeathsX(CurrentPlayer, SetTo, 0, 0, 0xFF00);    
+            unit.set_cp(0x124/4); // 애시드 스포어
+            SetDeathsX(CurrentPlayer, Subtract, 1*65536, 0, 0xFF0000);
+        }
+        unit.set_cp(0x124/4); // 애시드 스포어
+        if (DeathsX(CurrentPlayer, AtLeast, 1*65536, 0, 0xFF0000)) {
+            unit.set_cp(0x08/4); // 체력
+            if (Deaths(CurrentPlayer, AtMost, 0, 0)) {
+                
+                unit.set_cp(0x4C/4); // 명령
+                SetDeathsX(CurrentPlayer, SetTo, 0, 0, 0xFF00);
+            }
+        }
+        
+    }
+    foreach(unit : ZT_S1A4.cploop){ // ZT_S1A4
+		foreach(dead : unit.dying){} //사망 시 발동
+        if (Switch("Switch 27", Set)) { //아비터 죽어도 14초 정도 유지 되나 확인해보기
+            unit.set_cp(0x118/4); // 스테이시스 필드
+            if (DeathsX(CurrentPlayer, Exactly, 101*256, 0, 0xFF00)) { // 스테이시스 필드
+                
+                SetDeathsX(CurrentPlayer, SetTo, 1*256, 0, 0xFF00);
+            }
+        }
+        
+        unit.set_cp(0x120/4); // 블라인드
+        if (DeathsX(CurrentPlayer, AtLeast, 1*16777216, 0, 0xFF000000)) { // 블라인드 인식
+
+            SetDeathsX(CurrentPlayer, SetTo, 0, 0, 0xFF000000);
+            unit.set_cp(0x124/4); // 애시드 스포어(1)
+            SetDeathsX(CurrentPlayer, SetTo, 9*65536 + 150*16777216, 0, 0xFFFF0000);
+            unit.set_cp(0x128/4); // 애시드 스포어(2)
+            SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+            unit.set_cp(0x12C/4); // 애시드 스포어(3)
+            SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+            unit.set_cp(0x114/4); // 인스네어
+            SetDeathsX(CurrentPlayer, Add, 1*65536, 0, 0xFF0000);
+        }
+
+        unit.set_cp(0x120/4); // 패러사이트
+        if (DeathsX(CurrentPlayer, AtLeast, 1*256, 0, 0xFF00)) { // 패러사이트 인식
+            unit.set_cp(0x124/4); // 애시드 스포어(1-1)
+            if (DeathsX(CurrentPlayer, Exactly, 0, 0, 0xFF0000)) {               
+                
+                SetDeathsX(CurrentPlayer, SetTo, 4*65536 + 150*16777216, 0, 0xFFFF0000);
+                unit.set_cp(0x128/4); // 애시드 스포어(2)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256, 0);
+                unit.set_cp(0x08/4); // 체력
+                SetDeaths(CurrentPlayer, Subtract, 3456, 0);        
+            }
+            unit.set_cp(0x124/4); // 애시드 스포어(1-2)
+            if (DeathsX(CurrentPlayer, Exactly, 3*65536, 0, 0xFF0000)) {               
+                
+                SetDeathsX(CurrentPlayer, SetTo, 7*65536 + 150*16777216, 0, 0xFFFF0000);
+                unit.set_cp(0x128/4); // 애시드 스포어(2)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+                unit.set_cp(0x12C/4); // 애시드 스포어(3)
+                SetDeaths(CurrentPlayer, SetTo, 150, 0);
+                unit.set_cp(0x08/4); // 체력
+                SetDeaths(CurrentPlayer, Subtract, 3840, 0);   
+            } 
+            unit.set_cp(0x124/4); // 애시드 스포어(1-3)
+            if (DeathsX(CurrentPlayer, Exactly, 6*65536, 0, 0xFF0000)) {               
+                
+                SetDeathsX(CurrentPlayer, SetTo, 10*65536 + 150*16777216, 0, 0xFFFF0000);
+                unit.set_cp(0x128/4); // 애시드 스포어(2)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+                unit.set_cp(0x12C/4); // 애시드 스포어(3)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+                unit.set_cp(0x08/4); // 체력
+                SetDeaths(CurrentPlayer, Subtract, 4224, 0);   
+            }   
+            unit.set_cp(0x124/4); // 애시드 스포어(1-4)
+            if (DeathsX(CurrentPlayer, Exactly, 9*65536, 0, 0xFF0000)) {               
+                
+                SetDeathsX(CurrentPlayer, SetTo, 10*65536 + 150*16777216, 0, 0xFFFF0000);
+                unit.set_cp(0x128/4); // 애시드 스포어(2)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+                unit.set_cp(0x12C/4); // 애시드 스포어(3)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+                unit.set_cp(0x08/4); // 체력
+                SetDeaths(CurrentPlayer, Subtract, 4608, 0);
+            }         
+            unit.set_cp(0x120/4); // 패러사이트
+            SetDeathsX(CurrentPlayer, SetTo, 0, 0, 0xFF00);    
+            unit.set_cp(0x124/4); // 애시드 스포어
+            SetDeathsX(CurrentPlayer, Subtract, 1*65536, 0, 0xFF0000);
+        }
+        unit.set_cp(0x124/4); // 애시드 스포어
+        if (DeathsX(CurrentPlayer, AtLeast, 1*65536, 0, 0xFF0000)) {
+            unit.set_cp(0x08/4); // 체력
+            if (Deaths(CurrentPlayer, AtMost, 0, 0)) {
+                
+                unit.set_cp(0x4C/4); // 명령
+                SetDeathsX(CurrentPlayer, SetTo, 0, 0, 0xFF00);
+            }
+        }
+        
+    }
+    foreach(unit : ZT_S1A5.cploop){ // ZT_S1A5
+		foreach(dead : unit.dying){} //사망 시 발동
+        if (Switch("Switch 27", Set)) { //아비터 죽어도 14초 정도 유지 되나 확인해보기
+            unit.set_cp(0x118/4); // 스테이시스 필드
+            if (DeathsX(CurrentPlayer, Exactly, 101*256, 0, 0xFF00)) { // 스테이시스 필드
+                
+                SetDeathsX(CurrentPlayer, SetTo, 1*256, 0, 0xFF00);
+            }
+        }
+        
+        unit.set_cp(0x120/4); // 블라인드
+        if (DeathsX(CurrentPlayer, AtLeast, 1*16777216, 0, 0xFF000000)) { // 블라인드 인식
+
+            SetDeathsX(CurrentPlayer, SetTo, 0, 0, 0xFF000000);
+            unit.set_cp(0x124/4); // 애시드 스포어(1)
+            SetDeathsX(CurrentPlayer, SetTo, 9*65536 + 150*16777216, 0, 0xFFFF0000);
+            unit.set_cp(0x128/4); // 애시드 스포어(2)
+            SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+            unit.set_cp(0x12C/4); // 애시드 스포어(3)
+            SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+            unit.set_cp(0x114/4); // 인스네어
+            SetDeathsX(CurrentPlayer, Add, 1*65536, 0, 0xFF0000);
+        }
+
+        unit.set_cp(0x120/4); // 패러사이트
+        if (DeathsX(CurrentPlayer, AtLeast, 1*256, 0, 0xFF00)) { // 패러사이트 인식
+            unit.set_cp(0x124/4); // 애시드 스포어(1-1)
+            if (DeathsX(CurrentPlayer, Exactly, 0, 0, 0xFF0000)) {               
+                
+                SetDeathsX(CurrentPlayer, SetTo, 4*65536 + 150*16777216, 0, 0xFFFF0000);
+                unit.set_cp(0x128/4); // 애시드 스포어(2)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256, 0);
+                unit.set_cp(0x08/4); // 체력
+                SetDeaths(CurrentPlayer, Subtract, 3328, 0);        
+            }
+            unit.set_cp(0x124/4); // 애시드 스포어(1-2)
+            if (DeathsX(CurrentPlayer, Exactly, 3*65536, 0, 0xFF0000)) {               
+                
+                SetDeathsX(CurrentPlayer, SetTo, 7*65536 + 150*16777216, 0, 0xFFFF0000);
+                unit.set_cp(0x128/4); // 애시드 스포어(2)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+                unit.set_cp(0x12C/4); // 애시드 스포어(3)
+                SetDeaths(CurrentPlayer, SetTo, 150, 0);
+                unit.set_cp(0x08/4); // 체력
+                SetDeaths(CurrentPlayer, Subtract, 3712, 0);   
+            } 
+            unit.set_cp(0x124/4); // 애시드 스포어(1-3)
+            if (DeathsX(CurrentPlayer, Exactly, 6*65536, 0, 0xFF0000)) {               
+                
+                SetDeathsX(CurrentPlayer, SetTo, 10*65536 + 150*16777216, 0, 0xFFFF0000);
+                unit.set_cp(0x128/4); // 애시드 스포어(2)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+                unit.set_cp(0x12C/4); // 애시드 스포어(3)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+                unit.set_cp(0x08/4); // 체력
+                SetDeaths(CurrentPlayer, Subtract, 4096, 0);   
+            }   
+            unit.set_cp(0x124/4); // 애시드 스포어(1-4)
+            if (DeathsX(CurrentPlayer, Exactly, 9*65536, 0, 0xFF0000)) {               
+                
+                SetDeathsX(CurrentPlayer, SetTo, 10*65536 + 150*16777216, 0, 0xFFFF0000);
+                unit.set_cp(0x128/4); // 애시드 스포어(2)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+                unit.set_cp(0x12C/4); // 애시드 스포어(3)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+                unit.set_cp(0x08/4); // 체력
+                SetDeaths(CurrentPlayer, Subtract, 4480, 0);
+            }         
+            unit.set_cp(0x120/4); // 패러사이트
+            SetDeathsX(CurrentPlayer, SetTo, 0, 0, 0xFF00);    
+            unit.set_cp(0x124/4); // 애시드 스포어
+            SetDeathsX(CurrentPlayer, Subtract, 1*65536, 0, 0xFF0000);
+        }
+        unit.set_cp(0x124/4); // 애시드 스포어
+        if (DeathsX(CurrentPlayer, AtLeast, 1*65536, 0, 0xFF0000)) {
+            unit.set_cp(0x08/4); // 체력
+            if (Deaths(CurrentPlayer, AtMost, 0, 0)) {
+                
+                unit.set_cp(0x4C/4); // 명령
+                SetDeathsX(CurrentPlayer, SetTo, 0, 0, 0xFF00);
+            }
+        }
+        
+    }
+    foreach(unit : ZT_M1A3.cploop){ // ZT_M1A3
+		foreach(dead : unit.dying){} //사망 시 발동
+        if (Switch("Switch 27", Set)) { //아비터 죽어도 14초 정도 유지 되나 확인해보기
+            unit.set_cp(0x118/4); // 스테이시스 필드
+            if (DeathsX(CurrentPlayer, Exactly, 101*256, 0, 0xFF00)) { // 스테이시스 필드
+                
+                SetDeathsX(CurrentPlayer, SetTo, 1*256, 0, 0xFF00);
+            }
+        }
+        
+        unit.set_cp(0x120/4); // 블라인드
+        if (DeathsX(CurrentPlayer, AtLeast, 1*16777216, 0, 0xFF000000)) { // 블라인드 인식
+
+            SetDeathsX(CurrentPlayer, SetTo, 0, 0, 0xFF000000);
+            unit.set_cp(0x124/4); // 애시드 스포어(1)
+            SetDeathsX(CurrentPlayer, SetTo, 9*65536 + 150*16777216, 0, 0xFFFF0000);
+            unit.set_cp(0x128/4); // 애시드 스포어(2)
+            SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+            unit.set_cp(0x12C/4); // 애시드 스포어(3)
+            SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+            unit.set_cp(0x114/4); // 인스네어
+            SetDeathsX(CurrentPlayer, Add, 1*65536, 0, 0xFF0000);
+        }
+
+        unit.set_cp(0x120/4); // 패러사이트
+        if (DeathsX(CurrentPlayer, AtLeast, 1*256, 0, 0xFF00)) { // 패러사이트 인식
+            unit.set_cp(0x124/4); // 애시드 스포어(1-1)
+            if (DeathsX(CurrentPlayer, Exactly, 0, 0, 0xFF0000)) {               
+                
+                SetDeathsX(CurrentPlayer, SetTo, 4*65536 + 150*16777216, 0, 0xFFFF0000);
+                unit.set_cp(0x128/4); // 애시드 스포어(2)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256, 0);
+                unit.set_cp(0x08/4); // 체력
+                SetDeaths(CurrentPlayer, Subtract, 5376, 0);        
+            }
+            unit.set_cp(0x124/4); // 애시드 스포어(1-2)
+            if (DeathsX(CurrentPlayer, Exactly, 3*65536, 0, 0xFF0000)) {               
+                
+                SetDeathsX(CurrentPlayer, SetTo, 7*65536 + 150*16777216, 0, 0xFFFF0000);
+                unit.set_cp(0x128/4); // 애시드 스포어(2)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+                unit.set_cp(0x12C/4); // 애시드 스포어(3)
+                SetDeaths(CurrentPlayer, SetTo, 150, 0);
+                unit.set_cp(0x08/4); // 체력
+                SetDeaths(CurrentPlayer, Subtract, 5952, 0);   
+            } 
+            unit.set_cp(0x124/4); // 애시드 스포어(1-3)
+            if (DeathsX(CurrentPlayer, Exactly, 6*65536, 0, 0xFF0000)) {               
+                
+                SetDeathsX(CurrentPlayer, SetTo, 10*65536 + 150*16777216, 0, 0xFFFF0000);
+                unit.set_cp(0x128/4); // 애시드 스포어(2)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+                unit.set_cp(0x12C/4); // 애시드 스포어(3)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+                unit.set_cp(0x08/4); // 체력
+                SetDeaths(CurrentPlayer, Subtract, 6528, 0);   
+            }   
+            unit.set_cp(0x124/4); // 애시드 스포어(1-4)
+            if (DeathsX(CurrentPlayer, Exactly, 9*65536, 0, 0xFF0000)) {               
+                
+                SetDeathsX(CurrentPlayer, SetTo, 10*65536 + 150*16777216, 0, 0xFFFF0000);
+                unit.set_cp(0x128/4); // 애시드 스포어(2)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+                unit.set_cp(0x12C/4); // 애시드 스포어(3)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+                unit.set_cp(0x08/4); // 체력
+                SetDeaths(CurrentPlayer, Subtract, 7104, 0);
+            }         
+            unit.set_cp(0x120/4); // 패러사이트
+            SetDeathsX(CurrentPlayer, SetTo, 0, 0, 0xFF00);    
+            unit.set_cp(0x124/4); // 애시드 스포어
+            SetDeathsX(CurrentPlayer, Subtract, 1*65536, 0, 0xFF0000);
+        }
+        unit.set_cp(0x124/4); // 애시드 스포어
+        if (DeathsX(CurrentPlayer, AtLeast, 1*65536, 0, 0xFF0000)) {
+            unit.set_cp(0x08/4); // 체력
+            if (Deaths(CurrentPlayer, AtMost, 0, 0)) {
+                
+                unit.set_cp(0x4C/4); // 명령
+                SetDeathsX(CurrentPlayer, SetTo, 0, 0, 0xFF00);
+            }
+        }
+        
+    }
+    foreach(unit : ZT_M1A4.cploop){ // ZT_M1A4
+		foreach(dead : unit.dying){} //사망 시 발동
+        if (Switch("Switch 27", Set)) { //아비터 죽어도 14초 정도 유지 되나 확인해보기
+            unit.set_cp(0x118/4); // 스테이시스 필드
+            if (DeathsX(CurrentPlayer, Exactly, 101*256, 0, 0xFF00)) { // 스테이시스 필드
+                
+                SetDeathsX(CurrentPlayer, SetTo, 1*256, 0, 0xFF00);
+            }
+        }
+        
+        unit.set_cp(0x120/4); // 블라인드
+        if (DeathsX(CurrentPlayer, AtLeast, 1*16777216, 0, 0xFF000000)) { // 블라인드 인식
+
+            SetDeathsX(CurrentPlayer, SetTo, 0, 0, 0xFF000000);
+            unit.set_cp(0x124/4); // 애시드 스포어(1)
+            SetDeathsX(CurrentPlayer, SetTo, 9*65536 + 150*16777216, 0, 0xFFFF0000);
+            unit.set_cp(0x128/4); // 애시드 스포어(2)
+            SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+            unit.set_cp(0x12C/4); // 애시드 스포어(3)
+            SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+            unit.set_cp(0x114/4); // 인스네어
+            SetDeathsX(CurrentPlayer, Add, 1*65536, 0, 0xFF0000);
+        }
+
+        unit.set_cp(0x120/4); // 패러사이트
+        if (DeathsX(CurrentPlayer, AtLeast, 1*256, 0, 0xFF00)) { // 패러사이트 인식
+            unit.set_cp(0x124/4); // 애시드 스포어(1-1)
+            if (DeathsX(CurrentPlayer, Exactly, 0, 0, 0xFF0000)) {               
+                
+                SetDeathsX(CurrentPlayer, SetTo, 4*65536 + 150*16777216, 0, 0xFFFF0000);
+                unit.set_cp(0x128/4); // 애시드 스포어(2)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256, 0);
+                unit.set_cp(0x08/4); // 체력
+                SetDeaths(CurrentPlayer, Subtract, 5184, 0);        
+            }
+            unit.set_cp(0x124/4); // 애시드 스포어(1-2)
+            if (DeathsX(CurrentPlayer, Exactly, 3*65536, 0, 0xFF0000)) {               
+                
+                SetDeathsX(CurrentPlayer, SetTo, 7*65536 + 150*16777216, 0, 0xFFFF0000);
+                unit.set_cp(0x128/4); // 애시드 스포어(2)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+                unit.set_cp(0x12C/4); // 애시드 스포어(3)
+                SetDeaths(CurrentPlayer, SetTo, 150, 0);
+                unit.set_cp(0x08/4); // 체력
+                SetDeaths(CurrentPlayer, Subtract, 5760, 0);   
+            } 
+            unit.set_cp(0x124/4); // 애시드 스포어(1-3)
+            if (DeathsX(CurrentPlayer, Exactly, 6*65536, 0, 0xFF0000)) {               
+                
+                SetDeathsX(CurrentPlayer, SetTo, 10*65536 + 150*16777216, 0, 0xFFFF0000);
+                unit.set_cp(0x128/4); // 애시드 스포어(2)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+                unit.set_cp(0x12C/4); // 애시드 스포어(3)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+                unit.set_cp(0x08/4); // 체력
+                SetDeaths(CurrentPlayer, Subtract, 6336, 0);   
+            }   
+            unit.set_cp(0x124/4); // 애시드 스포어(1-4)
+            if (DeathsX(CurrentPlayer, Exactly, 9*65536, 0, 0xFF0000)) {               
+                
+                SetDeathsX(CurrentPlayer, SetTo, 10*65536 + 150*16777216, 0, 0xFFFF0000);
+                unit.set_cp(0x128/4); // 애시드 스포어(2)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+                unit.set_cp(0x12C/4); // 애시드 스포어(3)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+                unit.set_cp(0x08/4); // 체력
+                SetDeaths(CurrentPlayer, Subtract, 6912, 0);
+            }         
+            unit.set_cp(0x120/4); // 패러사이트
+            SetDeathsX(CurrentPlayer, SetTo, 0, 0, 0xFF00);    
+            unit.set_cp(0x124/4); // 애시드 스포어
+            SetDeathsX(CurrentPlayer, Subtract, 1*65536, 0, 0xFF0000);
+        }
+        unit.set_cp(0x124/4); // 애시드 스포어
+        if (DeathsX(CurrentPlayer, AtLeast, 1*65536, 0, 0xFF0000)) {
+            unit.set_cp(0x08/4); // 체력
+            if (Deaths(CurrentPlayer, AtMost, 0, 0)) {
+                
+                unit.set_cp(0x4C/4); // 명령
+                SetDeathsX(CurrentPlayer, SetTo, 0, 0, 0xFF00);
+            }
+        }
+        
+    }
+    foreach(unit : ZT_B1A3.cploop){ // ZT_B1A3
+		foreach(dead : unit.dying){} //사망 시 발동
+        if (Switch("Switch 27", Set)) { //아비터 죽어도 14초 정도 유지 되나 확인해보기
+            unit.set_cp(0x118/4); // 스테이시스 필드
+            if (DeathsX(CurrentPlayer, Exactly, 101*256, 0, 0xFF00)) { // 스테이시스 필드
+                
+                SetDeathsX(CurrentPlayer, SetTo, 1*256, 0, 0xFF00);
+            }
+        }
+        
+        unit.set_cp(0x120/4); // 블라인드
+        if (DeathsX(CurrentPlayer, AtLeast, 1*16777216, 0, 0xFF000000)) { // 블라인드 인식
+
+            SetDeathsX(CurrentPlayer, SetTo, 0, 0, 0xFF000000);
+            unit.set_cp(0x124/4); // 애시드 스포어(1)
+            SetDeathsX(CurrentPlayer, SetTo, 9*65536 + 150*16777216, 0, 0xFFFF0000);
+            unit.set_cp(0x128/4); // 애시드 스포어(2)
+            SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+            unit.set_cp(0x12C/4); // 애시드 스포어(3)
+            SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+            unit.set_cp(0x114/4); // 인스네어
+            SetDeathsX(CurrentPlayer, Add, 1*65536, 0, 0xFF0000);
+        }
+
+        unit.set_cp(0x120/4); // 패러사이트
+        if (DeathsX(CurrentPlayer, AtLeast, 1*256, 0, 0xFF00)) { // 패러사이트 인식
+            unit.set_cp(0x124/4); // 애시드 스포어(1-1)
+            if (DeathsX(CurrentPlayer, Exactly, 0, 0, 0xFF0000)) {               
+                
+                SetDeathsX(CurrentPlayer, SetTo, 4*65536 + 150*16777216, 0, 0xFFFF0000);
+                unit.set_cp(0x128/4); // 애시드 스포어(2)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256, 0);
+                unit.set_cp(0x08/4); // 체력
+                SetDeaths(CurrentPlayer, Subtract, 7168, 0);        
+            }
+            unit.set_cp(0x124/4); // 애시드 스포어(1-2)
+            if (DeathsX(CurrentPlayer, Exactly, 3*65536, 0, 0xFF0000)) {               
+                
+                SetDeathsX(CurrentPlayer, SetTo, 7*65536 + 150*16777216, 0, 0xFFFF0000);
+                unit.set_cp(0x128/4); // 애시드 스포어(2)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+                unit.set_cp(0x12C/4); // 애시드 스포어(3)
+                SetDeaths(CurrentPlayer, SetTo, 150, 0);
+                unit.set_cp(0x08/4); // 체력
+                SetDeaths(CurrentPlayer, Subtract, 7936, 0);   
+            } 
+            unit.set_cp(0x124/4); // 애시드 스포어(1-3)
+            if (DeathsX(CurrentPlayer, Exactly, 6*65536, 0, 0xFF0000)) {               
+                
+                SetDeathsX(CurrentPlayer, SetTo, 10*65536 + 150*16777216, 0, 0xFFFF0000);
+                unit.set_cp(0x128/4); // 애시드 스포어(2)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+                unit.set_cp(0x12C/4); // 애시드 스포어(3)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+                unit.set_cp(0x08/4); // 체력
+                SetDeaths(CurrentPlayer, Subtract, 8704, 0);   
+            }   
+            unit.set_cp(0x124/4); // 애시드 스포어(1-4)
+            if (DeathsX(CurrentPlayer, Exactly, 9*65536, 0, 0xFF0000)) {               
+                
+                SetDeathsX(CurrentPlayer, SetTo, 10*65536 + 150*16777216, 0, 0xFFFF0000);
+                unit.set_cp(0x128/4); // 애시드 스포어(2)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+                unit.set_cp(0x12C/4); // 애시드 스포어(3)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+                unit.set_cp(0x08/4); // 체력
+                SetDeaths(CurrentPlayer, Subtract, 9472, 0);
+            }         
+            unit.set_cp(0x120/4); // 패러사이트
+            SetDeathsX(CurrentPlayer, SetTo, 0, 0, 0xFF00);    
+            unit.set_cp(0x124/4); // 애시드 스포어
+            SetDeathsX(CurrentPlayer, Subtract, 1*65536, 0, 0xFF0000);
+        }
+        unit.set_cp(0x124/4); // 애시드 스포어
+        if (DeathsX(CurrentPlayer, AtLeast, 1*65536, 0, 0xFF0000)) {
+            unit.set_cp(0x08/4); // 체력
+            if (Deaths(CurrentPlayer, AtMost, 0, 0)) {
+                
+                unit.set_cp(0x4C/4); // 명령
+                SetDeathsX(CurrentPlayer, SetTo, 0, 0, 0xFF00);
+            }
+        }
+        
+    }
+    foreach(unit : ZT_B1A4.cploop){ // ZT_B1A4
+		foreach(dead : unit.dying){} //사망 시 발동
+        if (Switch("Switch 27", Set)) { //아비터 죽어도 14초 정도 유지 되나 확인해보기
+            unit.set_cp(0x118/4); // 스테이시스 필드
+            if (DeathsX(CurrentPlayer, Exactly, 101*256, 0, 0xFF00)) { // 스테이시스 필드
+                
+                SetDeathsX(CurrentPlayer, SetTo, 1*256, 0, 0xFF00);
+            }
+        }
+        
+        unit.set_cp(0x120/4); // 블라인드
+        if (DeathsX(CurrentPlayer, AtLeast, 1*16777216, 0, 0xFF000000)) { // 블라인드 인식
+
+            SetDeathsX(CurrentPlayer, SetTo, 0, 0, 0xFF000000);
+            unit.set_cp(0x124/4); // 애시드 스포어(1)
+            SetDeathsX(CurrentPlayer, SetTo, 9*65536 + 150*16777216, 0, 0xFFFF0000);
+            unit.set_cp(0x128/4); // 애시드 스포어(2)
+            SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+            unit.set_cp(0x12C/4); // 애시드 스포어(3)
+            SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+            unit.set_cp(0x114/4); // 인스네어
+            SetDeathsX(CurrentPlayer, Add, 1*65536, 0, 0xFF0000);
+        }
+
+        unit.set_cp(0x120/4); // 패러사이트
+        if (DeathsX(CurrentPlayer, AtLeast, 1*256, 0, 0xFF00)) { // 패러사이트 인식
+            unit.set_cp(0x124/4); // 애시드 스포어(1-1)
+            if (DeathsX(CurrentPlayer, Exactly, 0, 0, 0xFF0000)) {               
+                
+                SetDeathsX(CurrentPlayer, SetTo, 4*65536 + 150*16777216, 0, 0xFFFF0000);
+                unit.set_cp(0x128/4); // 애시드 스포어(2)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256, 0);
+                unit.set_cp(0x08/4); // 체력
+                SetDeaths(CurrentPlayer, Subtract, 6912, 0);        
+            }
+            unit.set_cp(0x124/4); // 애시드 스포어(1-2)
+            if (DeathsX(CurrentPlayer, Exactly, 3*65536, 0, 0xFF0000)) {               
+                
+                SetDeathsX(CurrentPlayer, SetTo, 7*65536 + 150*16777216, 0, 0xFFFF0000);
+                unit.set_cp(0x128/4); // 애시드 스포어(2)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+                unit.set_cp(0x12C/4); // 애시드 스포어(3)
+                SetDeaths(CurrentPlayer, SetTo, 150, 0);
+                unit.set_cp(0x08/4); // 체력
+                SetDeaths(CurrentPlayer, Subtract, 7680, 0);   
+            } 
+            unit.set_cp(0x124/4); // 애시드 스포어(1-3)
+            if (DeathsX(CurrentPlayer, Exactly, 6*65536, 0, 0xFF0000)) {               
+                
+                SetDeathsX(CurrentPlayer, SetTo, 10*65536 + 150*16777216, 0, 0xFFFF0000);
+                unit.set_cp(0x128/4); // 애시드 스포어(2)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+                unit.set_cp(0x12C/4); // 애시드 스포어(3)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+                unit.set_cp(0x08/4); // 체력
+                SetDeaths(CurrentPlayer, Subtract, 8448, 0);   
+            }   
+            unit.set_cp(0x124/4); // 애시드 스포어(1-4)
+            if (DeathsX(CurrentPlayer, Exactly, 9*65536, 0, 0xFF0000)) {               
+                
+                SetDeathsX(CurrentPlayer, SetTo, 10*65536 + 150*16777216, 0, 0xFFFF0000);
+                unit.set_cp(0x128/4); // 애시드 스포어(2)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+                unit.set_cp(0x12C/4); // 애시드 스포어(3)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+                unit.set_cp(0x08/4); // 체력
+                SetDeaths(CurrentPlayer, Subtract, 9216, 0);
+            }         
+            unit.set_cp(0x120/4); // 패러사이트
+            SetDeathsX(CurrentPlayer, SetTo, 0, 0, 0xFF00);    
+            unit.set_cp(0x124/4); // 애시드 스포어
+            SetDeathsX(CurrentPlayer, Subtract, 1*65536, 0, 0xFF0000);
+        }
+        unit.set_cp(0x124/4); // 애시드 스포어
+        if (DeathsX(CurrentPlayer, AtLeast, 1*65536, 0, 0xFF0000)) {
+            unit.set_cp(0x08/4); // 체력
+            if (Deaths(CurrentPlayer, AtMost, 0, 0)) {
+                
+                unit.set_cp(0x4C/4); // 명령
+                SetDeathsX(CurrentPlayer, SetTo, 0, 0, 0xFF00);
+            }
+        }
+        
+    }
+    foreach(unit : ZT_B1A5.cploop){ // ZT_B1A5
+		foreach(dead : unit.dying){} //사망 시 발동
+        if (Switch("Switch 27", Set)) { //아비터 죽어도 14초 정도 유지 되나 확인해보기
+            unit.set_cp(0x118/4); // 스테이시스 필드
+            if (DeathsX(CurrentPlayer, Exactly, 101*256, 0, 0xFF00)) { // 스테이시스 필드
+                
+                SetDeathsX(CurrentPlayer, SetTo, 1*256, 0, 0xFF00);
+            }
+        }
+        
+        unit.set_cp(0x120/4); // 블라인드
+        if (DeathsX(CurrentPlayer, AtLeast, 1*16777216, 0, 0xFF000000)) { // 블라인드 인식
+
+            SetDeathsX(CurrentPlayer, SetTo, 0, 0, 0xFF000000);
+            unit.set_cp(0x124/4); // 애시드 스포어(1)
+            SetDeathsX(CurrentPlayer, SetTo, 9*65536 + 150*16777216, 0, 0xFFFF0000);
+            unit.set_cp(0x128/4); // 애시드 스포어(2)
+            SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+            unit.set_cp(0x12C/4); // 애시드 스포어(3)
+            SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+            unit.set_cp(0x114/4); // 인스네어
+            SetDeathsX(CurrentPlayer, Add, 1*65536, 0, 0xFF0000);
+        }
+
+        unit.set_cp(0x120/4); // 패러사이트
+        if (DeathsX(CurrentPlayer, AtLeast, 1*256, 0, 0xFF00)) { // 패러사이트 인식
+            unit.set_cp(0x124/4); // 애시드 스포어(1-1)
+            if (DeathsX(CurrentPlayer, Exactly, 0, 0, 0xFF0000)) {               
+                
+                SetDeathsX(CurrentPlayer, SetTo, 4*65536 + 150*16777216, 0, 0xFFFF0000);
+                unit.set_cp(0x128/4); // 애시드 스포어(2)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256, 0);
+                unit.set_cp(0x08/4); // 체력
+                SetDeaths(CurrentPlayer, Subtract, 6656, 0);        
+            }
+            unit.set_cp(0x124/4); // 애시드 스포어(1-2)
+            if (DeathsX(CurrentPlayer, Exactly, 3*65536, 0, 0xFF0000)) {               
+                
+                SetDeathsX(CurrentPlayer, SetTo, 7*65536 + 150*16777216, 0, 0xFFFF0000);
+                unit.set_cp(0x128/4); // 애시드 스포어(2)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+                unit.set_cp(0x12C/4); // 애시드 스포어(3)
+                SetDeaths(CurrentPlayer, SetTo, 150, 0);
+                unit.set_cp(0x08/4); // 체력
+                SetDeaths(CurrentPlayer, Subtract, 7424, 0);   
+            } 
+            unit.set_cp(0x124/4); // 애시드 스포어(1-3)
+            if (DeathsX(CurrentPlayer, Exactly, 6*65536, 0, 0xFF0000)) {               
+                
+                SetDeathsX(CurrentPlayer, SetTo, 10*65536 + 150*16777216, 0, 0xFFFF0000);
+                unit.set_cp(0x128/4); // 애시드 스포어(2)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+                unit.set_cp(0x12C/4); // 애시드 스포어(3)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+                unit.set_cp(0x08/4); // 체력
+                SetDeaths(CurrentPlayer, Subtract, 8192, 0);   
+            }   
+            unit.set_cp(0x124/4); // 애시드 스포어(1-4)
+            if (DeathsX(CurrentPlayer, Exactly, 9*65536, 0, 0xFF0000)) {               
+                
+                SetDeathsX(CurrentPlayer, SetTo, 10*65536 + 150*16777216, 0, 0xFFFF0000);
+                unit.set_cp(0x128/4); // 애시드 스포어(2)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+                unit.set_cp(0x12C/4); // 애시드 스포어(3)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+                unit.set_cp(0x08/4); // 체력
+                SetDeaths(CurrentPlayer, Subtract, 8960, 0);
+            }         
+            unit.set_cp(0x120/4); // 패러사이트
+            SetDeathsX(CurrentPlayer, SetTo, 0, 0, 0xFF00);    
+            unit.set_cp(0x124/4); // 애시드 스포어
+            SetDeathsX(CurrentPlayer, Subtract, 1*65536, 0, 0xFF0000);
+        }
+        unit.set_cp(0x124/4); // 애시드 스포어
+        if (DeathsX(CurrentPlayer, AtLeast, 1*65536, 0, 0xFF0000)) {
+            unit.set_cp(0x08/4); // 체력
+            if (Deaths(CurrentPlayer, AtMost, 0, 0)) {
+                
+                unit.set_cp(0x4C/4); // 명령
+                SetDeathsX(CurrentPlayer, SetTo, 0, 0, 0xFF00);
+            }
+        }
+        
+    }
+    foreach(unit : ZT_B1A6.cploop){ // ZT_B1A6
+		foreach(dead : unit.dying){} //사망 시 발동
+        if (Switch("Switch 27", Set)) { //아비터 죽어도 14초 정도 유지 되나 확인해보기
+            unit.set_cp(0x118/4); // 스테이시스 필드
+            if (DeathsX(CurrentPlayer, Exactly, 101*256, 0, 0xFF00)) { // 스테이시스 필드
+                
+                SetDeathsX(CurrentPlayer, SetTo, 1*256, 0, 0xFF00);
+            }
+        }
+        
+        unit.set_cp(0x120/4); // 블라인드
+        if (DeathsX(CurrentPlayer, AtLeast, 1*16777216, 0, 0xFF000000)) { // 블라인드 인식
+
+            SetDeathsX(CurrentPlayer, SetTo, 0, 0, 0xFF000000);
+            unit.set_cp(0x124/4); // 애시드 스포어(1)
+            SetDeathsX(CurrentPlayer, SetTo, 9*65536 + 150*16777216, 0, 0xFFFF0000);
+            unit.set_cp(0x128/4); // 애시드 스포어(2)
+            SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+            unit.set_cp(0x12C/4); // 애시드 스포어(3)
+            SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+            unit.set_cp(0x114/4); // 인스네어
+            SetDeathsX(CurrentPlayer, Add, 1*65536, 0, 0xFF0000);
+        }
+
+        unit.set_cp(0x120/4); // 패러사이트
+        if (DeathsX(CurrentPlayer, AtLeast, 1*256, 0, 0xFF00)) { // 패러사이트 인식
+            unit.set_cp(0x124/4); // 애시드 스포어(1-1)
+            if (DeathsX(CurrentPlayer, Exactly, 0, 0, 0xFF0000)) {               
+                
+                SetDeathsX(CurrentPlayer, SetTo, 4*65536 + 150*16777216, 0, 0xFFFF0000);
+                unit.set_cp(0x128/4); // 애시드 스포어(2)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256, 0);
+                unit.set_cp(0x08/4); // 체력
+                SetDeaths(CurrentPlayer, Subtract, 6400, 0);        
+            }
+            unit.set_cp(0x124/4); // 애시드 스포어(1-2)
+            if (DeathsX(CurrentPlayer, Exactly, 3*65536, 0, 0xFF0000)) {               
+                
+                SetDeathsX(CurrentPlayer, SetTo, 7*65536 + 150*16777216, 0, 0xFFFF0000);
+                unit.set_cp(0x128/4); // 애시드 스포어(2)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+                unit.set_cp(0x12C/4); // 애시드 스포어(3)
+                SetDeaths(CurrentPlayer, SetTo, 150, 0);
+                unit.set_cp(0x08/4); // 체력
+                SetDeaths(CurrentPlayer, Subtract, 7168, 0);   
+            } 
+            unit.set_cp(0x124/4); // 애시드 스포어(1-3)
+            if (DeathsX(CurrentPlayer, Exactly, 6*65536, 0, 0xFF0000)) {               
+                
+                SetDeathsX(CurrentPlayer, SetTo, 10*65536 + 150*16777216, 0, 0xFFFF0000);
+                unit.set_cp(0x128/4); // 애시드 스포어(2)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+                unit.set_cp(0x12C/4); // 애시드 스포어(3)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+                unit.set_cp(0x08/4); // 체력
+                SetDeaths(CurrentPlayer, Subtract, 7936, 0);   
+            }   
+            unit.set_cp(0x124/4); // 애시드 스포어(1-4)
+            if (DeathsX(CurrentPlayer, Exactly, 9*65536, 0, 0xFF0000)) {               
+                
+                SetDeathsX(CurrentPlayer, SetTo, 10*65536 + 150*16777216, 0, 0xFFFF0000);
+                unit.set_cp(0x128/4); // 애시드 스포어(2)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+                unit.set_cp(0x12C/4); // 애시드 스포어(3)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+                unit.set_cp(0x08/4); // 체력
+                SetDeaths(CurrentPlayer, Subtract, 8704, 0);
+            }         
+            unit.set_cp(0x120/4); // 패러사이트
+            SetDeathsX(CurrentPlayer, SetTo, 0, 0, 0xFF00);    
+            unit.set_cp(0x124/4); // 애시드 스포어
+            SetDeathsX(CurrentPlayer, Subtract, 1*65536, 0, 0xFF0000);
+        }
+        unit.set_cp(0x124/4); // 애시드 스포어
+        if (DeathsX(CurrentPlayer, AtLeast, 1*65536, 0, 0xFF0000)) {
+            unit.set_cp(0x08/4); // 체력
+            if (Deaths(CurrentPlayer, AtMost, 0, 0)) {
+                
+                unit.set_cp(0x4C/4); // 명령
+                SetDeathsX(CurrentPlayer, SetTo, 0, 0, 0xFF00);
+            }
+        }
+        
+    }
+    foreach(unit : P_S1A3.cploop){ // P_S1A3
+		foreach(dead : unit.dying){} //사망 시 발동
+        if (Switch("Switch 27", Set)) { //아비터 죽어도 14초 정도 유지 되나 확인해보기
+            unit.set_cp(0x118/4); // 스테이시스 필드
+            if (DeathsX(CurrentPlayer, Exactly, 101*256, 0, 0xFF00)) { // 스테이시스 필드
+                
+                SetDeathsX(CurrentPlayer, SetTo, 1*256, 0, 0xFF00);
+            }
+        }
+        
+        unit.set_cp(0x120/4); // 블라인드
+        if (DeathsX(CurrentPlayer, AtLeast, 1*16777216, 0, 0xFF000000)) { // 블라인드 인식
+
+            SetDeathsX(CurrentPlayer, SetTo, 0, 0, 0xFF000000);
+            unit.set_cp(0x124/4); // 애시드 스포어(1)
+            SetDeathsX(CurrentPlayer, SetTo, 9*65536 + 150*16777216, 0, 0xFFFF0000);
+            unit.set_cp(0x128/4); // 애시드 스포어(2)
+            SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+            unit.set_cp(0x12C/4); // 애시드 스포어(3)
+            SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+            unit.set_cp(0x114/4); // 인스네어
+            SetDeathsX(CurrentPlayer, Add, 1*65536, 0, 0xFF0000);
+        }
+
+        unit.set_cp(0x120/4); // 패러사이트
+        if (DeathsX(CurrentPlayer, AtLeast, 1*256, 0, 0xFF00)) { // 패러사이트 인식
+            unit.set_cp(0x124/4); // 애시드 스포어(1-1)
+            if (DeathsX(CurrentPlayer, Exactly, 0, 0, 0xFF0000)) {      
+                unit.set_cp(0x60/4); // 쉴드
+                if (Deaths(CurrentPlayer, AtLeast, 28*256, 0)) {
+
+                    SetDeaths(CurrentPlayer, Subtract, 28*256, 0); // 28
+                }
+                else if (Deaths(CurrentPlayer, AtMost, 28*256 - 1, 0)) {
+                    if (Deaths(CurrentPlayer, AtLeast, 25*256, 0)) { // A3 빼기, 얘량 겹치는 숫자 없음 체크
+                        
+                        SetDeaths(CurrentPlayer, SetTo, 0, 0);
+                        unit.set_cp(0x08/4); // 체력
+                        SetDeaths(CurrentPlayer, Subtract, 1, 0);
+                    }
+                    else {
+                        unit.set_cp(0x60/4); // 쉴드
+                        const Shield = dwread_cp(0);
+                        const HP_Damage = (28*256 - Shield - 3*256) / 2;
+                        SetDeaths(CurrentPlayer, SetTo, 0, 0);           
+                        unit.set_cp(0x08/4); // 체력
+                        SetDeaths(CurrentPlayer, Subtract, HP_Damage, 0); 
+                    }                
+                }
+                unit.set_cp(0x124/4); // 애시드 스포어
+                SetDeathsX(CurrentPlayer, SetTo, 4*65536 + 150*16777216, 0, 0xFFFF0000);
+                unit.set_cp(0x128/4); // 애시드 스포어(2)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256, 0);       
+            }
+
+            unit.set_cp(0x124/4); // 애시드 스포어(1-2)
+            if (DeathsX(CurrentPlayer, Exactly, 3*65536, 0, 0xFF0000)) {      
+                unit.set_cp(0x60/4); // 쉴드
+                if (Deaths(CurrentPlayer, AtLeast, 31*256, 0)) {
+
+                    SetDeaths(CurrentPlayer, Subtract, 31*256, 0); // 31
+                }
+                else if (Deaths(CurrentPlayer, AtMost, 31*256 - 1, 0)) {
+                    if (Deaths(CurrentPlayer, AtLeast, 28*256, 0)) { // A3 빼기, 얘량 겹치는 숫자 없음 체크
+                        
+                        SetDeaths(CurrentPlayer, SetTo, 0, 0);
+                        unit.set_cp(0x08/4); // 체력
+                        SetDeaths(CurrentPlayer, Subtract, 1, 0);
+                    }
+                    else {
+                        unit.set_cp(0x60/4); // 쉴드
+                        const Shield = dwread_cp(0);
+                        const HP_Damage = (31*256 - Shield - 3*256) / 2;
+                        SetDeaths(CurrentPlayer, SetTo, 0, 0);           
+                        unit.set_cp(0x08/4); // 체력
+                        SetDeaths(CurrentPlayer, Subtract, HP_Damage, 0); 
+                    }                
+                }
+                unit.set_cp(0x124/4); // 애시드 스포어
+                SetDeathsX(CurrentPlayer, SetTo, 7*65536 + 150*16777216, 0, 0xFFFF0000);
+                unit.set_cp(0x128/4); // 애시드 스포어(2)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);       
+                unit.set_cp(0x12C/4); // 애시드 스포어(3)
+                SetDeaths(CurrentPlayer, SetTo, 150, 0);       
+            }  
+
+            unit.set_cp(0x124/4); // 애시드 스포어(1-3)
+            if (DeathsX(CurrentPlayer, Exactly, 6*65536, 0, 0xFF0000)) {      
+                unit.set_cp(0x60/4); // 쉴드
+                if (Deaths(CurrentPlayer, AtLeast, 34*256, 0)) {
+
+                    SetDeaths(CurrentPlayer, Subtract, 34*256, 0); // 34
+                }
+                else if (Deaths(CurrentPlayer, AtMost, 34*256 - 1, 0)) {
+                    if (Deaths(CurrentPlayer, AtLeast, 31*256, 0)) { // A3 빼기, 얘량 겹치는 숫자 없음 체크
+                        
+                        SetDeaths(CurrentPlayer, SetTo, 0, 0);
+                        unit.set_cp(0x08/4); // 체력
+                        SetDeaths(CurrentPlayer, Subtract, 1, 0);
+                    }
+                    else {
+                        unit.set_cp(0x60/4); // 쉴드
+                        const Shield = dwread_cp(0);
+                        const HP_Damage = (34*256 - Shield - 3*256) / 2;
+                        SetDeaths(CurrentPlayer, SetTo, 0, 0);           
+                        unit.set_cp(0x08/4); // 체력
+                        SetDeaths(CurrentPlayer, Subtract, HP_Damage, 0); 
+                    }                
+                }
+                unit.set_cp(0x124/4); // 애시드 스포어
+                SetDeathsX(CurrentPlayer, SetTo, 10*65536 + 150*16777216, 0, 0xFFFF0000);
+                unit.set_cp(0x128/4); // 애시드 스포어(2)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);       
+                unit.set_cp(0x12C/4); // 애시드 스포어(3)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);      
+            }  
+
+            unit.set_cp(0x124/4); // 애시드 스포어(1-4)
+            if (DeathsX(CurrentPlayer, Exactly, 9*65536, 0, 0xFF0000)) {      
+                unit.set_cp(0x60/4); // 쉴드
+                if (Deaths(CurrentPlayer, AtLeast, 37*256, 0)) {
+
+                    SetDeaths(CurrentPlayer, Subtract, 37*256, 0); // 37
+                }
+                else if (Deaths(CurrentPlayer, AtMost, 37*256 - 1, 0)) {
+                    if (Deaths(CurrentPlayer, AtLeast, 34*256, 0)) { // A3 빼기, 얘량 겹치는 숫자 없음 체크
+                        
+                        SetDeaths(CurrentPlayer, SetTo, 0, 0);
+                        unit.set_cp(0x08/4); // 체력
+                        SetDeaths(CurrentPlayer, Subtract, 1, 0);
+                    }
+                    else {
+                        unit.set_cp(0x60/4); // 쉴드
+                        const Shield = dwread_cp(0);
+                        const HP_Damage = (37*256 - Shield - 3*256) / 2;
+                        SetDeaths(CurrentPlayer, SetTo, 0, 0);           
+                        unit.set_cp(0x08/4); // 체력
+                        SetDeaths(CurrentPlayer, Subtract, HP_Damage, 0); 
+                    }                
+                }
+                unit.set_cp(0x124/4); // 애시드 스포어
+                SetDeathsX(CurrentPlayer, SetTo, 10*65536 + 150*16777216, 0, 0xFFFF0000);
+                unit.set_cp(0x128/4); // 애시드 스포어(2)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);       
+                unit.set_cp(0x12C/4); // 애시드 스포어(3)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);      
+            }  
+            unit.set_cp(0x120/4); // 패러사이트
+            SetDeathsX(CurrentPlayer, SetTo, 0, 0, 0xFF00);    
+            unit.set_cp(0x124/4); // 애시드 스포어
+            SetDeathsX(CurrentPlayer, Subtract, 1*65536, 0, 0xFF0000);
+        }
+        unit.set_cp(0x124/4); // 애시드 스포어
+        if (DeathsX(CurrentPlayer, AtLeast, 1*65536, 0, 0xFF0000)) {
+            unit.set_cp(0x08/4); // 체력
+            if (Deaths(CurrentPlayer, AtMost, 0, 0)) {
+                
+                unit.set_cp(0x4C/4); // 명령
+                SetDeathsX(CurrentPlayer, SetTo, 0, 0, 0xFF00);
+            }
+        }
+    }
+    foreach(unit : P_S1A4.cploop){ // P_S1A4
+		foreach(dead : unit.dying){} //사망 시 발동
+        if (Switch("Switch 27", Set)) { //아비터 죽어도 14초 정도 유지 되나 확인해보기
+            unit.set_cp(0x118/4); // 스테이시스 필드
+            if (DeathsX(CurrentPlayer, Exactly, 101*256, 0, 0xFF00)) { // 스테이시스 필드
+                
+                SetDeathsX(CurrentPlayer, SetTo, 1*256, 0, 0xFF00);
+            }
+        }
+        
+        unit.set_cp(0x120/4); // 블라인드
+        if (DeathsX(CurrentPlayer, AtLeast, 1*16777216, 0, 0xFF000000)) { // 블라인드 인식
+
+            SetDeathsX(CurrentPlayer, SetTo, 0, 0, 0xFF000000);
+            unit.set_cp(0x124/4); // 애시드 스포어(1)
+            SetDeathsX(CurrentPlayer, SetTo, 9*65536 + 150*16777216, 0, 0xFFFF0000);
+            unit.set_cp(0x128/4); // 애시드 스포어(2)
+            SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+            unit.set_cp(0x12C/4); // 애시드 스포어(3)
+            SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+            unit.set_cp(0x114/4); // 인스네어
+            SetDeathsX(CurrentPlayer, Add, 1*65536, 0, 0xFF0000);
+        }
+
+        unit.set_cp(0x120/4); // 패러사이트
+        if (DeathsX(CurrentPlayer, AtLeast, 1*256, 0, 0xFF00)) { // 패러사이트 인식
+            unit.set_cp(0x124/4); // 애시드 스포어(1-1)
+            if (DeathsX(CurrentPlayer, Exactly, 0, 0, 0xFF0000)) {      
+                unit.set_cp(0x60/4); // 쉴드
+                if (Deaths(CurrentPlayer, AtLeast, 28*256, 0)) {
+
+                    SetDeaths(CurrentPlayer, Subtract, 28*256, 0); // 28
+                }
+                else if (Deaths(CurrentPlayer, AtMost, 28*256 - 1, 0)) {
+                    if (Deaths(CurrentPlayer, AtLeast, 24*256, 0)) { // A4 빼기, 얘량 겹치는 숫자 없음 체크
+                        
+                        SetDeaths(CurrentPlayer, SetTo, 0, 0);
+                        unit.set_cp(0x08/4); // 체력
+                        SetDeaths(CurrentPlayer, Subtract, 1, 0);
+                    }
+                    else {
+                        unit.set_cp(0x60/4); // 쉴드
+                        const Shield = dwread_cp(0);
+                        const HP_Damage = (28*256 - Shield - 4*256) / 2;
+                        SetDeaths(CurrentPlayer, SetTo, 0, 0);           
+                        unit.set_cp(0x08/4); // 체력
+                        SetDeaths(CurrentPlayer, Subtract, HP_Damage, 0); 
+                    }                
+                }
+                unit.set_cp(0x124/4); // 애시드 스포어
+                SetDeathsX(CurrentPlayer, SetTo, 4*65536 + 150*16777216, 0, 0xFFFF0000);
+                unit.set_cp(0x128/4); // 애시드 스포어(2)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256, 0);       
+            }
+
+            unit.set_cp(0x124/4); // 애시드 스포어(1-2)
+            if (DeathsX(CurrentPlayer, Exactly, 3*65536, 0, 0xFF0000)) {      
+                unit.set_cp(0x60/4); // 쉴드
+                if (Deaths(CurrentPlayer, AtLeast, 31*256, 0)) {
+
+                    SetDeaths(CurrentPlayer, Subtract, 31*256, 0); // 31
+                }
+                else if (Deaths(CurrentPlayer, AtMost, 31*256 - 1, 0)) {
+                    if (Deaths(CurrentPlayer, AtLeast, 27*256, 0)) { // A4 빼기, 얘량 겹치는 숫자 없음 체크
+                        
+                        SetDeaths(CurrentPlayer, SetTo, 0, 0);
+                        unit.set_cp(0x08/4); // 체력
+                        SetDeaths(CurrentPlayer, Subtract, 1, 0);
+                    }
+                    else {
+                        unit.set_cp(0x60/4); // 쉴드
+                        const Shield = dwread_cp(0);
+                        const HP_Damage = (31*256 - Shield - 4*256) / 2;
+                        SetDeaths(CurrentPlayer, SetTo, 0, 0);           
+                        unit.set_cp(0x08/4); // 체력
+                        SetDeaths(CurrentPlayer, Subtract, HP_Damage, 0); 
+                    }                
+                }
+                unit.set_cp(0x124/4); // 애시드 스포어
+                SetDeathsX(CurrentPlayer, SetTo, 7*65536 + 150*16777216, 0, 0xFFFF0000);
+                unit.set_cp(0x128/4); // 애시드 스포어(2)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);       
+                unit.set_cp(0x12C/4); // 애시드 스포어(3)
+                SetDeaths(CurrentPlayer, SetTo, 150, 0);       
+            }  
+
+            unit.set_cp(0x124/4); // 애시드 스포어(1-3)
+            if (DeathsX(CurrentPlayer, Exactly, 6*65536, 0, 0xFF0000)) {      
+                unit.set_cp(0x60/4); // 쉴드
+                if (Deaths(CurrentPlayer, AtLeast, 34*256, 0)) {
+
+                    SetDeaths(CurrentPlayer, Subtract, 34*256, 0); // 34
+                }
+                else if (Deaths(CurrentPlayer, AtMost, 34*256 - 1, 0)) {
+                    if (Deaths(CurrentPlayer, AtLeast, 30*256, 0)) { // A4 빼기, 얘량 겹치는 숫자 없음 체크
+                        
+                        SetDeaths(CurrentPlayer, SetTo, 0, 0);
+                        unit.set_cp(0x08/4); // 체력
+                        SetDeaths(CurrentPlayer, Subtract, 1, 0);
+                    }
+                    else {
+                        unit.set_cp(0x60/4); // 쉴드
+                        const Shield = dwread_cp(0);
+                        const HP_Damage = (34*256 - Shield - 4*256) / 2;
+                        SetDeaths(CurrentPlayer, SetTo, 0, 0);           
+                        unit.set_cp(0x08/4); // 체력
+                        SetDeaths(CurrentPlayer, Subtract, HP_Damage, 0); 
+                    }                
+                }
+                unit.set_cp(0x124/4); // 애시드 스포어
+                SetDeathsX(CurrentPlayer, SetTo, 10*65536 + 150*16777216, 0, 0xFFFF0000);
+                unit.set_cp(0x128/4); // 애시드 스포어(2)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);       
+                unit.set_cp(0x12C/4); // 애시드 스포어(3)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);      
+            }  
+
+            unit.set_cp(0x124/4); // 애시드 스포어(1-4)
+            if (DeathsX(CurrentPlayer, Exactly, 9*65536, 0, 0xFF0000)) {      
+                unit.set_cp(0x60/4); // 쉴드
+                if (Deaths(CurrentPlayer, AtLeast, 37*256, 0)) {
+
+                    SetDeaths(CurrentPlayer, Subtract, 37*256, 0); // 37
+                }
+                else if (Deaths(CurrentPlayer, AtMost, 37*256 - 1, 0)) {
+                    if (Deaths(CurrentPlayer, AtLeast, 33*256, 0)) { // A4 빼기, 얘량 겹치는 숫자 없음 체크
+                        
+                        SetDeaths(CurrentPlayer, SetTo, 0, 0);
+                        unit.set_cp(0x08/4); // 체력
+                        SetDeaths(CurrentPlayer, Subtract, 1, 0);
+                    }
+                    else {
+                        unit.set_cp(0x60/4); // 쉴드
+                        const Shield = dwread_cp(0);
+                        const HP_Damage = (37*256 - Shield - 4*256) / 2;
+                        SetDeaths(CurrentPlayer, SetTo, 0, 0);           
+                        unit.set_cp(0x08/4); // 체력
+                        SetDeaths(CurrentPlayer, Subtract, HP_Damage, 0); 
+                    }                
+                }
+                unit.set_cp(0x124/4); // 애시드 스포어
+                SetDeathsX(CurrentPlayer, SetTo, 10*65536 + 150*16777216, 0, 0xFFFF0000);
+                unit.set_cp(0x128/4); // 애시드 스포어(2)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);       
+                unit.set_cp(0x12C/4); // 애시드 스포어(3)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);      
+            }  
+            unit.set_cp(0x120/4); // 패러사이트
+            SetDeathsX(CurrentPlayer, SetTo, 0, 0, 0xFF00);    
+            unit.set_cp(0x124/4); // 애시드 스포어
+            SetDeathsX(CurrentPlayer, Subtract, 1*65536, 0, 0xFF0000);
+        }
+        unit.set_cp(0x124/4); // 애시드 스포어
+        if (DeathsX(CurrentPlayer, AtLeast, 1*65536, 0, 0xFF0000)) {
+            unit.set_cp(0x08/4); // 체력
+            if (Deaths(CurrentPlayer, AtMost, 0, 0)) {
+                
+                unit.set_cp(0x4C/4); // 명령
+                SetDeathsX(CurrentPlayer, SetTo, 0, 0, 0xFF00);
+            }
+        }
+    }
+    foreach(unit : P_M1A4.cploop){ // P_M1A4
+		foreach(dead : unit.dying){} //사망 시 발동
+        if (Switch("Switch 27", Set)) { //아비터 죽어도 14초 정도 유지 되나 확인해보기
+            unit.set_cp(0x118/4); // 스테이시스 필드
+            if (DeathsX(CurrentPlayer, Exactly, 101*256, 0, 0xFF00)) { // 스테이시스 필드
+                
+                SetDeathsX(CurrentPlayer, SetTo, 1*256, 0, 0xFF00);
+            }
+        }
+        
+        unit.set_cp(0x120/4); // 블라인드
+        if (DeathsX(CurrentPlayer, AtLeast, 1*16777216, 0, 0xFF000000)) { // 블라인드 인식
+
+            SetDeathsX(CurrentPlayer, SetTo, 0, 0, 0xFF000000);
+            unit.set_cp(0x124/4); // 애시드 스포어(1)
+            SetDeathsX(CurrentPlayer, SetTo, 9*65536 + 150*16777216, 0, 0xFFFF0000);
+            unit.set_cp(0x128/4); // 애시드 스포어(2)
+            SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+            unit.set_cp(0x12C/4); // 애시드 스포어(3)
+            SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+            unit.set_cp(0x114/4); // 인스네어
+            SetDeathsX(CurrentPlayer, Add, 1*65536, 0, 0xFF0000);
+        }
+
+        unit.set_cp(0x120/4); // 패러사이트
+        if (DeathsX(CurrentPlayer, AtLeast, 1*256, 0, 0xFF00)) { // 패러사이트 인식
+            unit.set_cp(0x124/4); // 애시드 스포어(1-1)
+            if (DeathsX(CurrentPlayer, Exactly, 0, 0, 0xFF0000)) {      
+                unit.set_cp(0x60/4); // 쉴드
+                if (Deaths(CurrentPlayer, AtLeast, 28*256, 0)) {
+
+                    SetDeaths(CurrentPlayer, Subtract, 28*256, 0); // 28
+                }
+                else if (Deaths(CurrentPlayer, AtMost, 28*256 - 1, 0)) {
+                    if (Deaths(CurrentPlayer, AtLeast, 24*256, 0)) { // A4 빼기, 얘량 겹치는 숫자 없음 체크
+                        
+                        SetDeaths(CurrentPlayer, SetTo, 0, 0);
+                        unit.set_cp(0x08/4); // 체력
+                        SetDeaths(CurrentPlayer, Subtract, 1, 0);
+                    }
+                    else {
+                        unit.set_cp(0x60/4); // 쉴드
+                        const Shield = dwread_cp(0);
+                        const HP_Damage = (28*256 - Shield - 4*256)*75/100;
+                        SetDeaths(CurrentPlayer, SetTo, 0, 0);           
+                        unit.set_cp(0x08/4); // 체력
+                        SetDeaths(CurrentPlayer, Subtract, HP_Damage, 0); 
+                    }                
+                }
+                unit.set_cp(0x124/4); // 애시드 스포어
+                SetDeathsX(CurrentPlayer, SetTo, 4*65536 + 150*16777216, 0, 0xFFFF0000);
+                unit.set_cp(0x128/4); // 애시드 스포어(2)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256, 0);       
+            }
+
+            unit.set_cp(0x124/4); // 애시드 스포어(1-2)
+            if (DeathsX(CurrentPlayer, Exactly, 3*65536, 0, 0xFF0000)) {      
+                unit.set_cp(0x60/4); // 쉴드
+                if (Deaths(CurrentPlayer, AtLeast, 31*256, 0)) {
+
+                    SetDeaths(CurrentPlayer, Subtract, 31*256, 0); // 31
+                }
+                else if (Deaths(CurrentPlayer, AtMost, 31*256 - 1, 0)) {
+                    if (Deaths(CurrentPlayer, AtLeast, 27*256, 0)) { // A4 빼기, 얘량 겹치는 숫자 없음 체크
+                        
+                        SetDeaths(CurrentPlayer, SetTo, 0, 0);
+                        unit.set_cp(0x08/4); // 체력
+                        SetDeaths(CurrentPlayer, Subtract, 1, 0);
+                    }
+                    else {
+                        unit.set_cp(0x60/4); // 쉴드
+                        const Shield = dwread_cp(0);
+                        const HP_Damage = (31*256 - Shield - 4*256)*75/100;
+                        SetDeaths(CurrentPlayer, SetTo, 0, 0);           
+                        unit.set_cp(0x08/4); // 체력
+                        SetDeaths(CurrentPlayer, Subtract, HP_Damage, 0); 
+                    }                
+                }
+                unit.set_cp(0x124/4); // 애시드 스포어
+                SetDeathsX(CurrentPlayer, SetTo, 7*65536 + 150*16777216, 0, 0xFFFF0000);
+                unit.set_cp(0x128/4); // 애시드 스포어(2)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);       
+                unit.set_cp(0x12C/4); // 애시드 스포어(3)
+                SetDeaths(CurrentPlayer, SetTo, 150, 0);       
+            }  
+
+            unit.set_cp(0x124/4); // 애시드 스포어(1-3)
+            if (DeathsX(CurrentPlayer, Exactly, 6*65536, 0, 0xFF0000)) {      
+                unit.set_cp(0x60/4); // 쉴드
+                if (Deaths(CurrentPlayer, AtLeast, 34*256, 0)) {
+
+                    SetDeaths(CurrentPlayer, Subtract, 34*256, 0); // 34
+                }
+                else if (Deaths(CurrentPlayer, AtMost, 34*256 - 1, 0)) {
+                    if (Deaths(CurrentPlayer, AtLeast, 30*256, 0)) { // A4 빼기, 얘량 겹치는 숫자 없음 체크
+                        
+                        SetDeaths(CurrentPlayer, SetTo, 0, 0);
+                        unit.set_cp(0x08/4); // 체력
+                        SetDeaths(CurrentPlayer, Subtract, 1, 0);
+                    }
+                    else {
+                        unit.set_cp(0x60/4); // 쉴드
+                        const Shield = dwread_cp(0);
+                        const HP_Damage = (34*256 - Shield - 4*256)*75/100;
+                        SetDeaths(CurrentPlayer, SetTo, 0, 0);           
+                        unit.set_cp(0x08/4); // 체력
+                        SetDeaths(CurrentPlayer, Subtract, HP_Damage, 0); 
+                    }                
+                }
+                unit.set_cp(0x124/4); // 애시드 스포어
+                SetDeathsX(CurrentPlayer, SetTo, 10*65536 + 150*16777216, 0, 0xFFFF0000);
+                unit.set_cp(0x128/4); // 애시드 스포어(2)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);       
+                unit.set_cp(0x12C/4); // 애시드 스포어(3)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);      
+            }  
+
+            unit.set_cp(0x124/4); // 애시드 스포어(1-4)
+            if (DeathsX(CurrentPlayer, Exactly, 9*65536, 0, 0xFF0000)) {      
+                unit.set_cp(0x60/4); // 쉴드
+                if (Deaths(CurrentPlayer, AtLeast, 37*256, 0)) {
+
+                    SetDeaths(CurrentPlayer, Subtract, 37*256, 0); // 37
+                }
+                else if (Deaths(CurrentPlayer, AtMost, 37*256 - 1, 0)) {
+                    if (Deaths(CurrentPlayer, AtLeast, 33*256, 0)) { // A4 빼기, 얘량 겹치는 숫자 없음 체크
+                        
+                        SetDeaths(CurrentPlayer, SetTo, 0, 0);
+                        unit.set_cp(0x08/4); // 체력
+                        SetDeaths(CurrentPlayer, Subtract, 1, 0);
+                    }
+                    else {
+                        unit.set_cp(0x60/4); // 쉴드
+                        const Shield = dwread_cp(0);
+                        const HP_Damage = (37*256 - Shield - 4*256)*75/100;
+                        SetDeaths(CurrentPlayer, SetTo, 0, 0);           
+                        unit.set_cp(0x08/4); // 체력
+                        SetDeaths(CurrentPlayer, Subtract, HP_Damage, 0); 
+                    }                
+                }
+                unit.set_cp(0x124/4); // 애시드 스포어
+                SetDeathsX(CurrentPlayer, SetTo, 10*65536 + 150*16777216, 0, 0xFFFF0000);
+                unit.set_cp(0x128/4); // 애시드 스포어(2)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);       
+                unit.set_cp(0x12C/4); // 애시드 스포어(3)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);      
+            }  
+            unit.set_cp(0x120/4); // 패러사이트
+            SetDeathsX(CurrentPlayer, SetTo, 0, 0, 0xFF00);    
+            unit.set_cp(0x124/4); // 애시드 스포어
+            SetDeathsX(CurrentPlayer, Subtract, 1*65536, 0, 0xFF0000);
+        }
+        unit.set_cp(0x124/4); // 애시드 스포어
+        if (DeathsX(CurrentPlayer, AtLeast, 1*65536, 0, 0xFF0000)) {
+            unit.set_cp(0x08/4); // 체력
+            if (Deaths(CurrentPlayer, AtMost, 0, 0)) {
+                
+                unit.set_cp(0x4C/4); // 명령
+                SetDeathsX(CurrentPlayer, SetTo, 0, 0, 0xFF00);
+            }
+        }
+    }
+    foreach(unit : P_B1A3.cploop){ // P_B1A3
+		foreach(dead : unit.dying){} //사망 시 발동
+        if (Switch("Switch 27", Set)) { //아비터 죽어도 14초 정도 유지 되나 확인해보기
+            unit.set_cp(0x118/4); // 스테이시스 필드
+            if (DeathsX(CurrentPlayer, Exactly, 101*256, 0, 0xFF00)) { // 스테이시스 필드
+                
+                SetDeathsX(CurrentPlayer, SetTo, 1*256, 0, 0xFF00);
+            }
+        }
+        
+        unit.set_cp(0x120/4); // 블라인드
+        if (DeathsX(CurrentPlayer, AtLeast, 1*16777216, 0, 0xFF000000)) { // 블라인드 인식
+
+            SetDeathsX(CurrentPlayer, SetTo, 0, 0, 0xFF000000);
+            unit.set_cp(0x124/4); // 애시드 스포어(1)
+            SetDeathsX(CurrentPlayer, SetTo, 9*65536 + 150*16777216, 0, 0xFFFF0000);
+            unit.set_cp(0x128/4); // 애시드 스포어(2)
+            SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+            unit.set_cp(0x12C/4); // 애시드 스포어(3)
+            SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+            unit.set_cp(0x114/4); // 인스네어
+            SetDeathsX(CurrentPlayer, Add, 1*65536, 0, 0xFF0000);
+        }
+
+        unit.set_cp(0x120/4); // 패러사이트
+        if (DeathsX(CurrentPlayer, AtLeast, 1*256, 0, 0xFF00)) { // 패러사이트 인식
+            unit.set_cp(0x124/4); // 애시드 스포어(1-1)
+            if (DeathsX(CurrentPlayer, Exactly, 0, 0, 0xFF0000)) {      
+                unit.set_cp(0x60/4); // 쉴드
+                if (Deaths(CurrentPlayer, AtLeast, 28*256, 0)) {
+
+                    SetDeaths(CurrentPlayer, Subtract, 28*256, 0); // 28
+                }
+                else if (Deaths(CurrentPlayer, AtMost, 28*256 - 1, 0)) {
+                    if (Deaths(CurrentPlayer, AtLeast, 25*256, 0)) { // A3 빼기, 얘량 겹치는 숫자 없음 체크
+                        
+                        SetDeaths(CurrentPlayer, SetTo, 0, 0);
+                        unit.set_cp(0x08/4); // 체력
+                        SetDeaths(CurrentPlayer, Subtract, 1, 0);
+                    }
+                    else {
+                        unit.set_cp(0x60/4); // 쉴드
+                        const Shield = dwread_cp(0);
+                        const HP_Damage = 28*256 - Shield - 3*256;
+                        SetDeaths(CurrentPlayer, SetTo, 0, 0);           
+                        unit.set_cp(0x08/4); // 체력
+                        SetDeaths(CurrentPlayer, Subtract, HP_Damage, 0); 
+                    }                
+                }
+                unit.set_cp(0x124/4); // 애시드 스포어
+                SetDeathsX(CurrentPlayer, SetTo, 4*65536 + 150*16777216, 0, 0xFFFF0000);
+                unit.set_cp(0x128/4); // 애시드 스포어(2)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256, 0);       
+            }
+
+            unit.set_cp(0x124/4); // 애시드 스포어(1-2)
+            if (DeathsX(CurrentPlayer, Exactly, 3*65536, 0, 0xFF0000)) {      
+                unit.set_cp(0x60/4); // 쉴드
+                if (Deaths(CurrentPlayer, AtLeast, 31*256, 0)) {
+
+                    SetDeaths(CurrentPlayer, Subtract, 31*256, 0); // 31
+                }
+                else if (Deaths(CurrentPlayer, AtMost, 31*256 - 1, 0)) {
+                    if (Deaths(CurrentPlayer, AtLeast, 28*256, 0)) { // A3 빼기, 얘량 겹치는 숫자 없음 체크
+                        
+                        SetDeaths(CurrentPlayer, SetTo, 0, 0);
+                        unit.set_cp(0x08/4); // 체력
+                        SetDeaths(CurrentPlayer, Subtract, 1, 0);
+                    }
+                    else {
+                        unit.set_cp(0x60/4); // 쉴드
+                        const Shield = dwread_cp(0);
+                        const HP_Damage = 31*256 - Shield - 3*256;
+                        SetDeaths(CurrentPlayer, SetTo, 0, 0);           
+                        unit.set_cp(0x08/4); // 체력
+                        SetDeaths(CurrentPlayer, Subtract, HP_Damage, 0); 
+                    }                
+                }
+                unit.set_cp(0x124/4); // 애시드 스포어
+                SetDeathsX(CurrentPlayer, SetTo, 7*65536 + 150*16777216, 0, 0xFFFF0000);
+                unit.set_cp(0x128/4); // 애시드 스포어(2)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);       
+                unit.set_cp(0x12C/4); // 애시드 스포어(3)
+                SetDeaths(CurrentPlayer, SetTo, 150, 0);       
+            }  
+
+            unit.set_cp(0x124/4); // 애시드 스포어(1-3)
+            if (DeathsX(CurrentPlayer, Exactly, 6*65536, 0, 0xFF0000)) {      
+                unit.set_cp(0x60/4); // 쉴드
+                if (Deaths(CurrentPlayer, AtLeast, 34*256, 0)) {
+
+                    SetDeaths(CurrentPlayer, Subtract, 34*256, 0); // 34
+                }
+                else if (Deaths(CurrentPlayer, AtMost, 34*256 - 1, 0)) {
+                    if (Deaths(CurrentPlayer, AtLeast, 31*256, 0)) { // A3 빼기, 얘량 겹치는 숫자 없음 체크
+                        
+                        SetDeaths(CurrentPlayer, SetTo, 0, 0);
+                        unit.set_cp(0x08/4); // 체력
+                        SetDeaths(CurrentPlayer, Subtract, 1, 0);
+                    }
+                    else {
+                        unit.set_cp(0x60/4); // 쉴드
+                        const Shield = dwread_cp(0);
+                        const HP_Damage = 34*256 - Shield - 3*256;
+                        SetDeaths(CurrentPlayer, SetTo, 0, 0);           
+                        unit.set_cp(0x08/4); // 체력
+                        SetDeaths(CurrentPlayer, Subtract, HP_Damage, 0); 
+                    }                
+                }
+                unit.set_cp(0x124/4); // 애시드 스포어
+                SetDeathsX(CurrentPlayer, SetTo, 10*65536 + 150*16777216, 0, 0xFFFF0000);
+                unit.set_cp(0x128/4); // 애시드 스포어(2)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);       
+                unit.set_cp(0x12C/4); // 애시드 스포어(3)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);      
+            }  
+
+            unit.set_cp(0x124/4); // 애시드 스포어(1-4)
+            if (DeathsX(CurrentPlayer, Exactly, 9*65536, 0, 0xFF0000)) {      
+                unit.set_cp(0x60/4); // 쉴드
+                if (Deaths(CurrentPlayer, AtLeast, 37*256, 0)) {
+
+                    SetDeaths(CurrentPlayer, Subtract, 37*256, 0); // 37
+                }
+                else if (Deaths(CurrentPlayer, AtMost, 37*256 - 1, 0)) {
+                    if (Deaths(CurrentPlayer, AtLeast, 34*256, 0)) { // A3 빼기, 얘량 겹치는 숫자 없음 체크
+                        
+                        SetDeaths(CurrentPlayer, SetTo, 0, 0);
+                        unit.set_cp(0x08/4); // 체력
+                        SetDeaths(CurrentPlayer, Subtract, 1, 0);
+                    }
+                    else {
+                        unit.set_cp(0x60/4); // 쉴드
+                        const Shield = dwread_cp(0);
+                        const HP_Damage = 37*256 - Shield - 3*256;
+                        SetDeaths(CurrentPlayer, SetTo, 0, 0);           
+                        unit.set_cp(0x08/4); // 체력
+                        SetDeaths(CurrentPlayer, Subtract, HP_Damage, 0); 
+                    }                
+                }
+                unit.set_cp(0x124/4); // 애시드 스포어
+                SetDeathsX(CurrentPlayer, SetTo, 10*65536 + 150*16777216, 0, 0xFFFF0000);
+                unit.set_cp(0x128/4); // 애시드 스포어(2)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);       
+                unit.set_cp(0x12C/4); // 애시드 스포어(3)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);      
+            }  
+            unit.set_cp(0x120/4); // 패러사이트
+            SetDeathsX(CurrentPlayer, SetTo, 0, 0, 0xFF00);    
+            unit.set_cp(0x124/4); // 애시드 스포어
+            SetDeathsX(CurrentPlayer, Subtract, 1*65536, 0, 0xFF0000);
+        }
+        unit.set_cp(0x124/4); // 애시드 스포어
+        if (DeathsX(CurrentPlayer, AtLeast, 1*65536, 0, 0xFF0000)) {
+            unit.set_cp(0x08/4); // 체력
+            if (Deaths(CurrentPlayer, AtMost, 0, 0)) {
+                
+                unit.set_cp(0x4C/4); // 명령
+                SetDeathsX(CurrentPlayer, SetTo, 0, 0, 0xFF00);
+            }
+        }
+    }
+    foreach(unit : P_B1A4.cploop){ // P_B1A4
+		foreach(dead : unit.dying){} //사망 시 발동
+        if (Switch("Switch 27", Set)) { //아비터 죽어도 14초 정도 유지 되나 확인해보기
+            unit.set_cp(0x118/4); // 스테이시스 필드
+            if (DeathsX(CurrentPlayer, Exactly, 101*256, 0, 0xFF00)) { // 스테이시스 필드
+                
+                SetDeathsX(CurrentPlayer, SetTo, 1*256, 0, 0xFF00);
+            }
+        }
+        
+        unit.set_cp(0x120/4); // 블라인드
+        if (DeathsX(CurrentPlayer, AtLeast, 1*16777216, 0, 0xFF000000)) { // 블라인드 인식
+
+            SetDeathsX(CurrentPlayer, SetTo, 0, 0, 0xFF000000);
+            unit.set_cp(0x124/4); // 애시드 스포어(1)
+            SetDeathsX(CurrentPlayer, SetTo, 9*65536 + 150*16777216, 0, 0xFFFF0000);
+            unit.set_cp(0x128/4); // 애시드 스포어(2)
+            SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+            unit.set_cp(0x12C/4); // 애시드 스포어(3)
+            SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+            unit.set_cp(0x114/4); // 인스네어
+            SetDeathsX(CurrentPlayer, Add, 1*65536, 0, 0xFF0000);
+        }
+
+        unit.set_cp(0x120/4); // 패러사이트
+        if (DeathsX(CurrentPlayer, AtLeast, 1*256, 0, 0xFF00)) { // 패러사이트 인식
+            unit.set_cp(0x124/4); // 애시드 스포어(1-1)
+            if (DeathsX(CurrentPlayer, Exactly, 0, 0, 0xFF0000)) {      
+                unit.set_cp(0x60/4); // 쉴드
+                if (Deaths(CurrentPlayer, AtLeast, 28*256, 0)) {
+
+                    SetDeaths(CurrentPlayer, Subtract, 28*256, 0); // 28
+                }
+                else if (Deaths(CurrentPlayer, AtMost, 28*256 - 1, 0)) {
+                    if (Deaths(CurrentPlayer, AtLeast, 24*256, 0)) { // A4 빼기, 얘량 겹치는 숫자 없음 체크
+                        
+                        SetDeaths(CurrentPlayer, SetTo, 0, 0);
+                        unit.set_cp(0x08/4); // 체력
+                        SetDeaths(CurrentPlayer, Subtract, 1, 0);
+                    }
+                    else {
+                        unit.set_cp(0x60/4); // 쉴드
+                        const Shield = dwread_cp(0);
+                        const HP_Damage = 28*256 - Shield - 4*256;
+                        SetDeaths(CurrentPlayer, SetTo, 0, 0);           
+                        unit.set_cp(0x08/4); // 체력
+                        SetDeaths(CurrentPlayer, Subtract, HP_Damage, 0); 
+                    }                
+                }
+                unit.set_cp(0x124/4); // 애시드 스포어
+                SetDeathsX(CurrentPlayer, SetTo, 4*65536 + 150*16777216, 0, 0xFFFF0000);
+                unit.set_cp(0x128/4); // 애시드 스포어(2)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256, 0);       
+            }
+
+            unit.set_cp(0x124/4); // 애시드 스포어(1-2)
+            if (DeathsX(CurrentPlayer, Exactly, 3*65536, 0, 0xFF0000)) {      
+                unit.set_cp(0x60/4); // 쉴드
+                if (Deaths(CurrentPlayer, AtLeast, 31*256, 0)) {
+
+                    SetDeaths(CurrentPlayer, Subtract, 31*256, 0); // 31
+                }
+                else if (Deaths(CurrentPlayer, AtMost, 31*256 - 1, 0)) {
+                    if (Deaths(CurrentPlayer, AtLeast, 27*256, 0)) { // A4 빼기, 얘량 겹치는 숫자 없음 체크
+                        
+                        SetDeaths(CurrentPlayer, SetTo, 0, 0);
+                        unit.set_cp(0x08/4); // 체력
+                        SetDeaths(CurrentPlayer, Subtract, 1, 0);
+                    }
+                    else {
+                        unit.set_cp(0x60/4); // 쉴드
+                        const Shield = dwread_cp(0);
+                        const HP_Damage = 31*256 - Shield - 4*256;
+                        SetDeaths(CurrentPlayer, SetTo, 0, 0);           
+                        unit.set_cp(0x08/4); // 체력
+                        SetDeaths(CurrentPlayer, Subtract, HP_Damage, 0); 
+                    }                
+                }
+                unit.set_cp(0x124/4); // 애시드 스포어
+                SetDeathsX(CurrentPlayer, SetTo, 7*65536 + 150*16777216, 0, 0xFFFF0000);
+                unit.set_cp(0x128/4); // 애시드 스포어(2)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);       
+                unit.set_cp(0x12C/4); // 애시드 스포어(3)
+                SetDeaths(CurrentPlayer, SetTo, 150, 0);       
+            }  
+
+            unit.set_cp(0x124/4); // 애시드 스포어(1-3)
+            if (DeathsX(CurrentPlayer, Exactly, 6*65536, 0, 0xFF0000)) {      
+                unit.set_cp(0x60/4); // 쉴드
+                if (Deaths(CurrentPlayer, AtLeast, 34*256, 0)) {
+
+                    SetDeaths(CurrentPlayer, Subtract, 34*256, 0); // 34
+                }
+                else if (Deaths(CurrentPlayer, AtMost, 34*256 - 1, 0)) {
+                    if (Deaths(CurrentPlayer, AtLeast, 30*256, 0)) { // A4 빼기, 얘량 겹치는 숫자 없음 체크
+                        
+                        SetDeaths(CurrentPlayer, SetTo, 0, 0);
+                        unit.set_cp(0x08/4); // 체력
+                        SetDeaths(CurrentPlayer, Subtract, 1, 0);
+                    }
+                    else {
+                        unit.set_cp(0x60/4); // 쉴드
+                        const Shield = dwread_cp(0);
+                        const HP_Damage = 34*256 - Shield - 4*256;
+                        SetDeaths(CurrentPlayer, SetTo, 0, 0);           
+                        unit.set_cp(0x08/4); // 체력
+                        SetDeaths(CurrentPlayer, Subtract, HP_Damage, 0); 
+                    }                
+                }
+                unit.set_cp(0x124/4); // 애시드 스포어
+                SetDeathsX(CurrentPlayer, SetTo, 10*65536 + 150*16777216, 0, 0xFFFF0000);
+                unit.set_cp(0x128/4); // 애시드 스포어(2)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);       
+                unit.set_cp(0x12C/4); // 애시드 스포어(3)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);      
+            }  
+
+            unit.set_cp(0x124/4); // 애시드 스포어(1-4)
+            if (DeathsX(CurrentPlayer, Exactly, 9*65536, 0, 0xFF0000)) {      
+                unit.set_cp(0x60/4); // 쉴드
+                if (Deaths(CurrentPlayer, AtLeast, 37*256, 0)) {
+
+                    SetDeaths(CurrentPlayer, Subtract, 37*256, 0); // 37
+                }
+                else if (Deaths(CurrentPlayer, AtMost, 37*256 - 1, 0)) {
+                    if (Deaths(CurrentPlayer, AtLeast, 33*256, 0)) { // A4 빼기, 얘량 겹치는 숫자 없음 체크
+                        
+                        SetDeaths(CurrentPlayer, SetTo, 0, 0);
+                        unit.set_cp(0x08/4); // 체력
+                        SetDeaths(CurrentPlayer, Subtract, 1, 0);
+                    }
+                    else {
+                        unit.set_cp(0x60/4); // 쉴드
+                        const Shield = dwread_cp(0);
+                        const HP_Damage = 37*256 - Shield - 4*256;
+                        SetDeaths(CurrentPlayer, SetTo, 0, 0);           
+                        unit.set_cp(0x08/4); // 체력
+                        SetDeaths(CurrentPlayer, Subtract, HP_Damage, 0); 
+                    }                
+                }
+                unit.set_cp(0x124/4); // 애시드 스포어
+                SetDeathsX(CurrentPlayer, SetTo, 10*65536 + 150*16777216, 0, 0xFFFF0000);
+                unit.set_cp(0x128/4); // 애시드 스포어(2)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);       
+                unit.set_cp(0x12C/4); // 애시드 스포어(3)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);      
+            }  
+            unit.set_cp(0x120/4); // 패러사이트
+            SetDeathsX(CurrentPlayer, SetTo, 0, 0, 0xFF00);    
+            unit.set_cp(0x124/4); // 애시드 스포어
+            SetDeathsX(CurrentPlayer, Subtract, 1*65536, 0, 0xFF0000);
+        }
+        unit.set_cp(0x124/4); // 애시드 스포어
+        if (DeathsX(CurrentPlayer, AtLeast, 1*65536, 0, 0xFF0000)) {
+            unit.set_cp(0x08/4); // 체력
+            if (Deaths(CurrentPlayer, AtMost, 0, 0)) {
+                
+                unit.set_cp(0x4C/4); // 명령
+                SetDeathsX(CurrentPlayer, SetTo, 0, 0, 0xFF00);
+            }
+        }
+    }
+    foreach(unit : P_B1A7.cploop){ // P_B1A7
+		foreach(dead : unit.dying){} //사망 시 발동
+        if (Switch("Switch 27", Set)) { //아비터 죽어도 14초 정도 유지 되나 확인해보기
+            unit.set_cp(0x118/4); // 스테이시스 필드
+            if (DeathsX(CurrentPlayer, Exactly, 101*256, 0, 0xFF00)) { // 스테이시스 필드
+                
+                SetDeathsX(CurrentPlayer, SetTo, 1*256, 0, 0xFF00);
+            }
+        }
+        
+        unit.set_cp(0x120/4); // 블라인드
+        if (DeathsX(CurrentPlayer, AtLeast, 1*16777216, 0, 0xFF000000)) { // 블라인드 인식
+
+            SetDeathsX(CurrentPlayer, SetTo, 0, 0, 0xFF000000);
+            unit.set_cp(0x124/4); // 애시드 스포어(1)
+            SetDeathsX(CurrentPlayer, SetTo, 9*65536 + 150*16777216, 0, 0xFFFF0000);
+            unit.set_cp(0x128/4); // 애시드 스포어(2)
+            SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+            unit.set_cp(0x12C/4); // 애시드 스포어(3)
+            SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+            unit.set_cp(0x114/4); // 인스네어
+            SetDeathsX(CurrentPlayer, Add, 1*65536, 0, 0xFF0000);
+        }
+
+        unit.set_cp(0x120/4); // 패러사이트
+        if (DeathsX(CurrentPlayer, AtLeast, 1*256, 0, 0xFF00)) { // 패러사이트 인식
+            unit.set_cp(0x124/4); // 애시드 스포어(1-1)
+            if (DeathsX(CurrentPlayer, Exactly, 0, 0, 0xFF0000)) {      
+                unit.set_cp(0x60/4); // 쉴드
+                if (Deaths(CurrentPlayer, AtLeast, 28*256, 0)) {
+
+                    SetDeaths(CurrentPlayer, Subtract, 28*256, 0); // 28
+                }
+                else if (Deaths(CurrentPlayer, AtMost, 28*256 - 1, 0)) {
+                    if (Deaths(CurrentPlayer, AtLeast, 21*256, 0)) { // A7 빼기, 얘량 겹치는 숫자 없음 체크
+                        
+                        SetDeaths(CurrentPlayer, SetTo, 0, 0);
+                        unit.set_cp(0x08/4); // 체력
+                        SetDeaths(CurrentPlayer, Subtract, 1, 0);
+                    }
+                    else {
+                        unit.set_cp(0x60/4); // 쉴드
+                        const Shield = dwread_cp(0);
+                        const HP_Damage = 28*256 - Shield - 7*256;
+                        SetDeaths(CurrentPlayer, SetTo, 0, 0);           
+                        unit.set_cp(0x08/4); // 체력
+                        SetDeaths(CurrentPlayer, Subtract, HP_Damage, 0); 
+                    }                
+                }
+                unit.set_cp(0x124/4); // 애시드 스포어
+                SetDeathsX(CurrentPlayer, SetTo, 4*65536 + 150*16777216, 0, 0xFFFF0000);
+                unit.set_cp(0x128/4); // 애시드 스포어(2)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256, 0);       
+            }
+
+            unit.set_cp(0x124/4); // 애시드 스포어(1-2)
+            if (DeathsX(CurrentPlayer, Exactly, 3*65536, 0, 0xFF0000)) {      
+                unit.set_cp(0x60/4); // 쉴드
+                if (Deaths(CurrentPlayer, AtLeast, 31*256, 0)) {
+
+                    SetDeaths(CurrentPlayer, Subtract, 31*256, 0); // 31
+                }
+                else if (Deaths(CurrentPlayer, AtMost, 31*256 - 1, 0)) {
+                    if (Deaths(CurrentPlayer, AtLeast, 24*256, 0)) { // A7 빼기, 얘량 겹치는 숫자 없음 체크
+                        
+                        SetDeaths(CurrentPlayer, SetTo, 0, 0);
+                        unit.set_cp(0x08/4); // 체력
+                        SetDeaths(CurrentPlayer, Subtract, 1, 0);
+                    }
+                    else {
+                        unit.set_cp(0x60/4); // 쉴드
+                        const Shield = dwread_cp(0);
+                        const HP_Damage = 31*256 - Shield - 7*256;
+                        SetDeaths(CurrentPlayer, SetTo, 0, 0);           
+                        unit.set_cp(0x08/4); // 체력
+                        SetDeaths(CurrentPlayer, Subtract, HP_Damage, 0); 
+                    }                
+                }
+                unit.set_cp(0x124/4); // 애시드 스포어
+                SetDeathsX(CurrentPlayer, SetTo, 7*65536 + 150*16777216, 0, 0xFFFF0000);
+                unit.set_cp(0x128/4); // 애시드 스포어(2)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);       
+                unit.set_cp(0x12C/4); // 애시드 스포어(3)
+                SetDeaths(CurrentPlayer, SetTo, 150, 0);       
+            }  
+
+            unit.set_cp(0x124/4); // 애시드 스포어(1-3)
+            if (DeathsX(CurrentPlayer, Exactly, 6*65536, 0, 0xFF0000)) {      
+                unit.set_cp(0x60/4); // 쉴드
+                if (Deaths(CurrentPlayer, AtLeast, 34*256, 0)) {
+
+                    SetDeaths(CurrentPlayer, Subtract, 34*256, 0); // 34
+                }
+                else if (Deaths(CurrentPlayer, AtMost, 34*256 - 1, 0)) {
+                    if (Deaths(CurrentPlayer, AtLeast, 27*256, 0)) { // A7 빼기, 얘량 겹치는 숫자 없음 체크
+                        
+                        SetDeaths(CurrentPlayer, SetTo, 0, 0);
+                        unit.set_cp(0x08/4); // 체력
+                        SetDeaths(CurrentPlayer, Subtract, 1, 0);
+                    }
+                    else {
+                        unit.set_cp(0x60/4); // 쉴드
+                        const Shield = dwread_cp(0);
+                        const HP_Damage = 34*256 - Shield - 7*256;
+                        SetDeaths(CurrentPlayer, SetTo, 0, 0);           
+                        unit.set_cp(0x08/4); // 체력
+                        SetDeaths(CurrentPlayer, Subtract, HP_Damage, 0); 
+                    }                
+                }
+                unit.set_cp(0x124/4); // 애시드 스포어
+                SetDeathsX(CurrentPlayer, SetTo, 10*65536 + 150*16777216, 0, 0xFFFF0000);
+                unit.set_cp(0x128/4); // 애시드 스포어(2)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);       
+                unit.set_cp(0x12C/4); // 애시드 스포어(3)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);      
+            }  
+
+            unit.set_cp(0x124/4); // 애시드 스포어(1-4)
+            if (DeathsX(CurrentPlayer, Exactly, 9*65536, 0, 0xFF0000)) {      
+                unit.set_cp(0x60/4); // 쉴드
+                if (Deaths(CurrentPlayer, AtLeast, 37*256, 0)) {
+
+                    SetDeaths(CurrentPlayer, Subtract, 37*256, 0); // 37
+                }
+                else if (Deaths(CurrentPlayer, AtMost, 37*256 - 1, 0)) {
+                    if (Deaths(CurrentPlayer, AtLeast, 30*256, 0)) { // A7 빼기, 얘량 겹치는 숫자 없음 체크
+                        
+                        SetDeaths(CurrentPlayer, SetTo, 0, 0);
+                        unit.set_cp(0x08/4); // 체력
+                        SetDeaths(CurrentPlayer, Subtract, 1, 0);
+                    }
+                    else {
+                        unit.set_cp(0x60/4); // 쉴드
+                        const Shield = dwread_cp(0);
+                        const HP_Damage = 37*256 - Shield - 7*256;
+                        SetDeaths(CurrentPlayer, SetTo, 0, 0);           
+                        unit.set_cp(0x08/4); // 체력
+                        SetDeaths(CurrentPlayer, Subtract, HP_Damage, 0); 
+                    }                
+                }
+                unit.set_cp(0x124/4); // 애시드 스포어
+                SetDeathsX(CurrentPlayer, SetTo, 10*65536 + 150*16777216, 0, 0xFFFF0000);
+                unit.set_cp(0x128/4); // 애시드 스포어(2)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);       
+                unit.set_cp(0x12C/4); // 애시드 스포어(3)
+                SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);      
+            }  
+            unit.set_cp(0x120/4); // 패러사이트
+            SetDeathsX(CurrentPlayer, SetTo, 0, 0, 0xFF00);    
+            unit.set_cp(0x124/4); // 애시드 스포어
+            SetDeathsX(CurrentPlayer, Subtract, 1*65536, 0, 0xFF0000);
+        }
+        unit.set_cp(0x124/4); // 애시드 스포어
+        if (DeathsX(CurrentPlayer, AtLeast, 1*65536, 0, 0xFF0000)) {
+            unit.set_cp(0x08/4); // 체력
+            if (Deaths(CurrentPlayer, AtMost, 0, 0)) {
+                
+                unit.set_cp(0x4C/4); // 명령
+                SetDeathsX(CurrentPlayer, SetTo, 0, 0, 0xFF00);
+            }
+        }
+    }
+    foreach(unit : SpiderMine.cploop){ // SpiderMine
+		foreach(dead : unit.dying){} //사망 시 발동
+        unit.set_cp(0x120/4); // 패러사이트
+        if (DeathsX(CurrentPlayer, AtLeast, 1*256, 0, 0xFF00)) { // 패러사이트 인식
+
+            SetDeathsX(CurrentPlayer, SetTo, 0, 0, 0xFF00);
+            unit.set_cp(0x4C/4); // 명령
+            SetDeathsX(CurrentPlayer, SetTo, 0, 0, 0xFF00);
+        } 
+
+        unit.set_cp(0x120/4); // 블라인드
+        if (DeathsX(CurrentPlayer, AtLeast, 1*16777216, 0, 0xFF000000)) { // 블라인드 인식
+
+            SetDeathsX(CurrentPlayer, SetTo, 0, 0, 0xFF000000);
+            unit.set_cp(0x124/4); // 애시드 스포어(1)
+            SetDeathsX(CurrentPlayer, SetTo, 9*65536 + 150*16777216, 0, 0xFFFF0000);
+            unit.set_cp(0x128/4); // 애시드 스포어(2)
+            SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+            unit.set_cp(0x12C/4); // 애시드 스포어(3)
+            SetDeaths(CurrentPlayer, SetTo, 150*1 + 150*256 + 150*65536 + 150*16777216, 0);
+            unit.set_cp(0x114/4); // 인스네어
+            SetDeathsX(CurrentPlayer, Add, 1*65536, 0, 0xFF0000);
+        }
+    }
+}

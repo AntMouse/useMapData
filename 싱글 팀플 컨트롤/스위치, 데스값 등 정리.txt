@@ -1,0 +1,348 @@
+EPS 사용 :	
+
+1
+랜덤 유닛 생산1
+39
+테스트 인식 트리거
+
+
+2
+랜덤 유닛 생산2
+40
+2차테스트스위치
+
+
+3
+랜덤 유닛 생산3
+41
+나간플레이어싱글존유닛안없애기
+
+
+4
+랜덤 유닛 생산4
+
+
+
+
+5
+랜덤 유닛 생산5
+
+
+
+
+6
+랜덤 유닛 생산6
+
+
+
+
+7
+테스트용 스위치
+
+
+
+
+8
+시민다시생산한거주기용
+
+
+
+
+9
+유닛 이동 후 최초 공격1
+
+
+
+
+10
+유닛 이동 후 최초 공격2
+
+
+
+
+11
+유닛 이동 후 최초 공격3
+
+
+
+
+12
+유닛 이동 후 최초 공격4
+
+
+
+
+13
+유닛 이동 후 최초 공격5
+
+
+
+
+14
+유닛 이동 후 최초 공격6
+
+
+
+
+15
+싱글존클리어인식
+
+
+
+
+16
+팀플존이동후최초공격
+
+
+
+
+17
+팀플존최초공격보조1
+
+
+
+
+18
+팀플존최초공격보조2
+
+
+
+
+19
+카운트 34초 줄 경우
+
+
+
+
+20
+랜덤 유닛 생산1
+
+
+
+
+21
+랜덤 유닛 생산2
+
+
+
+
+22
+랜덤 유닛 생산3
+
+
+
+
+23
+랜덤 유닛 생산4
+
+
+
+
+24
+랜덤 유닛 생산5
+
+
+
+
+25
+랜덤 유닛 생산6
+
+
+
+
+26
+프로브초기화오류방지
+
+
+
+
+27
+아비터인식
+
+
+
+
+28
+디바우러인식
+
+
+
+
+29
+테스트 카운트 다운 고정
+
+
+
+
+30
+스팀 랜덤 소리
+
+
+
+
+31
+디바우러 애시드 스포어 관리
+
+
+
+
+32
+캐리어 인식
+
+
+
+
+33
+시즈탱크팀플존 안 가는현상
+
+
+
+
+34
+탱크 시즈 체크1
+
+
+
+
+35
+탱크 시즈 체크2
+
+
+
+
+36
+22라운드 마린생성
+
+
+
+
+37
+영웅 퀸 인식
+
+
+
+
+38
+28라운드 뮤탈 추가 생산
+
+
+
+
+
+
+CreateUnitWithProperties(1, "Zerg Zergling", "Location 81", P6, {
+			clocked = false,
+			burrowed = true,
+			intransit = false,
+			hallucinated = false,
+			invincible = true,
+			hitpoint = 100,
+			shield = 100,
+			energy = 100,
+			resource = 0,
+			hanger = 0,
+		});
+
+포스1 데스값
+Vespene Tank (Terran Type 2), Vespene Tank (Terran Type 1), Vespene Sac (Zerg Type 2), Vespene Sac (Zerg Type 1), Mineral Chunk (Type 2), Mineral Chunk (Type 1), Khaydarin Crystal, Data Disc, Psi Emitter, Young Chrysalis, Flag, Start Location, Right Wall Flame Trap, Right Wall Missile Trap, Left Wall Flame Trap, Left Wall Missile Trap, Floor Gun Trap, Right Pit Door, Left Pit Door, Right Upper Level Door, Left Upper Level Door, Floor Hatch (UNUSED), 초소형 미사일 런처(Floor Missile Trap), Dark Swarm, 바이러스 프로텍터(Overmind Cocoon), Power Generator, Protoss Flag Beacon, 전에 뽑았던 유닛 다시 사용하기(Terran Flag Beacon), 랜덤 유닛 다시 뽑기(Zerg Flag Beacon), 난이도 다시 선택(Protoss Beacon), 다른 라운드부터 하기(Terran Beacon), 처음부터 하기(Zerg Beacon), Hard Mode(Protoss Marker), Normal Mode(Terran Marker), Easy Mode(Zerg Marker), Psi Disrupter, Warp Gate, Vespene Geyser, Kyadarin Crystal Formation, Ruins, Jump Gate, Independent Starport, Independent Command Center,
+
+7피 데스값
+Vespene Tank (Terran Type 2), Vespene Tank (Terran Type 1), Vespene Sac (Zerg Type 2), Vespene Sac (Zerg Type 1), Mineral Chunk (Type 2), Mineral Chunk (Type 1), Khaydarin Crystal, Data Disc, Psi Emitter, Young Chrysalis, Flag, Start Location, Right Wall Flame Trap, Right Wall Missile Trap, Left Wall Flame Trap, Left Wall Missile Trap, Floor Gun Trap, Right Pit Door, Left Pit Door, Right Upper Level Door, Left Upper Level Door, Floor Hatch (UNUSED), 
+──────────
+
+
+
+
+
+뮤탈 잠시 공중 유닛으로 설정
+
+1. 저글링, 히드라 / 탱크 -- 2
+2. 질럿, 드라군 / 히드라
+3. 파뱃, 메딕, 마린 / 배틀
+4. 스카웃 / 레이스
+5. 리버, 드라군 / 가디언
+
+6. 아칸, 하템 / 질럿 -- 3
+7. 울트라, 저글링 / 커세어
+8. 닥템, 탱크 / 디바우러
+9. 히드라, 메딕 / 파이어뱃
+10. 골리앗, 탱크, 배슬 / SCV
+
+11. 저글링, 뮤탈, 퀸 / 울트라 -- 4
+12. 캐리어, 드라군 / 골리앗 153
+13. 마린, 메딕, 고스트 / 리버152
+14. 배틀 / 아칸
+15. 디바우러, 커세어 / 닥템
+
+16. 히드라, 가디언, 아비터 / 뮤탈 153
+17. 질럿, 드라군, 하템, 다크 아칸 / 저글링 154
+18. 레이스, 배슬 / 스카웃 153
+19. 울트라, 저글링, 디파일러 / 인페 케리건 152
+20. 디바우러, 발키리 / 벌처 153
+
+21. 아칸, 드라군, 아비터 / 마린 152,153
+22. 배틀, 탱크, 배슬 / 고스트 151,152
+23. 가디언, 리버, 하템 / 캐리어 152,153
+24. 벌처, 고스트, 메딕 / 드라군 153,154
+25. 울트라, 히드라, 아비터 / 발키리 153,154
+
+26. 골리앗, 탱크, 아비터 / 영웅 리버 153,154
+27. 스카웃, 고스트, 퀸 / 영웅 하템 (공격 스톰) 149
+28. 디바우러, 뮤탈리스크 / 영웅 배틀 (공격 야마토) 149
+29. 마린, 메딕, 탱크, 배슬 / 영웅 퀸 (공격 브루들링) 154
+30. 인페 케리건, 아칸, 하템 / 영웅 다칸 (공격 마컨) 152,153
+
+발키리가 3, 드라군이 4일 경우.
+뮤탈 6(4), 레이스 6(4), 스카웃 4(3), 가디언 4(3), 디바우러 4(3), 벌처 12, 커세어 4.
+
+
+
+
+
+SetMemory(0x664114, Add, 8192); -- 저글링
+		SetMemory(0x664118, Add, 8192); -- 히드라
+		SetMemory(0x66411C, Add, 8192); -- 울트라
+		SetMemory(0x664120, Add, 8192); -- 브루들링
+		SetMemory(0x664134, Add, 8192); -- 퀸
+		SetMemory(0x664138, Add, 8192); -- 디파일러
+		SetMemory(0x664148, Add, 8192); -- 인페 테란
+		SetMemory(0x66414C, Add, 8192); -- 인페 케리건
+		SetMemory(0x66421C, Add, 8192); -- 러커
+		
+		SetMemory(0x664080, Add, 8192); -- 마린
+		SetMemory(0x664084, Add, 8192); -- 고스트
+		SetMemory(0x664088, Add, 8192); -- 벌처
+		SetMemory(0x66408C, Add, 8192); -- 골리앗
+		SetMemory(0x664094, Add, 8192); -- 탱크(5)
+		SetMemory(0x66409C, Add, 8192); -- SCV
+		SetMemory(0x6640A4, Add, 8192); -- 배슬
+		SetMemory(0x6640F8, Add, 8192); -- 탱크(30)
+		SetMemory(0x664100, Add, 8192); -- 파이어뱃
+		SetMemory(0x664108, Add, 8192); -- 메딕
+		SetMemory(0x664168, Add, 8192); -- 발키리
+
+		SetMemory(0x664170, Add, 8192); -- 커세어
+		SetMemory(0x664174, Add, 8192); -- 닥템
+		SetMemory(0x66417C, Add, 8192); -- 다크 아칸
+		SetMemory(0x664184, Add, 8192); -- 질럿
+		SetMemory(0x664188, Add, 8192); -- 드라군
+		SetMemory(0x66418C, Add, 8192); -- 하템
+		SetMemory(0x664190, Add, 8192); -- 아칸
+		SetMemory(0x6641CC, Add, 8192); -- 리버
+--------------------
+SetMemory(0x6640A0, Subtract, 8192); -- 레이스
+		SetMemory(0x6640B0, Subtract, 8192); -- 배틀
+		SetMemory(0x66412C, Subtract, 8192); -- 뮤탈
+		SetMemory(0x664130, Subtract, 8192); -- 가디언
+		SetMemory(0x664178, Subtract, 8192); -- 디바
+		SetMemory(0x664198, Subtract, 8192); -- 스카웃
+		SetMemory(0x66419C, Subtract, 8192); -- 아비터
+		SetMemory(0x6641A0, Subtract, 8192); -- 캐리어
+SetMemory(0x6641C4, Subtract, 8192); -- 영웅 리버
+SetMemory(0x6641BC, Subtract, 8192); -- 테사다(영웅 하템)
+SetMemory(0x6640F0, Subtract, 8192); -- 영웅 배틀(히페리온)
+SetMemory(0x66415C, Add, 8192); -- 영웅 퀸(뮤탈 영웅)
+SetMemory(0x66420C, Add, 8192); -- 영웅 다크 아칸(사미르 듀란[고스트])
+--------------------------
+
+라운드, 난이도 인식해서 해당 데스값이  1050이상이 되면 인식 스위치 꺼진 거 키고 뮤탈을 추가 생산한다. 인식 스위치는 라운드 초기화 되면 자동으로 꺼짐. 28라운드 트리거 따로 이동용 트리거를 1개 더 만들어서 이동시키면 끝.

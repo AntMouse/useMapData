@@ -1,0 +1,1614 @@
+[File "D:\1\mymap\EUD\EUD.Editor.3.0.16.0.1\Data\temp\BulidData_3저장실행\eudplibData\TriggerEditor\싱글팀플컨트롤.eps"]
+-------------------------------------------------
+
+              import PluginVariables as msqcvar;
+              const GameUnit = UnitGroup(1200);
+              
+              function onPluginStart() {
+              
+              }
+              
+              function beforeTriggerExec() {
+               // 팅김 체크 확인
+                  foreach(unit : EUDLoopNewCUnit()){
+                      if (MemoryXEPD(unit + 0x4C/4, Exactly, $P8, 0xFF)) { // 스팀 적용
+                          if (MemoryXEPD(unit + 0x64/4, Exactly, $U("Terran Ghost"), 0xFFFF) || // 유닛1
+                              MemoryXEPD(unit + 0x64/4, Exactly, $U("Terran Marine"), 0xFFFF) ||
+                              MemoryXEPD(unit + 0x64/4, Exactly, $U("Terran Firebat"), 0xFFFF) ||
+[      1 ]                    MemoryXEPD(unit + 0x64/4, Exactly, $U("Jim Raynor (Marine)"), 0xFFFF)) { 
+                              
+                              SetMemoryEPD(unit + 0xDC/4, Add, 0x30000000); // 스테이터스 플래그 (스팀팩 적용) 
+                          }
+                          if (MemoryXEPD(unit + 0x64/4, Exactly, $U("Terran Medic"), 0xFFFF)) { // 메딕
+                              
+                              SetMemoryEPD(unit + 0xDC/4, Add, 0x10000000);
+                          }
+                      }
+                      if (MemoryXEPD(unit + 0x64/4, Exactly, $U("Terran Civilian"), 0xFFFF)) { // 시민 스팀
+                          
+                          SetMemoryEPD(unit + 0xDC/4, Add, 0x10000000);
+                      }
+[      2 ]    		switch(unit.unitType){ // 유닛 그룹에 넣기
+                          case $U("Zerg Devourer"): // 저그
+                          case $U("Zerg Guardian"):
+                          case $U("Zerg Mutalisk"):
+                          case $U("Zerg Queen"):
+              
+                          case $U("Infested Terran"):
+                          case $U("Zerg Broodling"):
+                          case $U("Zerg Defiler"):
+                          case $U("Zerg Hydralisk"):
+                          case $U("Zerg Lurker"):
+                          case $U("Zerg Ultralisk"):
+                          case $U("Zerg Zergling"):
+                          case $U("Infested Kerrigan"):
+              
+                          case $U("Terran Battlecruiser"): // 테란
+                          case $U("Terran Science Vessel"):
+                          case $U("Terran Valkyrie"):
+                          case $U("Terran Wraith"):
+              
+                          case $U("Terran Firebat"):
+                          case $U("Terran Ghost"):
+                          case $U("Terran Goliath"):
+                          case $U("Terran Marine"):
+                          case $U("Terran Medic"):
+                          case $U("Terran SCV"): 
+                          case 5: // 탱크
+                          case $U("Terran Vulture"):
+                          case $U("Vulture Spider Mine"):
+              
+                          case $U("Protoss Arbiter"): // 플토
+                          case $U("Protoss Carrier"):
+                          case $U("Protoss Corsair"):
+                          case $U("Protoss Interceptor"):
+                          case $U("Protoss Scout"):
+              
+                          case $U("Protoss Archon"):
+                          case $U("Protoss Dark Archon"):
+                          case $U("Protoss Dark Templar"):
+                          case $U("Protoss Dragoon"):
+                          case $U("Protoss High Templar"):
+                          case $U("Protoss Zealot"):  
+              
+                          case $U("Tassadar (Templar)"): // 특별 유닛
+                          case $U("Jim Raynor (Marine)"):
+                          case $U("Fenix (Dragoon)"):
+                          case $U("Gantrithor (Carrier)"):
+                          case $U("Devouring One (Zergling)"):
+              
+                          case $U("Data Disc"):              
+                              GameUnit.add(unit);
+[      2 ]                    break;
+              
+                          case $U("Protoss Reaver"): // 리버 따로         
+                              SetMemoryEPD(unit + 0xDC/4, Add, 0x10000000);
+              				GameUnit.add(unit);
+                              break;
+              		}
+              	}
+              }
+              
+              function afterTriggerExec() {
+                   
+                  foreach(unit : GameUnit.cploop){ // GameUnit
+              		foreach(dead : unit.dying){} // 사망 시 발동
+[      8 ]            if (Switch("Switch 27", Set)) { // 아비터 있을 때 켜짐
+                          unit.move_cp(0x118/4); // 스테이시스 필드
+                          if (DeathsX(CurrentPlayer, AtLeast, 98*256, 0, 0xFF00) &&
+                              DeathsX(CurrentPlayer, AtMost, 101*256, 0, 0xFF00)) {
+                              
+                              SetDeathsX(CurrentPlayer, SetTo, 1*256, 0, 0xFF00);
+                          }
+                      }  
+[     18 ]            unit.set_cp(0x120/4); // 패러사이트
+[     13 ]            if (DeathsX(CurrentPlayer, AtLeast, 1*256, 0, 0xFF00)) { // 패러사이트 인식
+              
+                          SetDeathsX(CurrentPlayer, SetTo, 0, 0, 0xFF00);
+                          unit.set_cp(0x124/4); // 애시드 스포어
+                          SetDeathsX(CurrentPlayer, SetTo, 9*65536, 0, 0xFF0000);
+                          unit.set_cp(0x12C/4);
+                          SetDeathsX(CurrentPlayer, SetTo, 152*16777216, 0, 0xFF000000);
+                          unit.set_cp(0x114/4); // 인스네어
+                          SetDeathsX(CurrentPlayer, Add, 1*65536, 0, 0xFF0000);
+                      }
+[     19 ]            unit.set_cp(0x120/4); // 블라인드
+[      9 ]            if (DeathsX(CurrentPlayer, AtLeast, 1*16777216, 0, 0xFF000000)) { // 블라인드 인식      
+                               
+                          unit.set_cp(0x38/4); // 현재속도1
+                          SetDeaths(CurrentPlayer, SetTo, 0, 0);
+                          unit.set_cp(0x3C/4); // 현재속도2
+                          SetDeaths(CurrentPlayer, SetTo, 0, 0);
+              
+                          unit.set_cp(0x24/4); // 이동제어
+                          if (DeathsX(CurrentPlayer, Exactly, 0, 0, 0xFF000000)) {
+                              
+                              SetDeathsX(CurrentPlayer, SetTo, 2*16777216, 0, 0xFF000000); 
+                              unit.set_cp(0x24/4); // 공메모리  
+                              SetDeathsX(CurrentPlayer, SetTo, 1*65536, 0, 0xFF0000);  
+                          }
+                          unit.set_cp(0x24/4); // 이동제어
+                          if (DeathsX(CurrentPlayer, Exactly, 1*16777216, 0, 0xFF000000)) {
+                              
+                              SetDeathsX(CurrentPlayer, SetTo, 2*16777216, 0, 0xFF000000); 
+                              unit.set_cp(0x24/4); // 공메모리  
+                              SetDeathsX(CurrentPlayer, SetTo, 2*65536, 0, 0xFF0000);  
+                          }
+                      }       
+[     18 ]            unit.set_cp(0x24/4); // 블라인드 공메모리 (1)
+[     13 ]            if (DeathsX(CurrentPlayer, Exactly, 1*65536, 0, 0xFF0000)) {
+                          unit.set_cp(0x120/4); // 블라인드  
+                          if (DeathsX(CurrentPlayer, Exactly, 0, 0, 0xFF000000)) {
+              
+                              unit.set_cp(0x24/4); // 이동제어
+                              SetDeathsX(CurrentPlayer, SetTo, 0, 0, 0xFF000000);
+                              SetDeathsX(CurrentPlayer, SetTo, 0, 0, 0xFF0000); 
+                          }
+                      }
+[     24 ]            unit.set_cp(0x24/4); // 블라인드 공메모리 (2)
+[      9 ]            if (DeathsX(CurrentPlayer, Exactly, 2*65536, 0, 0xFF0000)) {
+                          unit.set_cp(0x120/4); // 블라인드  
+                          if (DeathsX(CurrentPlayer, Exactly, 0, 0, 0xFF000000)) {
+                              
+                              unit.set_cp(0x24/4); // 이동제어
+                              SetDeathsX(CurrentPlayer, SetTo, 1*16777216, 0, 0xFF000000);
+                              SetDeathsX(CurrentPlayer, SetTo, 0, 0, 0xFF0000); 
+                          }
+                      }        
+[      4 ]            if (Switch("Switch 28", Set)) { // 디바우러 죽어도 8초간 켜지는 상태 유지
+[     11 ]                unit.set_cp(0x64/4); // 유닛 타입
+[     13 ]                if (DeathsX(CurrentPlayer, Exactly, $U("Zerg Devourer"), 0, 0xFFFF)) {
+[      9 ]                    unit.set_cp(0xDC/4); // 할루시네이션이 아닐 때
+[      5 ]                    if (!DeathsX(CurrentPlayer, Exactly, 0x40000000, 0, 0x40000000)) {         
+[      7 ]                        unit.set_cp(0x54/4); // 무기 쿨타임
+[      2 ]                        if (!DeathsX(CurrentPlayer, Exactly, 0, 0, 0xFF00)) {
+[      5 ]                            unit.set_cp(0x84/4); // 공메모리(디바)
+[      5 ]                            if (DeathsX(CurrentPlayer, AtMost, 5*65536, 0, 0xFF0000)) {
+                                          
+                                          SetDeathsX(CurrentPlayer, Add, 1*65536, 0, 0xFF0000);
+                                      }
+                                  }
+[      7 ]                        unit.set_cp(0x54/4); // 무기 쿨타임
+                                  if (DeathsX(CurrentPlayer, AtMost, 2*256, 0, 0xFF00) &&
+[      4 ]                            DeathsX(CurrentPlayer, AtLeast, 1*256, 0, 0xFF00)) {
+[      1 ]                            unit.set_cp(0x84/4); // 공메모리(디바)
+                                      if (!DeathsX(CurrentPlayer, Exactly, 0, 0, 0xFF0000)) {
+                                          
+[      1 ]                                SetDeathsX(CurrentPlayer, SetTo, 0, 0, 0xFF0000);
+                                      }                    
+                                  }   
+[      8 ]                        unit.set_cp(0x84/4); // 공메모리(디바)
+[      1 ]                        if (DeathsX(CurrentPlayer, Exactly, 6*65536, 0, 0xFF0000)) {
+              
+                                      SetDeathsX(CurrentPlayer, Add, 1*65536, 0, 0xFF0000);       
+                                      unit.set_cp(0x28/4); // 디바우러 위치
+[      3 ]                            const x, y = posread_cp(0);
+[      2 ]                            setloc("Location 225", x, y);
+[      2 ]                            const AcidMoveUnit = epdread_epd(EPD(0x628438)); // 이동용 유닛 생산 저장
+[      6 ]                            CreateUnit(1, "Data Disc", "Location 225", P7);
+                                      SetMemoryEPD(AcidMoveUnit + 0xDC/4, Add, 0xA00000); // 유닛 충돌 판정 무시
+                                      unit.set_cp(0x58/4); // 타겟 위치
+[      3 ]                            const TargetX, TargetY = posread_cp(0);
+                                      SetMemoryXEPD(AcidMoveUnit + 0x4C/4, SetTo, 6*256, 0xFF00);
+[      1 ]                            SetMemoryEPD(AcidMoveUnit + 0x58/4, SetTo, TargetX + TargetY * 65536);
+                                      SetMemoryXEPD(AcidMoveUnit + 0x8C/4, SetTo, TargetX, 0xFFFF); // 공메모리(이동좌표)
+                                      SetMemoryXEPD(AcidMoveUnit + 0x64/4, SetTo, TargetY * 65536, 0xFFFF0000); // 공메모리(이동좌표)
+              
+[      2 ]                            unit.set_cp(0x4C/4); // 디바 소유 플레이어
+                                      if (DeathsX(CurrentPlayer, Exactly, $P8, 0, 0xFF)) {
+                                          
+                                          SetMemoryXEPD(AcidMoveUnit + 0x84/4, SetTo, 8*65536, 0xFF0000); // 공메모리(플레이어체크)
+                                      }
+                                      else  {                       
+                                          SetMemoryXEPD(AcidMoveUnit + 0x84/4, SetTo, 10*65536, 0xFF0000);
+                                      }
+                                  } 
+                              }      
+                          }
+              
+[     18 ]                unit.set_cp(0x64/4); // 유닛 타입
+[      5 ]                if (DeathsX(CurrentPlayer, Exactly, $U("Data Disc"), 0, 0xFFFF)) {
+[      3 ]                    unit.set_cp(0x84/4); // 공메모리(플레이어체크)
+                              if (DeathsX(CurrentPlayer, AtLeast, 8*65536, 0, 0xFF0000) &&
+[      3 ]                        DeathsX(CurrentPlayer, AtMost, 10*65536, 0, 0xFF0000)) {
+              
+[      2 ]                        unit.set_cp(0x8C/4); // 공메모리(이동좌표)
+[     10 ]                        const TargetX = wread_cp(0, 0);
+[      3 ]                        unit.set_cp(0x64/4); // 공메모리(이동좌표)
+[     12 ]                        const TargetY = wread_cp(0, 2);
+[      2 ]                        unit.set_cp(0x4C/4); // 명령
+[      2 ]                        SetDeathsX(CurrentPlayer, SetTo, 6*256, 0, 0xFF00); 
+[      1 ]                        unit.set_cp(0x58/4); // 좌표
+[      8 ]                        SetDeaths(CurrentPlayer, SetTo, TargetX + TargetY * 65536, 0);
+                                  
+[      2 ]                        unit.set_cp(0x28/4); // 이동 유닛 위치
+                                  if (DeathsX(CurrentPlayer, AtLeast, TargetX - 8, 0, 0xFFFF) &&
+                                      DeathsX(CurrentPlayer, AtMost, TargetX + 8, 0, 0xFFFF) &&
+                                      DeathsX(CurrentPlayer, AtLeast, (TargetY - 8) * 65536, 0, 0xFFFF0000) &&
+[      6 ]                            DeathsX(CurrentPlayer, AtMost, (TargetY + 8) * 65536, 0, 0xFFFF0000)) {
+                                      
+                                      setloc("Location 225", TargetX, TargetY); // 타겟 좌표로 로케 이동
+[      2 ]                            const AcidSporeUnit = epdread_epd(EPD(0x628438)); // 이동용 유닛 생산 저장
+[      4 ]                            CreateUnit(1, "Bengalaas", "Location 225", P7);
+                                      SetMemoryEPD(AcidSporeUnit + 0xDC/4, Add, 0xA00000); // 유닛 충돌 판정 무시
+                                      MoveLocation("Location 226", "Bengalaas", P7, "Location 225");
+[      2 ]                            SetMemoryXEPD(AcidSporeUnit + 0x4C/4, SetTo, 0, 0xFF00); // 명령
+                                      unit.set_cp(0x84/4); // 공메모리(플레이어체크)
+                                      if (DeathsX(CurrentPlayer, Exactly, 8*65536, 0, 0xFF0000)) {
+              
+[      2 ]                                ModifyUnitResourceAmount(All, Force1, "Location 226", 1);
+                                      }
+                                      else {
+                                          ModifyUnitResourceAmount(All, P8, "Location 226", 1);
+                                      }                 
+                                      unit.set_cp(0x4C/4); // 명령
+                                      SetDeathsX(CurrentPlayer, SetTo, 0, 0, 0xFF00); 
+                                  }
+                              }
+                          }       
+[     18 ]                unit.set_cp(0xD0/4); // 애시드 스포어 추가
+[     15 ]                if (Deaths(CurrentPlayer, Exactly, 1, 0)) {
+              
+                              SetDeaths(CurrentPlayer, SetTo, 0, 0);
+                              unit.set_cp(0x124/4);
+[      1 ]                    SetDeathsX(CurrentPlayer, Add, 1*65536, 0, 0xFF0000);
+                              unit.set_cp(0x12C/4);
+                              SetDeathsX(CurrentPlayer, SetTo, 152*16777216, 0, 0xFF000000);
+                          }
+[     20 ]                unit.set_cp(0x124/4); // 9중첩 넘어가면 빼주기
+[      6 ]                if (DeathsX(CurrentPlayer, AtLeast, 10*65536, 0, 0xFF0000)) {
+                              
+[      1 ]                    SetDeathsX(CurrentPlayer, SetTo, 9*65536, 0, 0xFF0000);
+                          }                                     
+                      }        
+[     18 ]            unit.set_cp(0x12C/4); // 애시드 스포어 타이머
+[      5 ]            if (DeathsX(CurrentPlayer, Exactly, 2*16777216, 0, 0xFF000000)) {
+                          unit.set_cp(0x124/4);
+                          if (DeathsX(CurrentPlayer, AtLeast, 2*65536, 0, 0xFF0000)) {
+              
+                              SetDeathsX(CurrentPlayer, SetTo, 1*65536, 0, 0xFF0000);    
+                          }               
+                      } 
+[     10 ]            if (Switch("Switch 32", Set)) { // 캐리어 죽어도 3초간 켜지는 상태 유지
+                          unit.set_cp(0x64/4); // 인터셉터
+                          if (DeathsX(CurrentPlayer, Exactly, $U("Protoss Interceptor"), 0, 0xFFFF)) {
+                              unit.set_cp(0x4C/4); // 명령
+                              if (DeathsX(CurrentPlayer, Exactly, 23*256, 0, 0xFF00)) {
+                                  unit.set_cp(0x08/4); // 체력
+                                  if (Deaths(CurrentPlayer, AtMost, 40*256 - 1, 0)) {
+                                      
+                                      SetDeaths(CurrentPlayer, Add, 128, 0);
+                                  }
+                              }
+                              unit.set_cp(0x08/4); // 체력
+                              if (Deaths(CurrentPlayer, AtLeast, 40*256 + 1, 0)) {
+                                  
+                                  SetDeaths(CurrentPlayer, SetTo, 40*256, 0);
+                              }
+                          }
+                      }
+[      8 ]            if (Switch("Switch 33", Set)) { // 11피 탱크 시즈 모드 풀기
+                          unit.set_cp(0x4C/4); // 11피
+                          if (DeathsX(CurrentPlayer, Exactly, $P11, 0, 0xFF)) {
+                              unit.set_cp(0x64/4); // 유닛
+                              if (DeathsX(CurrentPlayer, Exactly, 30, 0, 0xFFFF)) {
+                                  
+                                  unit.set_cp(0x4C/4); // 명령
+                                  SetDeathsX(CurrentPlayer, SetTo, 99*256, 0, 0xFF00);
+                              }
+                          }
+                      }
+[     12 ]            unit.set_cp(0x64/4); // 메딕 체크
+[      8 ]            if (DeathsX(CurrentPlayer, Exactly, $U("Terran Medic"), 0, 0xFFFF)) {
+[      1 ]                unit.set_cp(0x4C/4); // 명령
+                          if (DeathsX(CurrentPlayer, Exactly, 176*256 + 1*65536 + 1*16777216, 0, 0xFFFFFF00) ||
+[      1 ]                    DeathsX(CurrentPlayer, Exactly, 178*256 + 1*65536 + 1*16777216, 0, 0xFFFFFF00)) {
+                              unit.set_cp(0x124/4); // 공메모리
+                              if (DeathsX(CurrentPlayer, AtMost, 99*256, 0, 0xFF00)) {
+                                  
+                                  SetDeathsX(CurrentPlayer, Add, 1*256, 0, 0xFF00);
+                              }
+                              if (DeathsX(CurrentPlayer, AtLeast, 2*256, 0, 0xFF00)) {
+                                  unit.set_cp(0xA0/4); // 마나
+                                  if (DeathsX(CurrentPlayer, AtMost, 249*16777216, 0, 0xFF000000)) {
+                                  
+                                      SetDeathsX(CurrentPlayer, Add, 1*16777216, 0, 0xFF000000);
+                                      unit.set_cp(0x124/4); // 공메모리
+                                      SetDeathsX(CurrentPlayer, Subtract, 2*256, 0, 0xFF00);
+                                  }
+                              }
+                          } 
+                          unit.set_cp(0xA0/4); // 마나
+                          if (DeathsX(CurrentPlayer, AtMost, 1*16777216, 0, 0xFF000000)) {
+                              
+                              SetDeathsX(CurrentPlayer, Add, 1*16777216, 0, 0xFF000000);
+                          }        
+                      }
+[     15 ]            unit.set_cp(0x64/4); // 발키리 체크
+[      8 ]            if (DeathsX(CurrentPlayer, Exactly, $U("Terran Valkyrie"), 0, 0xFFFF)) {
+                          unit.set_cp(0x124/4); // 애시드 스포어 카운트
+                          if (DeathsX(CurrentPlayer, AtLeast, 1*65536, 0, 0xFF0000)) {
+                              unit.set_cp(0x54/4); // 지상 무기
+                              if (DeathsX(CurrentPlayer, AtLeast, 9*256, 0, 0xFF00)) {
+                                  
+[      1 ]                        SetDeathsX(CurrentPlayer, SetTo, 8*256, 0, 0xFF00);
+                              }  
+                          }        
+                      }
+[      6 ]            if (Switch("Switch 34", Set)) { // 탱크 체크(1)
+                          unit.set_cp(0x64/4); // 탱크 체크(1)
+                          if (DeathsX(CurrentPlayer, Exactly, 5, 0, 0xFFFF)) {
+                              unit.set_cp(0x4C/4); // 8피 체크
+                              if (DeathsX(CurrentPlayer, Exactly, $P8, 0, 0xFF)) {
+                                  unit.set_cp(0x124/4); // 공메모리
+                                  if (DeathsX(CurrentPlayer, AtMost, 252*256, 0, 0xFF00)) {
+                                      
+                                      SetDeathsX(CurrentPlayer, Add, 1*256, 0, 0xFF00);
+                                  }
+                                  if (DeathsX(CurrentPlayer, AtLeast, 24*256, 0, 0xFF00)) {
+                                      
+                                      SetDeathsX(CurrentPlayer, SetTo, 0*256, 0, 0xFF00);
+                                      unit.set_cp(0x28/4); // 좌표
+                                      const x, y = posread_cp(0);
+                                      setloc("Location 254", x, y);
+                                      const SigeUnit = epdread_epd(EPD(0x628438));
+                                      CreateUnit(1, "Scantid", "Location 254", P8);
+                                      SetMemoryEPD(SigeUnit + 0xDC/4, Add, 0xA00000); // 유닛 충돌 판정 무시
+                                      MoveLocation("Location 252", "Scantid", P8, "Location 254");
+                                      MoveLocation("Location 253", "Scantid", P8, "Location 254");
+                                      SetMemoryXEPD(SigeUnit + 0x4C/4, SetTo, 0, 0xFF00);
+                                      if (Bring(Force1, AtLeast, 1, "Men", "Location 252") &&
+                                          Bring(Force1, Exactly, 0, "Men", "Location 253")) {
+                                          unit.set_cp(0x4C/4); // 명령
+                                          if (!DeathsX(CurrentPlayer, Exactly, 98*256 + 2*65536, 0, 0xFFFF00) &&
+                                              !DeathsX(CurrentPlayer, Exactly, 98*256 + 3*65536, 0, 0xFFFF00) &&
+                                              !DeathsX(CurrentPlayer, Exactly, 98*256 + 3*65536 + 1*16777216, 0, 0xFFFFFF00)) {
+                                              
+                                              SetDeathsX(CurrentPlayer, SetTo, 98*256, 0, 0xFF00);
+                                              MoveLocation("Location 254", "Zerg Flag Beacon", P7, "Location 146");
+                                              MoveLocation("Location 253", "Zerg Flag Beacon", P7, "Location 146");
+                                              MoveLocation("Location 252", "Zerg Flag Beacon", P7, "Location 146");
+                                          }                       
+                                      }
+                                      MoveLocation("Location 254", "Zerg Flag Beacon", P7, "Location 146");
+                                      MoveLocation("Location 253", "Zerg Flag Beacon", P7, "Location 146");
+                                      MoveLocation("Location 252", "Zerg Flag Beacon", P7, "Location 146");
+                                  }
+                              }
+                          }
+                      }
+[     86 ]            if (Switch("Switch 35", Set)) { // 탱크 체크(2)
+                          unit.set_cp(0x64/4); // 탱크 체크(2)
+                          if (DeathsX(CurrentPlayer, Exactly, 30, 0, 0xFFFF)) {
+                              unit.set_cp(0x4C/4); // 8피 체크
+                              if (DeathsX(CurrentPlayer, Exactly, $P8, 0, 0xFF)) {
+                                  unit.set_cp(0x124/4); // 공메모리
+                                  if (DeathsX(CurrentPlayer, AtMost, 252*256, 0, 0xFF00)) {
+                                      
+                                      SetDeathsX(CurrentPlayer, Add, 1*256, 0, 0xFF00);
+                                  }
+                                  if (DeathsX(CurrentPlayer, AtLeast, 84*256, 0, 0xFF00)) {
+                                      
+                                      SetDeathsX(CurrentPlayer, SetTo, 0, 0, 0xFF00);                
+                                      unit.set_cp(0x28/4); // 좌표
+                                      const x, y = posread_cp(0);
+                                      setloc("Location 254", x, y);
+                                      const TankUnit = epdread_epd(EPD(0x628438));
+                                      CreateUnit(1, "Ursadon", "Location 254", P8);
+                                      SetMemoryEPD(TankUnit + 0xDC/4, Add, 0xA00000); // 유닛 충돌 판정 무시
+                                      MoveLocation("Location 252", "Ursadon", P8, "Location 254");
+                                      MoveLocation("Location 253", "Ursadon", P8, "Location 254");
+                                      SetMemoryXEPD(TankUnit + 0x4C/4, SetTo, 0, 0xFF00);
+                                      if (Bring(Force1, AtLeast, 1, "Men", "Location 253")) {
+                                          unit.set_cp(0x4C/4); // 명령
+                                          if (!DeathsX(CurrentPlayer, Exactly, 99*256, 0, 0xFFFF00) &&
+                                              !DeathsX(CurrentPlayer, Exactly, 99*256 + 2*65536, 0, 0xFFFF00) &&
+                                              !DeathsX(CurrentPlayer, Exactly, 99*256 + 3*65536, 0, 0xFFFF00) &&
+                                              !DeathsX(CurrentPlayer, Exactly, 99*256 + 3*65536 + 1*16777216, 0, 0xFFFFFF00)) {
+                                              
+                                              SetDeathsX(CurrentPlayer, SetTo, 99*256, 0, 0xFF00);
+                                              MoveLocation("Location 254", "Zerg Flag Beacon", P7, "Location 146");
+                                              MoveLocation("Location 253", "Zerg Flag Beacon", P7, "Location 146");
+                                              MoveLocation("Location 252", "Zerg Flag Beacon", P7, "Location 146");
+                                          }
+                                      }
+                                      MoveLocation("Location 254", "Zerg Flag Beacon", P7, "Location 146");
+                                      MoveLocation("Location 253", "Zerg Flag Beacon", P7, "Location 146");
+                                      MoveLocation("Location 252", "Zerg Flag Beacon", P7, "Location 146");
+                                  }
+                              }
+                          }
+                      }
+                  } 
+              
+                  if (Deaths(P7, Exactly, 23, "Mineral Chunk (Type 1)") && // 23 라운드 때만 인터셉터 대미지 변경
+[      3 ]            !MemoryXEPD(EPD(0x656EB0 + 79 * 2), Exactly, 18 * 65536, 0xFFFF0000)) {
+              
+                      SetMemoryXEPD(EPD(0x656EB0 + 79 * 2), SetTo, 18 * 65536, 0xFFFF0000); // 인터셉터
+                  }
+                  if (!Deaths(P7, Exactly, 23, "Mineral Chunk (Type 1)") && 
+[      3 ]            !MemoryXEPD(EPD(0x656EB0 + 79 * 2), Exactly, 6 * 65536, 0xFFFF0000)) {
+              
+                      SetMemoryXEPD(EPD(0x656EB0 + 79 * 2), SetTo, 6 * 65536, 0xFFFF0000);
+                  }
+              
+                  foreach (P : EUDLoopPlayer(None, Force1, None)) { // 1 라운드
+                      if (Deaths(P7, Exactly, 1, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 1, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+                          Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x041 / 30    \x07|    \x08저글링 \x049  \x08히드라 \x042");
+                      }
+                      if (Deaths(P7, Exactly, 1, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 2, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      2 ]                Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x041 / 30    \x07|    \x08저글링 \x049  \x08히드라 \x044");
+                      }
+                      if (Deaths(P7, Exactly, 1, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 3, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+                          Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x041 / 30    \x07|    \x08저글링 \x0412  \x08히드라 \x046");  
+                      }
+              
+              
+              
+                      if (Deaths(P7, Exactly, 1, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 1, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      1 ]                Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x041 / 30    \x07|    \x1F추가유닛  \x08탱크 \x046");  
+                      }
+                      if (Deaths(P7, Exactly, 1, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 2, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      3 ]                Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x041 / 30    \x07|    \x1F추가유닛  \x08탱크 \x049"); 
+                      }
+                      if (Deaths(P7, Exactly, 1, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 3, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      4 ]                Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x041 / 30    \x07|    \x1F추가유닛  \x08탱크 \x0412");
+                      }
+                  }
+                  foreach (P : EUDLoopPlayer(None, Force1, None)) { // 2 라운드
+                      if (Deaths(P7, Exactly, 2, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 1, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      4 ]                Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x042 / 30    \x07|    \x08질럿 \x044  \x08드라군 \x042");
+                      }
+                      if (Deaths(P7, Exactly, 2, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 2, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+                          Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x042 / 30    \x07|    \x08질럿 \x044  \x08드라군 \x043");
+                      }
+                      if (Deaths(P7, Exactly, 2, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 3, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+                          Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x042 / 30    \x07|    \x08질럿 \x045  \x08드라군 \x044");  
+                      }
+              
+              
+              
+                      if (Deaths(P7, Exactly, 2, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 1, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      3 ]                Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x042 / 30    \x07|    \x1F추가유닛  \x08히드라리스크 \x0418");  
+                      }
+                      if (Deaths(P7, Exactly, 2, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 2, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      1 ]                Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x042 / 30    \x07|    \x1F추가유닛  \x08히드라리스크 \x0427"); 
+                      }
+                      if (Deaths(P7, Exactly, 2, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 3, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      6 ]                Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x042 / 30    \x07|    \x1F추가유닛  \x08히드라리스크 \x0436");
+                      }
+                  }
+                  foreach (P : EUDLoopPlayer(None, Force1, None)) { // 3 라운드
+                      if (Deaths(P7, Exactly, 3, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 1, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      3 ]                Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x043 / 30    \x07|    \x08파이어뱃 \x042  \x08마린 \x044  \x08메딕 \x041");
+                      }
+                      if (Deaths(P7, Exactly, 3, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 2, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+                          Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x043 / 30    \x07|    \x08파이어뱃 \x043  \x08마린 \x046  \x08메딕 \x042");
+                      }
+                      if (Deaths(P7, Exactly, 3, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 3, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+                          Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x043 / 30    \x07|    \x08파이어뱃 \x044  \x08마린 \x048  \x08메딕 \x043");
+                      }
+              
+              
+              
+                      if (Deaths(P7, Exactly, 3, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 1, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      3 ]                Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x043 / 30    \x07|    \x1F추가유닛  \x08배틀크루저 \x044");  
+                      }
+                      if (Deaths(P7, Exactly, 3, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 2, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      3 ]                Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x043 / 30    \x07|    \x1F추가유닛  \x08배틀크루저 \x046"); 
+                      }
+                      if (Deaths(P7, Exactly, 3, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 3, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      6 ]                Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x043 / 30    \x07|    \x1F추가유닛  \x08배틀크루저 \x048");
+                      }
+                  }
+                  foreach (P : EUDLoopPlayer(None, Force1, None)) { // 4 라운드
+                      if (Deaths(P7, Exactly, 4, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 1, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+                          Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x044 / 30    \x07|    \x08스카웃 \x046");
+                      }
+                      if (Deaths(P7, Exactly, 4, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 2, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+                          Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x044 / 30    \x07|    \x08스카웃 \x047");
+                      }
+                      if (Deaths(P7, Exactly, 4, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 3, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      3 ]                Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x044 / 30    \x07|    \x08스카웃 \x048");
+                      }
+              
+              
+              
+                      if (Deaths(P7, Exactly, 4, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 1, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      2 ]                Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x044 / 30    \x07|    \x1F추가유닛  \x08레이스 \x0412");  
+                      }
+                      if (Deaths(P7, Exactly, 4, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 2, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      1 ]                Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x044 / 30    \x07|    \x1F추가유닛  \x08레이스 \x0418");   
+                      }
+                      if (Deaths(P7, Exactly, 4, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 3, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      7 ]                Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x044 / 30    \x07|    \x1F추가유닛  \x08레이스 \x0424");  
+                      }
+                  }
+                  foreach (P : EUDLoopPlayer(None, Force1, None)) { // 5 라운드
+                      if (Deaths(P7, Exactly, 5, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 1, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      2 ]                Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x045 / 30    \x07|    \x08리버 \x041  \x08드라군 \x043");
+                      }
+                      if (Deaths(P7, Exactly, 5, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 2, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      3 ]                Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x045 / 30    \x07|    \x08리버 \x041  \x08드라군 \x044");
+                      }
+                      if (Deaths(P7, Exactly, 5, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 3, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      4 ]                Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x045 / 30    \x07|    \x08리버 \x042  \x08드라군 \x045");
+                      }
+              
+              
+              
+                      if (Deaths(P7, Exactly, 5, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 1, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+                          Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x045 / 30    \x07|    \x1F추가유닛  \x08가디언 \x0410");  
+                      }
+                      if (Deaths(P7, Exactly, 5, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 2, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      3 ]                Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x045 / 30    \x07|    \x1F추가유닛  \x08가디언 \x0415");   
+                      }
+                      if (Deaths(P7, Exactly, 5, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 3, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      5 ]                Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x045 / 30    \x07|    \x1F추가유닛  \x08가디언 \x0420");  
+                      }
+                  }
+                  foreach (P : EUDLoopPlayer(None, Force1, None)) { // 6 라운드
+                      if (Deaths(P7, Exactly, 6, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 1, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      1 ]                Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x046 / 30    \x07|    \x08아칸 \x043  \x08하이 템플러 \x042");
+                      }
+                      if (Deaths(P7, Exactly, 6, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 2, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      3 ]                Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x046 / 30    \x07|    \x08아칸 \x044  \x08하이 템플러 \x044");
+                      }
+                      if (Deaths(P7, Exactly, 6, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 3, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      2 ]                Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x046 / 30    \x07|    \x08아칸 \x045  \x08하이 템플러 \x046");
+                      }
+              
+              
+              
+                      if (Deaths(P7, Exactly, 6, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 1, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+                          Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x046 / 30    \x07|    \x1F추가유닛  \x08질럿 \x0424");  
+                      }
+                      if (Deaths(P7, Exactly, 6, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 2, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      3 ]                Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x046 / 30    \x07|    \x1F추가유닛  \x08질럿 \x0436");   
+                      }
+                      if (Deaths(P7, Exactly, 6, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 3, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      5 ]                Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x046 / 30    \x07|    \x1F추가유닛  \x08질럿 \x0448");  
+                      }
+                  }
+                  foreach (P : EUDLoopPlayer(None, Force1, None)) { // 7 라운드
+                      if (Deaths(P7, Exactly, 7, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 1, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      1 ]                Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x047 / 30    \x07|    \x08울트라리스크 \x042  \x08저글링 \x0410");
+                      }
+                      if (Deaths(P7, Exactly, 7, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 2, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      1 ]                Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x047 / 30    \x07|    \x08울트라리스크 \x043  \x08저글링 \x0415");
+                      }
+                      if (Deaths(P7, Exactly, 7, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 3, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      1 ]                Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x047 / 30    \x07|    \x08울트라리스크 \x044  \x08저글링 \x0420");
+                      }
+              
+              
+              
+                      if (Deaths(P7, Exactly, 7, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 1, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      1 ]                Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x047 / 30    \x07|    \x1F추가유닛  \x08커세어 [지상 공격 가능 ] \x0420");  
+                      }
+                      if (Deaths(P7, Exactly, 7, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 2, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      1 ]                Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x047 / 30    \x07|    \x1F추가유닛  \x08커세어 [지상 공격 가능 ] \x0430");  
+                      }
+                      if (Deaths(P7, Exactly, 7, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 3, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      7 ]                Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x047 / 30    \x07|    \x1F추가유닛  \x08커세어 [지상 공격 가능 ] \x0440");  
+                      }
+                  }
+                  foreach (P : EUDLoopPlayer(None, Force1, None)) { // 8 라운드
+                      if (Deaths(P7, Exactly, 8, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 1, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      2 ]                Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x048 / 30    \x07|    \x08다크 템플러 \x044  \x08탱크 \x042");
+                      }
+                      if (Deaths(P7, Exactly, 8, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 2, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      2 ]                Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x048 / 30    \x07|    \x08다크 템플러 \x044  \x08탱크 \x044");
+                      }
+                      if (Deaths(P7, Exactly, 8, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 3, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      3 ]                Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+[      1 ]                setcurpl(P);
+[     18 ]                eprintf("\x03라운드  \x048 / 30    \x07|    \x08다크 템플러 \x044  \x08탱크 \x046");
+                      }
+              
+              
+              
+                      if (Deaths(P7, Exactly, 8, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 1, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      1 ]                Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x048 / 30    \x07|    \x1F추가유닛  \x08디바우러 [ 지상 공격 가능 ] \x0432");  
+                      }
+                      if (Deaths(P7, Exactly, 8, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 2, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      2 ]                Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x048 / 30    \x07|    \x1F추가유닛  \x08디바우러 [ 지상 공격 가능 ] \x0448");  
+                      }
+                      if (Deaths(P7, Exactly, 8, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 3, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      7 ]                Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+[      2 ]                setcurpl(P);
+[    131 ]                eprintf("\x03라운드  \x048 / 30    \x07|    \x1F추가유닛  \x08디바우러 [ 지상 공격 가능 ] \x0464");  
+                      }
+                  }
+                  foreach (P : EUDLoopPlayer(None, Force1, None)) { // 9 라운드
+                      if (Deaths(P7, Exactly, 9, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 1, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      2 ]                Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x049 / 30    \x07|    \x08히드라리스크 \x0410  \x08메딕 \x041");
+                      }
+                      if (Deaths(P7, Exactly, 9, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 2, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+                          Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x049 / 30    \x07|    \x08히드라리스크 \x0415  \x08메딕 \x042");
+                      }
+                      if (Deaths(P7, Exactly, 9, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 3, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+                          Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+[      6 ]                eprintf("\x03라운드  \x049 / 30    \x07|    \x08히드라리스크 \x0420  \x08메딕 \x043");
+                      }
+              
+              
+              
+                      if (Deaths(P7, Exactly, 9, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 1, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      2 ]                Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x049 / 30    \x07|    \x1F추가유닛  \x08파이어뱃 \x0472");  
+                      }
+                      if (Deaths(P7, Exactly, 9, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 2, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      2 ]                Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x049 / 30    \x07|    \x1F추가유닛  \x08파이어뱃 \x04108");  
+                      }
+                      if (Deaths(P7, Exactly, 9, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 3, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      5 ]                Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x049 / 30    \x07|    \x1F추가유닛  \x08파이어뱃 \x04144");  
+                      }
+                  }
+                  foreach (P : EUDLoopPlayer(None, Force1, None)) { // 10 라운드
+                      if (Deaths(P7, Exactly, 10, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 1, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      1 ]                Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0410 / 30    \x07|    \x08골리앗 \x044  \x08탱크 \x042  \x08사이언스 배슬 \x041");
+                      }
+                      if (Deaths(P7, Exactly, 10, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 2, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      4 ]                Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0410 / 30    \x07|    \x08골리앗 \x046  \x08탱크 \x042  \x08사이언스 배슬 \x042");
+                      }
+                      if (Deaths(P7, Exactly, 10, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 3, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+                          Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0410 / 30    \x07|    \x08골리앗 \x048  \x08탱크 \x042  \x08사이언스 배슬 \x043");
+                      }
+              
+              
+              
+                      if (Deaths(P7, Exactly, 10, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 1, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+                          Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0410 / 30    \x07|    \x1F추가유닛  \x08SCV \x04144");  
+                      }
+                      if (Deaths(P7, Exactly, 10, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 2, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+                          Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0410 / 30    \x07|    \x1F추가유닛  \x08SCV \x04216");  
+                      }
+                      if (Deaths(P7, Exactly, 10, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 3, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      3 ]                Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0410 / 30    \x07|    \x1F추가유닛  \x08SCV \x04288");  
+                      }
+                  }
+                  foreach (P : EUDLoopPlayer(None, Force1, None)) { // 11 라운드
+                      if (Deaths(P7, Exactly, 11, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 1, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      4 ]                Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0411 / 30    \x07|    \x08저글링 \x0412  \x08뮤탈리스크 \x049  \x08퀸 \x042");
+                      }
+                      if (Deaths(P7, Exactly, 11, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 2, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+                          Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0411 / 30    \x07|    \x08저글링 \x0415  \x08뮤탈리스크 \x0412  \x08퀸 \x042");
+                      }
+                      if (Deaths(P7, Exactly, 11, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 3, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      1 ]                Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0411 / 30    \x07|    \x08저글링 \x0418  \x08뮤탈리스크 \x0415  \x08퀸 \x044");
+                      }
+              
+              
+              
+                      if (Deaths(P7, Exactly, 11, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 1, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+                          Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0411 / 30    \x07|    \x1F추가유닛  \x08울트라리스크 \x0416");  
+                      }
+                      if (Deaths(P7, Exactly, 11, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 2, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      2 ]                Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0411 / 30    \x07|    \x1F추가유닛  \x08울트라리스크 \x0424");  
+                      }
+                      if (Deaths(P7, Exactly, 11, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 3, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      9 ]                Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0411 / 30    \x07|    \x1F추가유닛  \x08울트라리스크 \x0432");  
+                      }
+                  }
+                  foreach (P : EUDLoopPlayer(None, Force1, None)) { // 12 라운드
+                      if (Deaths(P7, Exactly, 12, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 1, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      1 ]                Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0412 / 30    \x07|    \x08드라군 \x048  \x08캐리어 \x043");
+                      }
+                      if (Deaths(P7, Exactly, 12, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 2, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      3 ]                Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0412 / 30    \x07|    \x08드라군 \x0410  \x08캐리어 \x044");
+                      }
+                      if (Deaths(P7, Exactly, 12, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 3, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      1 ]                Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0412 / 30    \x07|    \x08드라군 \x0412  \x08캐리어 \x045");
+                      }
+              
+              
+              
+                      if (Deaths(P7, Exactly, 12, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 1, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      1 ]                Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0412 / 30    \x07|    \x1F추가유닛  \x08리버 \x0412");  
+                      }
+                      if (Deaths(P7, Exactly, 12, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 2, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+                          Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0412 / 30    \x07|    \x1F추가유닛  \x08리버 \x0418");  
+                      }
+                      if (Deaths(P7, Exactly, 12, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 3, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      5 ]                Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0412 / 30    \x07|    \x1F추가유닛  \x08리버 \x0424");  
+                      }
+                  }
+                  foreach (P : EUDLoopPlayer(None, Force1, None)) { // 13 라운드
+                      if (Deaths(P7, Exactly, 13, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 1, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+                          Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0413 / 30    \x07|    \x08마린 \x0412  \x08메딕 \x042  \x08고스트 \x042");
+                      }
+                      if (Deaths(P7, Exactly, 13, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 2, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      3 ]                Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0413 / 30    \x07|    \x08마린 \x0415  \x08메딕 \x044  \x08고스트 \x044");
+                      }
+                      if (Deaths(P7, Exactly, 13, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 3, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      5 ]                Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0413 / 30    \x07|    \x08마린 \x0418  \x08메딕 \x046  \x08고스트 \x046");
+                      }
+              
+              
+              
+                      if (Deaths(P7, Exactly, 13, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 1, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      1 ]                Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0413 / 30    \x07|    \x1F추가유닛  \x08골리앗 \x0448");  
+                      }
+                      if (Deaths(P7, Exactly, 13, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 2, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      3 ]                Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0413 / 30    \x07|    \x1F추가유닛  \x08골리앗 \x0472");  
+                      }
+                      if (Deaths(P7, Exactly, 13, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 3, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      4 ]                Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0413 / 30    \x07|    \x1F추가유닛  \x08골리앗 \x0496");  
+                      }
+                  }
+                  foreach (P : EUDLoopPlayer(None, Force1, None)) { // 14 라운드
+                      if (Deaths(P7, Exactly, 14, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 1, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      2 ]                Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0414 / 30    \x07|    \x08배틀크루저 \x046");
+                      }
+                      if (Deaths(P7, Exactly, 14, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 2, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+                          Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0414 / 30    \x07|    \x08배틀크루저 \x048");
+                      }
+                      if (Deaths(P7, Exactly, 14, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 3, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      1 ]                Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0414 / 30    \x07|    \x08배틀크루저 \x0410");
+                      }
+              
+              
+              
+                      if (Deaths(P7, Exactly, 14, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 1, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+                          Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0414 / 30    \x07|    \x1F추가유닛  \x08아칸 \x0424");  
+                      }
+                      if (Deaths(P7, Exactly, 14, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 2, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+                          Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0414 / 30    \x07|    \x1F추가유닛  \x08아칸 \x0436");  
+                      }
+                      if (Deaths(P7, Exactly, 14, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 3, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      9 ]                Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0414 / 30    \x07|    \x1F추가유닛  \x08아칸 \x0448");  
+                      }
+                  }
+                  foreach (P : EUDLoopPlayer(None, Force1, None)) { // 15 라운드
+                      if (Deaths(P7, Exactly, 15, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 1, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      1 ]                Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0415 / 30    \x07|    \x08디바우러 \x044  \x08커세어 \x046");
+                      }
+                      if (Deaths(P7, Exactly, 15, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 2, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      1 ]                Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0415 / 30    \x07|    \x08디바우러 \x046  \x08커세어 \x048");
+                      }
+                      if (Deaths(P7, Exactly, 15, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 3, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      1 ]                Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0415 / 30    \x07|    \x08디바우러 \x048  \x08커세어 \x0410");
+                      }
+              
+              
+              
+                      if (Deaths(P7, Exactly, 15, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 1, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      4 ]                Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0415 / 30    \x07|    \x1F추가유닛  \x08다크 템플러 \x0472");  
+                      }
+                      if (Deaths(P7, Exactly, 15, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 2, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      2 ]                Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0415 / 30    \x07|    \x1F추가유닛  \x08다크 템플러 \x04108");  
+                      }
+                      if (Deaths(P7, Exactly, 15, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 3, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      7 ]                Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0415 / 30    \x07|    \x1F추가유닛  \x08다크 템플러 \x04144");  
+                      }
+                  }
+                  foreach (P : EUDLoopPlayer(None, Force1, None)) { // 16 라운드
+                      if (Deaths(P7, Exactly, 16, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 1, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      5 ]                Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0416 / 30    \x07|    \x08가디언 \x043  \x08히드라리스크 \x0415  \x08아비터 \x041");
+                      }
+                      if (Deaths(P7, Exactly, 16, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 2, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      1 ]                Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0416 / 30    \x07|    \x08가디언 \x044  \x08히드라리스크 \x0418  \x08아비터 \x042");
+                      }
+                      if (Deaths(P7, Exactly, 16, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 3, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+                          Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0416 / 30    \x07|    \x08가디언 \x045 \x08히드라리스크 \x0421  \x08아비터 \x043");
+                      }
+              
+              
+              
+                      if (Deaths(P7, Exactly, 16, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 1, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      1 ]                Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0416 / 30    \x07|    \x1F추가유닛  \x08뮤탈리스크 \x04120");  
+                      }
+                      if (Deaths(P7, Exactly, 16, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 2, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      2 ]                Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0416 / 30    \x07|    \x1F추가유닛  \x08뮤탈리스크 \x04180");  
+                      }
+                      if (Deaths(P7, Exactly, 16, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 3, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      4 ]                Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0416 / 30    \x07|    \x1F추가유닛  \x08뮤탈리스크 \x04240");  
+                      }
+                  }
+                  foreach (P : EUDLoopPlayer(None, Force1, None)) { // 17 라운드
+                      if (Deaths(P7, Exactly, 17, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 1, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      1 ]                Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0417 / 30    \x07|    \x08질럿 \x0410  \x08드라군 \x046  \x08하이 템플러 \x041  \x08다크 아칸 \x041");
+                      }
+                      if (Deaths(P7, Exactly, 17, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 2, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      2 ]                Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0417 / 30    \x07|    \x08질럿 \x0412  \x08드라군 \x048  \x08하이 템플러 \x042  \x08다크 아칸 \x042");
+                      }
+                      if (Deaths(P7, Exactly, 17, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 3, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      1 ]                Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0417 / 30    \x07|    \x08질럿 \x0414  \x08드라군 \x0410  \x08하이 템플러 \x043  \x08다크 아칸 \x043");
+                      }
+              
+              
+              
+                      if (Deaths(P7, Exactly, 17, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 1, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      2 ]                Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0417 / 30    \x07|    \x1F추가유닛  \x08영웅 하이 템플러 \x0456");  
+                      }
+                      if (Deaths(P7, Exactly, 17, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 2, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      4 ]                Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0417 / 30    \x07|    \x1F추가유닛  \x08영웅 하이 템플러 \x0484");  
+                      }
+                      if (Deaths(P7, Exactly, 17, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 3, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      6 ]                Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0417 / 30    \x07|    \x1F추가유닛  \x08영웅 하이 템플러 \x04112");  
+                      }
+                  }
+                  foreach (P : EUDLoopPlayer(None, Force1, None)) { // 18 라운드
+                      if (Deaths(P7, Exactly, 18, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 1, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      1 ]                Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0418 / 30    \x07|    \x08레이스 \x0420  \x08사이언스 배슬 \x043");
+                      }
+                      if (Deaths(P7, Exactly, 18, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 2, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      4 ]                Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0418 / 30    \x07|    \x08레이스 \x0424  \x08사이언스 배슬 \x044");
+                      }
+                      if (Deaths(P7, Exactly, 18, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 3, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      1 ]                Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0418 / 30    \x07|    \x08레이스 \x0428  \x08사이언스 배슬 \x045");
+                      }
+              
+              
+              
+                      if (Deaths(P7, Exactly, 18, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 1, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      2 ]                Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0418 / 30    \x07|    \x1F추가유닛  \x08스카웃 \x0480");  
+                      }
+                      if (Deaths(P7, Exactly, 18, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 2, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      3 ]                Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0418 / 30    \x07|    \x1F추가유닛  \x08스카웃 \x04120");  
+                      }
+                      if (Deaths(P7, Exactly, 18, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 3, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      9 ]                Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0418 / 30    \x07|    \x1F추가유닛  \x08스카웃 \x04160");  
+                      }
+                  }
+                  foreach (P : EUDLoopPlayer(None, Force1, None)) { // 19 라운드
+                      if (Deaths(P7, Exactly, 19, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 1, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      3 ]                Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0419 / 30    \x07|    \x08울트라리스크 \x043  \x08저글링 \x0425  \x08디파일러 \x043");
+                      }
+                      if (Deaths(P7, Exactly, 19, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 2, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+                          Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0419 / 30    \x07|    \x08울트라리스크 \x044  \x08저글링 \x0430  \x08디파일러 \x044");
+                      }
+                      if (Deaths(P7, Exactly, 19, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 3, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      1 ]                Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0419 / 30    \x07|    \x08울트라리스크 \x045  \x08저글링 \x0435  \x08디파일러 \x045");
+                      }
+              
+              
+              
+                      if (Deaths(P7, Exactly, 19, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 1, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      4 ]                Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0419 / 30    \x07|    \x1F추가유닛  \x08질럿 \x0496");  
+                      }
+                      if (Deaths(P7, Exactly, 19, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 2, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      1 ]                Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0419 / 30    \x07|    \x1F추가유닛  \x08질럿 \x04144");  
+                      }
+                      if (Deaths(P7, Exactly, 19, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 3, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      9 ]                Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0419 / 30    \x07|    \x1F추가유닛  \x08질럿 \x04192");  
+                      }
+                  }
+                  foreach (P : EUDLoopPlayer(None, Force1, None)) { // 20 라운드
+                      if (Deaths(P7, Exactly, 20, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 1, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      2 ]                Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0420 / 30    \x07|    \x08디바우러 \x048  \x08발키리 \x045");
+                      }
+                      if (Deaths(P7, Exactly, 20, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 2, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+                          Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0420 / 30    \x07|    \x08디바우러 \x0410  \x08발키리 \x046");
+                      }
+                      if (Deaths(P7, Exactly, 20, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 3, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      1 ]                Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0420 / 30    \x07|    \x08디바우러 \x0412  \x08발키리 \x047");
+                      }
+              
+              
+              
+                      if (Deaths(P7, Exactly, 20, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 1, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+                          Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0420 / 30    \x07|    \x1F추가유닛  \x08벌처 \x04160");  
+                      }
+                      if (Deaths(P7, Exactly, 20, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 2, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      1 ]                Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0420 / 30    \x07|    \x1F추가유닛  \x08벌처 \x04240");  
+                      }
+                      if (Deaths(P7, Exactly, 20, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 3, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      6 ]                Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0420 / 30    \x07|    \x1F추가유닛  \x08벌처 \x04320");  
+                      }
+                  }
+                  foreach (P : EUDLoopPlayer(None, Force1, None)) { // 21 라운드
+                      if (Deaths(P7, Exactly, 21, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 1, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      1 ]                Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0421 / 30    \x07|    \x08아칸 \x045  \x08드라군 \x046  \x08아비터 \x041");
+                      }
+                      if (Deaths(P7, Exactly, 21, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 2, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      1 ]                Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0421 / 30    \x07|    \x08아칸 \x046  \x08드라군 \x048  \x08아비터 \x042");
+                      }
+                      if (Deaths(P7, Exactly, 21, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 3, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      1 ]                Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0421 / 30    \x07|    \x08아칸 \x047  \x08드라군 \x0410  \x08아비터 \x043");
+                      }
+              
+              
+              
+                      if (Deaths(P7, Exactly, 21, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 1, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+                          Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0421 / 30    \x07|    \x1F추가유닛  \x08인페스티드 케리건 \x0460");  
+                      }
+                      if (Deaths(P7, Exactly, 21, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 2, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      1 ]                Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0421 / 30    \x07|    \x1F추가유닛  \x08인페스티드 케리건 \x0490");  
+                      }
+                      if (Deaths(P7, Exactly, 21, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 3, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      5 ]                Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0421 / 30    \x07|    \x1F추가유닛  \x08인페스티드 케리건 \x04120");   
+                      }
+                  }
+                  foreach (P : EUDLoopPlayer(None, Force1, None)) { // 22 라운드
+                      if (Deaths(P7, Exactly, 22, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 1, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      2 ]                Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0422 / 30    \x07|    \x08배틀크루저 \x045  \x08탱크 \x044  \x08사이언스 배슬 \x041");
+                      }
+                      if (Deaths(P7, Exactly, 22, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 2, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      3 ]                Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0422 / 30    \x07|    \x08배틀크루저 \x046  \x08탱크 \x046  \x08사이언스 배슬 \x042");
+                      }
+                      if (Deaths(P7, Exactly, 22, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 3, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      1 ]                Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0422 / 30    \x07|    \x08배틀크루저 \x047  \x08탱크 \x048  \x08사이언스 배슬 \x043");
+                      }
+              
+              
+              
+                      if (Deaths(P7, Exactly, 22, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 1, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      2 ]                Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0422 / 30    \x07|    \x1F추가유닛  \x08마린 \x04240  \x08고스트 \x0448");  
+                      }
+                      if (Deaths(P7, Exactly, 22, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 2, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      2 ]                Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0422 / 30    \x07|    \x1F추가유닛  \x08마린 \x04360  \x08고스트 \x0472");  
+                      }
+                      if (Deaths(P7, Exactly, 22, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 3, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      9 ]                Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0422 / 30    \x07|    \x1F추가유닛  \x08마린 \x04480  \x08고스트 \x0496");  
+                      }
+                  }
+                  foreach (P : EUDLoopPlayer(None, Force1, None)) { // 23 라운드
+                      if (Deaths(P7, Exactly, 23, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 1, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      1 ]                Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0423 / 30    \x07|    \x08가디언 \x0410  \x08리버 \x041  \x08하이 템플러 \x043");
+                      }
+                      if (Deaths(P7, Exactly, 23, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 2, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      3 ]                Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0423 / 30    \x07|    \x08가디언 \x0412  \x08리버 \x042  \x08하이 템플러 \x044");
+                      }
+                      if (Deaths(P7, Exactly, 23, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 3, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      2 ]                Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0423 / 30    \x07|    \x08가디언 \x0414  \x08리버 \x043  \x08하이 템플러 \x045");
+                      }
+              
+              
+              
+                      if (Deaths(P7, Exactly, 23, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 1, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      2 ]                Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0423 / 30    \x07|    \x1F추가유닛  \x08슈퍼 캐리어 \x0420");  
+                      }
+                      if (Deaths(P7, Exactly, 23, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 2, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      1 ]                Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0423 / 30    \x07|    \x1F추가유닛  \x08슈퍼 캐리어 \x0430");  
+                      }
+                      if (Deaths(P7, Exactly, 23, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 3, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      6 ]                Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0423 / 30    \x07|    \x1F추가유닛  \x08슈퍼 캐리어 \x0440");  
+                      }
+                  }
+                  foreach (P : EUDLoopPlayer(None, Force1, None)) { // 24 라운드
+                      if (Deaths(P7, Exactly, 24, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 1, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      3 ]                Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0424 / 30    \x07|    \x08벌처 \x0425  \x08고스트 \x044  \x08메딕 \x041");
+                      }
+                      if (Deaths(P7, Exactly, 24, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 2, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      2 ]                Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0424 / 30    \x07|    \x08벌처 \x0430  \x08고스트 \x046  \x08메딕 \x042");
+                      }
+                      if (Deaths(P7, Exactly, 24, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 3, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      2 ]                Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0424 / 30    \x07|    \x08벌처 \x0435  \x08고스트 \x048  \x08메딕 \x043");
+                      }
+              
+              
+              
+                      if (Deaths(P7, Exactly, 24, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 1, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      1 ]                Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0424 / 30    \x07|    \x1F추가유닛  \x08슈퍼 드라군 \x0430");  
+                      }
+                      if (Deaths(P7, Exactly, 24, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 2, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      3 ]                Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0424 / 30    \x07|    \x1F추가유닛  \x08슈퍼 드라군 \x0445");  
+                      }
+                      if (Deaths(P7, Exactly, 24, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 3, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      7 ]                Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0424 / 30    \x07|    \x1F추가유닛  \x08슈퍼 드라군 \x0460");  
+                      }
+                  }
+                  foreach (P : EUDLoopPlayer(None, Force1, None)) { // 25 라운드
+                      if (Deaths(P7, Exactly, 25, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 1, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      2 ]                Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0425 / 30    \x07|    \x08울트라리스크 \x043  \x08히드라리스크 \x0418  \x08퀸 \x042");
+                      }
+                      if (Deaths(P7, Exactly, 25, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 2, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      2 ]                Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0425 / 30    \x07|    \x08울트라리스크 \x044  \x08히드라리스크 \x0424  \x08퀸 \x042");
+                      }
+                      if (Deaths(P7, Exactly, 25, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 3, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+                          Deaths(P, AtLeast, 1, "Kyadarin Crystal Formation")) { // 싱글존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0425 / 30    \x07|    \x08울트라리스크 \x045  \x08히드라리스크 \x0430  \x08퀸 \x042");
+                      }
+              
+              
+              
+                      if (Deaths(P7, Exactly, 25, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 1, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      1 ]                Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0425 / 30    \x07|    \x1F추가유닛  \x08디바우러 \x0464  \x08커세어 \x0448");  
+                      }
+                      if (Deaths(P7, Exactly, 25, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 2, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+                          Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0425 / 30    \x07|    \x1F추가유닛  \x08디바우러 \x0496  \x08커세어 \x0472");  
+                      }
+                      if (Deaths(P7, Exactly, 25, "Mineral Chunk (Type 1)") && // 라운드 인식
+                          Deaths(P7, Exactly, 3, "Vespene Sac (Zerg Type 2)") && // 난이도 인식
+[      3 ]                Deaths(P, AtLeast, 1, "Ruins")) { // 팀플존 인식
+              
+                          setcurpl(P);
+                          eprintf("\x03라운드  \x0425 / 30    \x07|    \x1F추가유닛  \x08디바우러 \x04128  \x08커세어 \x0496");  
+                      }
+                  }
+              } 
+
+
+
+
