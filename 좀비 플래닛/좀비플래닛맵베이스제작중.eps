@@ -1,0 +1,338 @@
+const PMarineEPD = EUDArray(5);
+
+const UltraEPD = EUDArray(40);
+const DevourerEPD = EUDArray(40);
+
+const PSkill1 = EUDArray(5);
+const PSkill3 = EUDArray(5);
+
+const TestMarine = [$U("Hyperion (Battlecruiser)"), $U("Magellan (Science Vessel)"), $U("Dark Templar (Hero)"), $U("Zerg Mutalisk")];
+
+function PMarineCreate(P6_Mission_Number, P_If_Number, Location) {
+    foreach (P : EUDLoopPlayer(None, Force1, None)) {
+        if (Deaths(P6, Exactly, P6_Mission_Number, $U("Right Upper Level Door")) && // 미션 인식 조건
+            Deaths(P, Exactly, P_If_Number, $U("Floor Missile Trap")) && // 마린 생산 조건
+            Command(P, Exactly, 0, $U("Terran Marine"))) { 
+
+            SetDeaths(P, SetTo, 0, $U("Floor Missile Trap"));
+            PMarineEPD[P] = epdread_epd(EPD(0x628438)); // 저장
+            CreateUnit(1, $U("Terran Marine"), Location, P);
+            SetInvincibility(Enable, $U("Terran Marine"), P, "Anywhere");
+            SetMemoryEPD(PMarineEPD[P] + 0xDC/4, Add, 0x30000000); // 스테이터스 플래그 (스팀팩 적용)  
+        }
+    }
+}
+
+function onPluginStart() {
+}
+
+function beforeTriggerExec() {
+}
+
+function afterTriggerExec() {
+    for (var i = 0; i < 40; i++) { // 울트라 40마리
+        if (UltraEPD[i] == 0 && // 울트라생산 대기
+            MemoryEPD(UltraEPD[i] + 0x08/4, AtMost, 0) && 
+            Deaths(P6, AtMost, 999, $U("Vespene Tank (Terran Type 2)"))) {
+        
+            SetDeaths(P6, SetTo, 1000, $U("Vespene Tank (Terran Type 2)"));
+        }
+        
+        if (UltraEPD[i] == 0 &&
+            MemoryEPD(UltraEPD[i] + 0x08/4, AtMost, 0) &&
+            Deaths(P6, AtLeast, 1012, $U("Vespene Tank (Terran Type 2)"))) {
+        
+            MoveLocation("Location 37", $U("Zerg Zergling"), P9, "Location 40");
+            SetDeaths(P6, SetTo, 0, $U("Vespene Tank (Terran Type 2)"));
+            UltraEPD[i] = epdread_epd(EPD(0x628438)); // 저장
+            CreateUnit(1, $U("Torrasque"), "Location 37", P7);
+            SetInvincibility(Enable, $U("Torrasque"), P7, "Location 37");
+        }
+
+        if (UltraEPD[i] != 0 &&
+            Deaths(P6, AtLeast, 1, $U("Vespene Sac (Zerg Type 2)")) &&
+            MemoryEPD(UltraEPD[i] + 0x08/4, AtLeast, (200*256) + 1) &&
+            MemoryXEPD(UltraEPD[i] + 0xA0/4, AtMost, 120*16777216, 0xFF000000) &&
+            MemoryXEPD(UltraEPD[i] + 0xA0/4, AtLeast, 80*16777216, 0xFF000000) &&
+            MemoryEPD(UltraEPD[i] + 0x64/4, Exactly, $U("Torrasque"))) {
+            
+            SetDeaths(P6, Subtract, 1, $U("Vespene Sac (Zerg Type 2)"));
+            SetMemoryEPD(UltraEPD[i] + 0x08/4, Subtract, 200*256); // 체력 빼기
+            SetMemoryXEPD(UltraEPD[i] + 0xA0/4, SetTo, 40*16777216, 0xFF000000); // 마나 원래대로
+        }
+
+        if (UltraEPD[i] != 0 &&
+            Deaths(P6, AtLeast, 1, $U("Vespene Sac (Zerg Type 2)")) &&
+            MemoryEPD(UltraEPD[i] + 0x08/4, AtMost, 200*256) &&
+            MemoryXEPD(UltraEPD[i] + 0xA0/4, AtMost, 120*16777216, 0xFF000000) &&
+            MemoryXEPD(UltraEPD[i] + 0xA0/4, AtLeast, 80*16777216, 0xFF000000) &&
+            MemoryEPD(UltraEPD[i] + 0x64/4, Exactly, $U("Torrasque"))) {
+            
+            SetDeaths(P6, Subtract, 1, $U("Vespene Sac (Zerg Type 2)"));
+            SetMemoryEPD(UltraEPD[i] + 0x08/4, SetTo, 0);
+            SetMemoryXEPD(UltraEPD[i] + 0x4C/4, SetTo, 0, 0xFF00); // 죽이기
+            UltraEPD[i] = 0; // 해당 인덱스의 값을 0으로 해서 할당된 유닛이 없음을 체킹하는 용도
+        }
+
+        if (UltraEPD[i] != 0 && // 울트라 죽어서 피 0이하
+            MemoryEPD(UltraEPD[i] + 0x08/4, AtMost, 0)) {
+        
+            UltraEPD[i] = 0; // 해당 인덱스의 값을 0으로 해서 할당된 유닛이 없음을 체킹하는 용도
+        }
+    }
+    for (var i = 0; i < 40; i++) { // 디바 40마리
+        if (DevourerEPD[i] == 0 && // 디바생산 대기
+            MemoryEPD(DevourerEPD[i] + 0x08/4, AtMost, 0) &&
+            Deaths(P6, AtMost, 999, $U("Vespene Sac (Zerg Type 1)"))) {
+        
+            SetDeaths(P6, SetTo, 1000, $U("Vespene Sac (Zerg Type 1)"));
+        }
+
+        if (DevourerEPD[i] == 0 && // 디바생산 대기
+            MemoryEPD(DevourerEPD[i] + 0x08/4, AtMost, 0) &&
+            Deaths(P6, AtLeast, 1012, $U("Vespene Sac (Zerg Type 1)"))) {
+        
+            MoveLocation("Location 37", $U("Zerg Zergling"), P9, "Location 40");
+            SetDeaths(P6, SetTo, 0, $U("Vespene Sac (Zerg Type 1)"));
+            DevourerEPD[i] = epdread_epd(EPD(0x628438)); // 저장
+            CreateUnit(1, $U("Zerg Devourer"), "Location 37", P7);
+            SetInvincibility(Enable, $U("Zerg Devourer"), P7, "Location 37");
+        }
+
+        if (DevourerEPD[i] != 0 &&
+            Deaths(P6, AtLeast, 1, $U("Mineral Chunk (Type 2)")) &&
+            MemoryEPD(DevourerEPD[i] + 0x08/4, AtLeast, (200*256) + 1) &&
+            MemoryXEPD(DevourerEPD[i] + 0xA0/4, AtMost, 120*16777216, 0xFF000000) &&
+            MemoryXEPD(DevourerEPD[i] + 0xA0/4, AtLeast, 80*16777216, 0xFF000000) &&
+            MemoryEPD(DevourerEPD[i] + 0x64/4, Exactly, $U("Zerg Devourer"))) {
+            
+            SetDeaths(P6, Subtract, 1, $U("Mineral Chunk (Type 2)"));
+            SetMemoryEPD(DevourerEPD[i] + 0x08/4, Subtract, 200*256); // 체력 빼기
+            SetMemoryXEPD(DevourerEPD[i] + 0xA0/4, SetTo, 40*16777216, 0xFF000000); // 마나 원래대로
+        }
+
+        if (DevourerEPD[i] != 0 &&
+            Deaths(P6, AtLeast, 1, $U("Mineral Chunk (Type 2)")) &&
+            MemoryEPD(DevourerEPD[i] + 0x08/4, AtMost, 200*256) &&
+            MemoryXEPD(DevourerEPD[i] + 0xA0/4, AtMost, 120*16777216, 0xFF000000) &&
+            MemoryXEPD(DevourerEPD[i] + 0xA0/4, AtLeast, 80*16777216, 0xFF000000) &&
+            MemoryEPD(DevourerEPD[i] + 0x64/4, Exactly, $U("Zerg Devourer"))) {
+            
+            SetDeaths(P6, Subtract, 1, $U("Mineral Chunk (Type 2)"));
+            SetMemoryEPD(DevourerEPD[i] + 0x08/4, SetTo, 0);
+            SetMemoryXEPD(DevourerEPD[i] + 0x4C/4, SetTo, 0, 0xFF00); // 죽이기
+            DevourerEPD[i] = 0; // 해당 인덱스의 값을 0으로 해서 할당된 유닛이 없음을 체킹하는 용도
+        }
+
+        if (DevourerEPD[i] != 0 && // 디바 죽어서 피 0이하
+            MemoryEPD(DevourerEPD[i] + 0x08/4, AtMost, 0)) {
+        
+            DevourerEPD[i] = 0; // 해당 인덱스의 값을 0으로 해서 할당된 유닛이 없음을 체킹하는 용도
+        }
+    }
+    for (var i = 0; i < 50; i++) { // 속업 캐리건 생산(1)
+        var Kerrigan1;
+        var Kerrigan2;
+        if (Switch("Switch 9", Set) &&
+            Bring(P7, Exactly, i*2, "Infested Kerrigan", "Location 40") &&
+            Memory(0x6283F0, AtMost, 1697)) {
+
+            MoveLocation("Location 37", $U("Zerg Zergling"), P10, "Location 40");
+            Kerrigan1 = epdread_epd(EPD(0x628438)); // 저장
+            CreateUnit(1, "Infested Kerrigan", "Location 37", P7);
+            SetMemoryEPD(Kerrigan1 + 0xDC/4, Add, 0x10000000); // 스테이터스 플래그 (속업 적용)  
+
+            MoveLocation("Location 37", $U("Zerg Zergling"), P11, "Location 40");
+            Kerrigan2 = epdread_epd(EPD(0x628438)); // 저장
+            CreateUnit(1, "Infested Kerrigan", "Location 37", P7);
+            SetMemoryEPD(Kerrigan2 + 0xDC/4, Add, 0x10000000); // 스테이터스 플래그 (속업 적용)  
+        }     
+    }
+    for (var i = 0; i < 5; i++) { // 스킬1, 스킬3 전용 유닛 생산
+        if (Bring(7+i, Exactly, 0, $U("Protoss Robotics Facility"), "Anywhere")) { // 이펙트용 유닛
+        
+            MoveLocation("Location 37", $U("Zerg Zergling"), P9, "Location 40");
+            PSkill1[i] = epdread_epd(EPD(0x628438));
+            CreateUnit(1, $U("Protoss Robotics Facility"), "Location 37", P7);
+            SetMemoryEPD(PSkill1[i] + 0xDC/4, Add, 0xA00000); // 유닛 충돌 판정 무시
+            SetInvincibility(Enable, $U("Protoss Robotics Facility"), P7, "Anywhere");
+            GiveUnits(1, $U("Protoss Robotics Facility"), P7, "Location 37", 7+i);
+        }
+
+        if (Bring(7+i, Exactly, 0, $U("Protoss Templar Archives"), "Anywhere")) { // 이펙트용 유닛
+        
+            MoveLocation("Location 37", $U("Zerg Zergling"), P9, "Location 40");
+            PSkill3[i] = epdread_epd(EPD(0x628438));
+            CreateUnit(1, $U("Protoss Templar Archives"), "Location 37", P7);
+            SetMemoryEPD(PSkill3[i] + 0xDC/4, Add, 0xA00000); // 유닛 충돌 판정 무시
+            SetInvincibility(Enable, $U("Protoss Templar Archives"), P7, "Anywhere");
+            GiveUnits(1, $U("Protoss Templar Archives"), P7, "Location 37", 7+i);
+        }
+    }
+    foreach (P : EUDLoopPlayer(None, Force1, None)) { // 회피 스킬 자원 캐는 판정 처리
+        if (Command(P, AtLeast, 1, $U("Terran Marine")) &&
+            Deaths(P, AtMost, 999, $U("Left Pit Door")) &&
+            Deaths(P, AtLeast, 100, $U("Left Pit Door"))) {
+
+            SetDeaths(P, SetTo, 1000, $U("Left Pit Door"));
+            SetMemoryEPD(PMarineEPD[P] + 0xDC/4, Add, 0x800000); // 자원 캐는 판정
+        }
+
+        if (Command(P, AtLeast, 1, $U("Terran Marine")) &&
+            Deaths(P, AtMost, 1099, $U("Left Pit Door")) &&
+            Deaths(P, AtLeast, 1072, $U("Left Pit Door"))) {
+
+            SetDeaths(P, SetTo, 1100, $U("Left Pit Door"));
+            SetMemoryEPD(PMarineEPD[P] + 0xDC/4, Subtract, 0x800000); // 자원 캐는 판정
+        }
+    }
+    for (var i = 0; i < 4; i++) { // 테스트 마린 회피
+        if (Switch("Switch 4", Set) &&
+            Command(P5, AtLeast, 1, TestMarine[i]) &&
+            Deaths(i, AtMost, 999, $U("Left Pit Door")) &&
+            Deaths(i, AtLeast, 100, $U("Left Pit Door"))) {
+
+            SetDeaths(i, SetTo, 1000, $U("Left Pit Door"));
+            SetMemoryEPD(PMarineEPD[i] + 0xDC/4, Add, 0x800000); // 자원 캐는 판정
+        }
+        
+        if (Switch("Switch 4", Set) &&
+            Command(P5, AtLeast, 1, TestMarine[i]) &&
+            Deaths(i, AtMost, 1099, $U("Left Pit Door")) &&
+            Deaths(i, AtLeast, 1072, $U("Left Pit Door"))) {
+
+            SetDeaths(i, SetTo, 1100, $U("Left Pit Door"));
+            SetMemoryEPD(PMarineEPD[i] + 0xDC/4, Subtract, 0x800000); // 자원 캐는 판정
+        }
+    }
+    foreach (P : EUDLoopPlayer(None, Force1, None)) { // 힐 스킬 처리
+        if (Command(P, AtLeast, 1, $U("Terran Marine")) &&
+            Deaths(P, AtLeast, 5, $U("Left Wall Flame Trap")) && // 스킬 5 이상
+            Deaths(P, AtMost, 0, $U("Right Wall Missile Trap")) && // 힐 스킬 쿨 찼을 때
+            Deaths(P, AtMost, 999, $U("Right Upper Level Door")) && // TEP에서 힐 사용 조건 데스값
+            MemoryEPD(PMarineEPD[P] + 0x08/4, AtMost, 300*256)) { // 체력 300이하
+
+            SetDeaths(P, SetTo, 1000, $U("Right Upper Level Door"));  
+        }
+    }
+    for (var i = 0; i < 4; i++) { // 테스트 마린 힐
+        if (Switch("Switch 4", Set) &&
+            Command(P5, AtLeast, 1, TestMarine[i]) &&
+            Deaths(i, AtLeast, 5, $U("Left Wall Flame Trap")) && // 스킬 5 이상
+            Deaths(i, AtMost, 0, $U("Right Wall Missile Trap")) && // 힐 스킬 쿨 찼을 때
+            Deaths(i, AtMost, 999, $U("Right Upper Level Door")) && // TEP에서 힐 사용 조건 데스값
+            MemoryEPD(PMarineEPD[i] + 0x08/4, AtMost, 300*256)) { // 체력 300이하
+
+            SetDeaths(i, SetTo, 1000, $U("Right Upper Level Door"));
+        }
+    }
+    foreach (P : EUDLoopPlayer(None, Force1, None)) { // 스킬 쿨타임 표시
+        if (Command(P, AtLeast, 1, $U("Terran Marine")) &&
+            Deaths(P, Exactly, 1, $U("Left Wall Flame Trap"))) {
+
+            setcurpl(P);
+            eprintf("\x04지원사격 \x07{}", dwread_epd(P + $U("Young Chrysalis") * 12));  
+        }
+
+        if (Command(P, AtLeast, 1, $U("Terran Marine")) &&
+            Deaths(P, Exactly, 2, $U("Left Wall Flame Trap"))) {
+
+            setcurpl(P);
+            eprintf("\x04지원사격 \x07{} \x1F/ \x04마인드 컨트롤 \x07{}", dwread_epd(P + $U("Young Chrysalis") * 12), dwread_epd(P + $U("Flag") * 12));  
+        }
+
+        if (Command(P, AtLeast, 1, $U("Terran Marine")) &&
+            Deaths(P, AtMost, 4, $U("Left Wall Flame Trap")) &&
+            Deaths(P, AtLeast, 3, $U("Left Wall Flame Trap"))) {
+
+            setcurpl(P);
+            eprintf("\x04지원사격 \x07{} \x1F/ \x04마인드 컨트롤 \x07{} \x1F/ \x04회피 \x07{}", dwread_epd(P + $U("Young Chrysalis") * 12), dwread_epd(P + $U("Flag") * 12), dwread_epd(P + $U("Start Location") * 12));  
+        }
+
+        if (Command(P, AtLeast, 1, $U("Terran Marine")) &&
+            Deaths(P, Exactly, 5, $U("Left Wall Flame Trap"))) {
+
+            setcurpl(P);
+            eprintf("\x04지원사격 \x07{} \x1F/ \x04마인드 컨트롤 \x07{} \x1F/ \x04회피 \x07{} \x1F/ \x04힐 \x07{}", dwread_epd(P + $U("Young Chrysalis") * 12), dwread_epd(P + $U("Flag") * 12), dwread_epd(P + $U("Start Location") * 12), dwread_epd(P + $U("Right Wall Missile Trap") * 12));  
+        }
+
+        if (Command(P, Exactly, 0, $U("Terran Marine")) &&
+            Deaths(P, AtLeast, 10000, $U("Left Upper Level Door"))) {
+        
+            SetDeaths(P, SetTo, 0, $U("Left Upper Level Door"));
+            setcurpl(P);
+            eprintf("");  
+        }
+    }
+
+    if (Deaths(P6, Exactly, 1, $U("Left Pit Door"))) { // 난이도에 따라 유닛 스펙 변경
+
+        SetDeaths(P6, SetTo, 4, $U("Left Pit Door"));
+        SetDeaths(P6, SetTo, 1, $U("Floor Hatch (UNUSED)")); // 난이도 인식용 데스값
+        SetMemoryXEPD(EPD(0x656EB0 + 42 * 2), SetTo, 15, 0xFFFF); // 부르들링
+        SetMemoryXEPD(EPD(0x656EB0 + 41 * 2), SetTo, 50 * 65536, 0xFFFF0000); // 울트라 영웅
+        SetMemoryXEPD(EPD(0x656EB0 + 37 * 2), SetTo, 20 * 65536, 0xFFFF0000); // 캐리건
+        SetMemoryXEPD(EPD(0x656EB0 + 39 * 2), SetTo, 14 * 65536, 0xFFFF0000); // 히드라 영웅
+        SetMemoryXEPD(EPD(0x656EB0 + 36 * 2), SetTo, 14, 0xFFFF); // 저글링 영웅
+        SetMemoryXEPD(EPD(0x656EB0 + 49 * 2), SetTo, 14 * 65536, 0xFFFF0000); // 뮤탈 영웅
+        SetMemoryXEPD(EPD(0x656EB0 + 47 * 2), SetTo, 20 * 65536, 0xFFFF0000); // 가디언 영웅
+        SetMemoryXEPD(EPD(0x656EB0 + 104 * 2), SetTo, 20, 0xFFFF); // 디바우러
+        SetMemoryXEPD(EPD(0x656EB0 + 65 * 2), SetTo, 15 * 65536, 0xFFFF0000); // 질럿 영웅
+        bwrite(0x58D2B0+(44) + 0x2E*($P7), 20); // 자폭맨 딜 업글
+        SetMemory(0x662350 + 48 * 4, SetTo, 2000*256); // 최대 체력 조정 토라스크 (실제 변화는 없음 예시용으로 놔둔 거)
+    }
+    if (Deaths(P6, Exactly, 2, $U("Left Pit Door"))) {
+
+        SetDeaths(P6, SetTo, 4, $U("Left Pit Door"));
+        SetDeaths(P6, SetTo, 2, $U("Floor Hatch (UNUSED)"));
+        SetMemoryXEPD(EPD(0x656EB0 + 42 * 2), SetTo, 30, 0xFFFF); // 부르들링
+        SetMemoryXEPD(EPD(0x656EB0 + 41 * 2), SetTo, 60 * 65536, 0xFFFF0000); // 울트라 영웅
+        SetMemoryXEPD(EPD(0x656EB0 + 37 * 2), SetTo, 30 * 65536, 0xFFFF0000); // 캐리건
+        SetMemoryXEPD(EPD(0x656EB0 + 39 * 2), SetTo, 16 * 65536, 0xFFFF0000); // 히드라 영웅
+        SetMemoryXEPD(EPD(0x656EB0 + 36 * 2), SetTo, 16, 0xFFFF); // 저글링 영웅
+        SetMemoryXEPD(EPD(0x656EB0 + 49 * 2), SetTo, 16 * 65536, 0xFFFF0000); // 뮤탈 영웅
+        SetMemoryXEPD(EPD(0x656EB0 + 47 * 2), SetTo, 40 * 65536, 0xFFFF0000); // 가디언 영웅
+        SetMemoryXEPD(EPD(0x656EB0 + 104 * 2), SetTo, 40, 0xFFFF); // 디바우러
+        SetMemoryXEPD(EPD(0x656EB0 + 65 * 2), SetTo, 20 * 65536, 0xFFFF0000); // 질럿 영웅
+        bwrite(0x58D2B0+(44) + 0x2E*($P7), 60); // 자폭맨 딜 업글
+    }
+    if (Deaths(P6, Exactly, 3, $U("Left Pit Door"))) {
+
+        SetDeaths(P6, SetTo, 4, $U("Left Pit Door"));
+        SetDeaths(P6, SetTo, 3, $U("Floor Hatch (UNUSED)"));
+        SetMemoryXEPD(EPD(0x656EB0 + 42 * 2), SetTo, 50, 0xFFFF); // 부르들링
+        SetMemoryXEPD(EPD(0x656EB0 + 41 * 2), SetTo, 70 * 65536, 0xFFFF0000); // 울트라 영웅
+        SetMemoryXEPD(EPD(0x656EB0 + 37 * 2), SetTo, 30 * 65536, 0xFFFF0000); // 캐리건
+        SetMemoryXEPD(EPD(0x656EB0 + 39 * 2), SetTo, 18 * 65536, 0xFFFF0000); // 히드라 영웅
+        SetMemoryXEPD(EPD(0x656EB0 + 36 * 2), SetTo, 18, 0xFFFF); // 저글링 영웅
+        SetMemoryXEPD(EPD(0x656EB0 + 49 * 2), SetTo, 18 * 65536, 0xFFFF0000); // 뮤탈 영웅
+        SetMemoryXEPD(EPD(0x656EB0 + 47 * 2), SetTo, 50 * 65536, 0xFFFF0000); // 가디언 영웅
+        SetMemoryXEPD(EPD(0x656EB0 + 104 * 2), SetTo, 50, 0xFFFF); // 디바우러
+        SetMemoryXEPD(EPD(0x656EB0 + 65 * 2), SetTo, 20 * 65536, 0xFFFF0000); // 질럿 영웅
+        bwrite(0x58D2B0+(44) + 0x2E*($P7), 80); // 자폭맨 딜 업글
+    }
+
+    if (Switch("Switch 4", Set) && // 테스트용 5피 마린 생산
+        Deaths(P6, AtLeast, 1012, $U("Dark Swarm"))) {
+
+        SetDeaths(P6, SetTo, 0, $U("Dark Swarm"));
+
+        PMarineEPD[0] = epdread_epd(EPD(0x628438)); // 저장
+        CreateUnit(1, $U("Hyperion (Battlecruiser)"), $L("Location 5"), P5);
+        SetMemoryEPD(PMarineEPD[0] + 0xDC/4, Add, 0x30000000); // 스테이터스 플래그 (스팀팩 적용) 
+
+        PMarineEPD[1] = epdread_epd(EPD(0x628438)); // 저장
+        CreateUnit(1, $U("Magellan (Science Vessel)"), $L("Location 5"), P5);
+        SetMemoryEPD(PMarineEPD[1] + 0xDC/4, Add, 0x30000000); // 스테이터스 플래그 (스팀팩 적용) 
+
+        PMarineEPD[2] = epdread_epd(EPD(0x628438)); // 저장
+        CreateUnit(1, $U("Dark Templar (Hero)"), $L("Location 5"), P5);
+        SetMemoryEPD(PMarineEPD[2] + 0xDC/4, Add, 0x30000000); // 스테이터스 플래그 (스팀팩 적용) 
+
+        PMarineEPD[3] = epdread_epd(EPD(0x628438)); // 저장
+        CreateUnit(1, $U("Zerg Mutalisk"), $L("Location 5"), P5);
+        SetMemoryEPD(PMarineEPD[3] + 0xDC/4, Add, 0x30000000); // 스테이터스 플래그 (스팀팩 적용) 
+    }
+
+
+}

@@ -1,0 +1,533 @@
+Trigger { -- 미션5 재시작 스위치 초기화
+	players = {P6},
+	conditions = {
+		Deaths(P6, Exactly, 5, "Zerg Larva");
+		Deaths(P6, AtMost, 1999, "Gerard DuGalle (Ghost)");
+		Deaths(P6, AtLeast, 1000, "Gerard DuGalle (Ghost)");
+	},
+	actions = {
+		PreserveTrigger();
+		
+		SetSwitch("Switch 45", Clear); -- 랜덤 자원 조절용
+		SetSwitch("Switch 46", Clear);
+		SetSwitch("Switch 47", Clear);
+		SetSwitch("Switch 48", Clear);
+		SetSwitch("Switch 49", Clear);
+		
+		SetSwitch("Switch 50", Clear); -- 1-3 패턴 미네랄&가스 바꾸는 거 1회만 하도록 인식
+		SetSwitch("Switch 51", Clear);
+		SetSwitch("Switch 52", Clear);
+		SetSwitch("Switch 53", Clear);
+		SetSwitch("Switch 54", Clear);
+		
+		SetSwitch("Switch 55", Clear); -- 1-3 패턴 시간 더 주는 용도(1)
+		SetSwitch("Switch 56", Clear); -- 공유 목숨 1일 때 마지막으로 죽는 거 인식
+		
+		SetSwitch("Switch 57", Clear); -- 1-5 패턴 오류 방지
+		SetSwitch("Switch 59", Clear); -- 1-3 패턴 시간 더 주는 용도(2)
+		
+		SetSwitch("Switch 60", Clear); -- 치료기계 인식으로 6피 색깔 흰색으로 해주기
+		
+		SetSwitch("Switch 61", Clear); -- 2-1 패턴 시간 조절용
+		
+		SetSwitch("Switch 62", Clear); -- 1회용 마컨 시간 조정
+		SetSwitch("Switch 63", Clear);
+		SetSwitch("Switch 64", Clear);
+		SetSwitch("Switch 65", Clear);
+		SetSwitch("Switch 66", Clear);
+		
+		SetSwitch("Switch 67", Clear); -- 보스 사망 인식
+		
+		SetSwitch("Switch 96", Clear); -- 1-5 패턴 시간 더 주는 용도
+		SetSwitch("Switch 97", Clear);
+	}
+}
+
+Trigger { -- 미션5 재시작 데스값 초기화
+	players = {P6},
+	conditions = {
+		Deaths(P6, Exactly, 5, "Zerg Larva");
+		Deaths(P6, AtMost, 1999, "Gerard DuGalle (Ghost)");
+		Deaths(P6, AtLeast, 1000, "Gerard DuGalle (Ghost)");
+	},
+	actions = {
+		PreserveTrigger();
+		
+		SetDeaths(P6, SetTo, 0, "Floor Hatch (UNUSED)"); -- 공유 목숨
+		SetDeaths(P6, SetTo, 0, "Disruption Field"); -- 셔틀색 초기화
+		SetDeaths(P6, SetTo, 0, "Edmund Duke (Siege Tank)"); -- 공유 목숨 소진으로 전멸 카운트
+		SetDeaths(P6, SetTo, 0, "Data Disc"); -- 패턴 사용 중일 때 아칸은 공격 중지
+		
+		SetDeaths(P6, SetTo, 0, "Dark Swarm"); -- 1-1 패턴에서 가디언 빨리 안 없애면 전멸기
+		SetDeaths(P6, SetTo, 0, "Cocoon");
+		SetDeaths(P6, SetTo, 0, "Cantina");
+		SetDeaths(P6, SetTo, 0, "Bengalaas");
+		SetDeaths(P6, SetTo, 0, "Arcturus Mengsk (Battlecruiser)");
+		SetDeaths(P6, SetTo, 0, "Alan Turret"); -- 1-1 패턴 가디언 안 없애서 나온 즉사 패턴 카운트
+		
+		SetDeaths(P6, SetTo, 0, "Duke Turret2"); -- TE 트리거 / 지원사격
+		
+		SetDeaths(P7, SetTo, 0, "Zerg Cerebrate"); -- 17 테스트 / 2-1 마컨 패턴 때 마린 마컨하러 중앙으로 이동
+		SetDeaths(P7, SetTo, 0, "Vespene Sac (Zerg Type 1)"); -- 17 테스트 / 1-2 패턴 때 마린 마컨하러 이동
+		SetDeaths(P7, SetTo, 0, "Vespene Sac (Zerg Type 2)"); -- 17 테스트 / 1-2 패턴 때 마린 마컨하러 이동
+		
+		SetDeaths(P7, SetTo, 0, "Zerg Hydralisk Den"); -- 랜덤 패턴 결정값+패턴 쿨타임
+		SetDeaths(P7, SetTo, 0, "Zerg Extractor"); -- 패턴 랜덤
+		SetDeaths(P7, SetTo, 0, "Zerg Evolution Chamber"); -- 셔틀이 따라가는 플레이어 정하기
+		SetDeaths(P7, SetTo, 0, "Zerg Cerebrate Daggoth"); -- 셔틀 아래 할루 이펙트
+		
+		SetDeaths(P7, SetTo, 0, "Zeratul (Dark Templar)"); -- 마컨 소비용 패턴&2-1 뮤탈 패턴
+		SetDeaths(P7, SetTo, 0, "Xel'Naga Temple"); -- 마컨 3회 인식용
+		
+		SetDeaths(P7, SetTo, 0, "Warp Gate"); -- 셔틀 빨리 사라지게 하기
+		SetDeaths(P7, SetTo, 0, "Warbringer (Reaver)"); -- 다크 스윔 없애는 카운트용
+		
+		SetDeaths(P7, SetTo, 0, "Vulture Spider Mine"); -- 1-5 패턴 끝나고 2-1 패턴 2번에 1번 나오게 하기
+		
+		SetDeaths(P7, SetTo, 0, "Vespene Tank (Terran Type 2)"); -- 반피 이하되면 디바우러 생성, TE에서 보스피 인식해서 1,000만들어줌.	
+		
+		SetDeaths(P7, SetTo, 0, "Zerg Lurker"); -- TE 트리거 / 아칸 체력바 없어지면 사망 카운트
+		SetDeaths(P7, SetTo, 0, "Zerg Lurker Egg");
+		SetDeaths(P7, SetTo, 0, "Zerg Larva");
+		
+		SetDeaths(P7, SetTo, 0, "Ursadon (Ice World)"); -- 보스 사망 처리 이펙트
+				
+		SetDeaths(Force1, SetTo, 133, "Zerg Overmind"); -- 플레이어 스킬 초기화
+		SetDeaths(Force1, SetTo, 600, "Easy Mode");
+		SetDeaths(Force1, SetTo, 500, "Zerg Lurker Egg");
+		SetDeaths(Force1, SetTo, 0, "Zerg Lurker");
+		SetDeaths(Force1, SetTo, 1189, "Zerg Larva");
+		
+		SetDeaths(Force1, SetTo, 0, "군인 - 소총병"); -- 실제 마린 죽은 수 초기화				
+		SetDeaths(Force1, SetTo, 0, "Mature Crysalis"); -- 브금
+		SetDeaths(Force1, SetTo, 0, "Map Revealer"); -- 패턴 알림 메시지
+		SetDeaths(Force1, SetTo, 0, "Kakaru"); -- 역병 패턴 소리 (가디언 나오는 거)
+		
+		SetDeaths(Force1, SetTo, 0, "분신 [2단계]"); -- 부활용 카운트 및 2.5초 무적 판정
+		
+		SetDeaths(Force1, SetTo, 0, "Ion Cannon"); -- 스킬 관련 / 마컨 시간 감소되는 현상 방지, 보스 마컨 인식
+		SetDeaths(Force1, SetTo, 0, "Zerg Hydralisk Den"); -- 스킬 관련 / 회피 초기화용
+		
+		SetDeaths(Force1, SetTo, 0, "Goliath Turret"); -- 1-1 패턴 가디언 안 없애서 나온 전멸기
+		SetDeaths(Force1, SetTo, 0, "Kakaru"); -- 1-1 패턴 가디언 등장 소리
+		
+		SetDeaths(Force1, SetTo, 0, "Independent Command Center"); -- 1-1 패턴 가디언이 플레이어 피격 인식
+		SetDeaths(Force1, SetTo, 0, "Left Wall Flame Trap");
+		SetDeaths(Force1, SetTo, 0, "Left Upper Level Door");
+		SetDeaths(Force1, SetTo, 0, "Left Pit Door");
+		SetDeaths(Force1, SetTo, 0, "Kyadarin Crystal Formation");
+
+		SetDeaths(Force1, SetTo, 0, "Khaydarin Crystal Formation"); -- 1-1,3,4 패턴 마린 데미지 계산
+		SetDeaths(Force1, SetTo, 0, "Jump Gate"); -- 1-1 패턴 역병 맞고 데미지 면역
+		
+		SetDeaths(Force1, SetTo, 0, "Gerard DuGalle (Ghost)"); -- 1-2 패턴 폭발 데미지 인식
+		SetDeaths(Force1, SetTo, 0, "Gantrithor (Carrier)");
+		SetDeaths(Force1, SetTo, 0, "Floor Hatch (UNUSED)");
+		SetDeaths(Force1, SetTo, 0, "Fenix (Zealot)");
+		SetDeaths(Force1, SetTo, 0, "Edmund Duke (Siege Tank)");
+		
+		SetDeaths(Force1, SetTo, 0, "Duke Turret2"); -- 1-4 패턴 마린 움직임 감지 50 데미지
+		SetDeaths(Force1, SetTo, 0, "Duke Turret1"); -- 디바우러 닿으면 데미지 렉 방지용 카운트
+		
+		SetDeaths(Force1, SetTo, 0, "Data Disc"); -- 1-5 패턴 색깔 랜덤 데스값
+		SetDeaths(Force1, SetTo, 0, "Dark Templar (Hero)"); -- 1-5 패턴 대미지 계산
+		SetDeaths(Force1, SetTo, 0, "Dark Swarm"); -- 스카웃 대미지
+	}
+}
+
+Trigger { -- 미션5 재시작 유닛 무적, 스킬 설정, 기타 처리
+	players = {P6},
+	conditions = {
+		Deaths(P6, Exactly, 5, "Zerg Larva");
+		Deaths(P6, AtMost, 1999, "Gerard DuGalle (Ghost)");
+		Deaths(P6, AtLeast, 1000, "Gerard DuGalle (Ghost)");
+	},
+	actions = {
+		PreserveTrigger();
+		SetResources(Force1, SetTo, 0, OreAndGas);
+		ModifyUnitHitPoints(1, "Men", Force1, "Location 224", 100); -- 유닛 피 100퍼
+		
+		SetInvincibility(Enable, "바이러스 가디언", AllPlayers, "Location 224"); -- 유닛 무적 설정
+		SetInvincibility(Enable, "바이러스 가디언", P9, "Location 224");
+		SetInvincibility(Enable, "군인 - 소총병", Force1, "Location 224");
+		
+		RemoveUnitAt(All, "치료기계", "Location 224", P6); -- 셔틀 제거
+		RemoveUnitAt(All, "치료기계", "Location 221", P6);
+		
+		GiveUnits(All, "바이러스 가디언의 파편", P12, "Location 224", P6); -- 디파 제거
+		GiveUnits(All, "바이러스 가디언의 파편", Force1, "Location 224", P6);
+		RemoveUnitAt(All, "바이러스 가디언의 파편", "Location 224", P6);
+		RemoveUnitAt(All, "Dark Swarm", "Anywhere", P12); -- 다크 스윔 제거
+		
+		KillUnitAt(All, "Disruption Field", "Location 241", AllPlayers); -- 반피 이하 패턴 스카웃 제거
+		KillUnitAt(All, "Disruption Field", "Location 241", P9);
+		
+		KillUnit("역병", AllPlayers); -- 가디언 파괴
+		KillUnit("역병", P9);
+		KillUnit("역병", P10);
+		KillUnit("역병", P11);
+		KillUnit("역병", P12);
+		
+		KillUnitAt(All, "플라잉 좀비", "Location 224", P7); -- 플라잉 좀비 파괴
+		KillUnitAt(All, "Disruption Field", "Anywhere", P7); -- 디바우러 파괴
+		KillUnitAt(All, "Disruption Field", "Anywhere", P9);
+		
+		GiveUnits(1, "가스 비콘", P6, "Location 224", P7); -- 비콘 12피한테 주기
+		GiveUnits(1, "가스 비콘", P7, "Location 224", P12);
+		GiveUnits(1, "미네랄 비콘", P6, "Location 224", P7);
+		GiveUnits(1, "미네랄 비콘", P7, "Location 224", P12);
+		
+		GiveUnits(1, "바이러스 가디언", P9, "Location 224", P7); -- 마컨 오류 방지
+		GiveUnits(1, "바이러스 가디언", Force1, "Location 224", P7);
+		
+		GiveUnits(All, "Zerg Zergling", P8, "Location 224", P7); -- 이펙트용 저글링 주기
+		GiveUnits(All, "Zerg Zergling", P9, "Location 224", P7);
+		GiveUnits(All, "Zerg Zergling", P10, "Location 224", P7);
+		GiveUnits(All, "Zerg Zergling", P11, "Location 224", P7);
+		GiveUnits(All, "Zerg Zergling", P12, "Location 224", P7);
+		
+		GiveUnits(All, "Vulture Spider Mine", P8, "Location 241", P7);
+		GiveUnits(All, "Vulture Spider Mine", P10, "Location 241", P9);
+		GiveUnits(All, "Vulture Spider Mine", P12, "Location 241", P11);
+		GiveUnits(All, "Zerg Hydralisk", P8, "Location 241", P7);
+		GiveUnits(All, "Zerg Hydralisk", P9, "Location 241", P7);
+		
+		GiveUnits(All, "바이러스 에그", P8, "Location 241", P7);
+		GiveUnits(All, "바이러스 에그", P10, "Location 241", P9);
+		GiveUnits(All, "바이러스 에그", P12, "Location 241", P11);
+		GiveUnits(All, "Zerg Lurker Egg", P8, "Location 241", P7);
+		GiveUnits(All, "Zerg Lurker Egg", P9, "Location 241", P7);
+		
+		RemoveUnit("Scanner Sweep", P7); -- 이펙트 제거
+	}
+}
+
+mi5bosspmi = {}; 
+
+table.insert(mi5bosspmi, {1000, 2000, 3000, 4000, 5000, 6000});
+table.insert(mi5bosspmi, {1034, 2034, 3034, 4034, 5034, 6034});
+
+for i=1,5 do -- 미션5 보스 패턴 마컨으로 끊기
+for m=1,6 do
+Trigger { -- 
+	players = {P6},
+	conditions = {
+		Deaths(P6, Exactly, 5, "Zerg Larva");
+		Deaths(P6, AtMost, 999, "Gerard DuGalle (Ghost)");
+		Deaths(P6, AtLeast, 505, "Gerard DuGalle (Ghost)");
+		Deaths(P7, AtMost, mi5bosspmi[2][m], "Zerg Hydralisk Den");
+		Deaths(P7, AtLeast, mi5bosspmi[1][m], "Zerg Hydralisk Den");
+		Deaths(i-1, AtMost, 99, "Ion Cannon");
+		Deaths(i-1, AtLeast, 2, "Ion Cannon");
+		Switch("Switch 36", Set);
+		Bring(P7, Exactly, 0, "바이러스 가디언", "Location 224");
+		Bring(P9, AtLeast, 1, "바이러스 가디언", "Location 224");
+	},
+	actions = {
+		PreserveTrigger();
+		
+		SetDeaths(P7, SetTo, 7000, "Zerg Hydralisk Den"); -- 보스 패턴 끊기
+		
+		SetSwitch("Switch 45", Clear); -- 랜덤 자원 조절용
+		SetSwitch("Switch 46", Clear);
+		SetSwitch("Switch 47", Clear);
+		SetSwitch("Switch 48", Clear);
+		SetSwitch("Switch 49", Clear);
+		
+		SetSwitch("Switch 50", Clear); -- 1-3 패턴 미네랄&가스 바꾸는 거 1회만 하도록 인식
+		SetSwitch("Switch 51", Clear);
+		SetSwitch("Switch 52", Clear);
+		SetSwitch("Switch 53", Clear);
+		SetSwitch("Switch 54", Clear);
+		
+		SetSwitch("Switch 55", Clear); -- 1-3 패턴 시간 더 주는 용도(1)
+		SetSwitch("Switch 59", Clear); -- 1-3 패턴 시간 더 주는 용도(2)
+		
+		SetSwitch("Switch 60", Clear); -- 치료기계 인식으로 6피 색깔 흰색으로 해주기
+		
+		SetSwitch("Switch 96", Clear); -- 1-5 패턴 시간 더 주는 용도
+		SetSwitch("Switch 97", Clear);
+		
+		SetDeaths(P6, SetTo, 0, "Disruption Field"); -- 셔틀색 초기화
+		SetDeaths(P6, SetTo, 0, "Data Disc"); -- 패턴 사용 중일 때 가디언은 공격 중지
+		
+		SetDeaths(P6, SetTo, 0, "Dark Swarm"); -- 1-1 패턴에서 가디언 빨리 안 없애면 전멸기
+		SetDeaths(P6, SetTo, 0, "Cocoon");
+		SetDeaths(P6, SetTo, 0, "Cantina");
+		SetDeaths(P6, SetTo, 0, "Bengalaas");
+		SetDeaths(P6, SetTo, 0, "Arcturus Mengsk (Battlecruiser)");
+		SetDeaths(P6, SetTo, 0, "Alan Turret"); -- 1-1 패턴 가디언 안 없애서 나온 즉사 패턴 카운트
+		
+		SetDeaths(P7, SetTo, 0, "Zerg Extractor"); -- 패턴 랜덤
+		SetDeaths(P7, SetTo, 0, "Zerg Evolution Chamber"); -- 셔틀이 따라가는 플레이어 정하기
+		SetDeaths(P7, SetTo, 0, "Zerg Cerebrate Daggoth"); -- 셔틀 아래 할루 이펙트
+		
+		SetDeaths(P7, SetTo, 0, "Warp Gate"); -- 셔틀 빨리 사라지게 하기
+		
+		SetDeaths(Force1, SetTo, 0, "Map Revealer"); -- 패턴 알림 메시지
+		SetDeaths(Force1, SetTo, 0, "Kakaru"); -- 역병 패턴 소리 (가디언 나오는 거)
+		
+		SetDeaths(Force1, SetTo, 0, "Goliath Turret"); -- 1-1 패턴 가디언 안 없애서 나온 전멸기
+		SetDeaths(Force1, SetTo, 0, "Kakaru"); -- 1-1 패턴 가디언 등장 소리
+		
+		SetDeaths(Force1, SetTo, 0, "Independent Command Center"); -- 1-1 패턴 가디언이 플레이어 피격 인식
+		SetDeaths(Force1, SetTo, 0, "Left Wall Flame Trap");
+		SetDeaths(Force1, SetTo, 0, "Left Upper Level Door");
+		SetDeaths(Force1, SetTo, 0, "Left Pit Door");
+		SetDeaths(Force1, SetTo, 0, "Kyadarin Crystal Formation");
+
+		SetDeaths(Force1, SetTo, 0, "Khaydarin Crystal Formation"); -- 1-1,3,4 패턴 마린 데미지 계산
+		SetDeaths(Force1, SetTo, 0, "Jump Gate"); -- 1-1 패턴 역병 맞고 데미지 면역
+		
+		SetDeaths(Force1, SetTo, 0, "Gerard DuGalle (Ghost)"); -- 1-2 패턴 폭발 데미지 인식
+		SetDeaths(Force1, SetTo, 0, "Gantrithor (Carrier)");
+		SetDeaths(Force1, SetTo, 0, "Floor Hatch (UNUSED)");
+		SetDeaths(Force1, SetTo, 0, "Fenix (Zealot)");
+		SetDeaths(Force1, SetTo, 0, "Edmund Duke (Siege Tank)");
+		
+		SetDeaths(Force1, SetTo, 0, "Duke Turret2"); -- 1-4 패턴 마린 움직임 감지 50 데미지
+		
+		SetDeaths(Force1, SetTo, 0, "Data Disc"); -- 1-5 패턴 색깔 랜덤 데스값
+		SetDeaths(Force1, SetTo, 0, "Dark Templar (Hero)"); -- 1-5 패턴 대미지 계산
+		
+		SetDeaths(Force1, SetTo, 0, "Dark Swarm"); -- 스카웃 대미지
+		
+		RemoveUnitAt(All, "치료기계", "Location 224", P6); -- 셔틀 제거
+		RemoveUnitAt(All, "치료기계", "Location 221", P6);
+		
+		RemoveUnit("Scanner Sweep", P7); -- 이펙트 제거
+		
+		KillUnit("역병", AllPlayers); -- 가디언 파괴
+		KillUnit("역병", P9);
+		KillUnit("역병", P10);
+		KillUnit("역병", P11);
+		KillUnit("역병", P12);
+		
+		GiveUnits(1, "가스 비콘", P6, "Location 224", P7); -- 비콘 12피한테 주기
+		GiveUnits(1, "가스 비콘", P7, "Location 224", P12);
+		GiveUnits(1, "미네랄 비콘", P6, "Location 224", P7);
+		GiveUnits(1, "미네랄 비콘", P7, "Location 224", P12);
+		
+		GiveUnits(All, "Zerg Zergling", P8, "Location 224", P7); -- 이펙트용 저글링 주기
+		GiveUnits(All, "Zerg Zergling", P9, "Location 224", P7);
+		GiveUnits(All, "Zerg Zergling", P10, "Location 224", P7);
+		GiveUnits(All, "Zerg Zergling", P11, "Location 224", P7);
+		GiveUnits(All, "Zerg Zergling", P12, "Location 224", P7);
+	}
+}
+end
+end
+
+Trigger { -- 
+	players = {P6},
+	conditions = {
+		Deaths(P6, Exactly, 5, "Zerg Larva");
+		Deaths(P6, AtMost, 999, "Gerard DuGalle (Ghost)");
+		Deaths(P6, AtLeast, 505, "Gerard DuGalle (Ghost)");
+		Deaths(P7, AtMost, 7999, "Zerg Hydralisk Den");
+		Deaths(P7, AtLeast, 7003, "Zerg Hydralisk Den");
+		Switch("Switch 36", Set);
+	},
+	actions = {
+		PreserveTrigger();
+		SetDeaths(P7, SetTo, 0, "Zerg Hydralisk Den");
+		SetDeaths(P7, SetTo, 0, "Zerg Evolution Chamber"); -- 대상 플레이어 지정 용도
+		
+		PColor(5, 84); -- 6피 다시 흰색
+		
+		PColor(0, 111); -- 플레이어 색 원래대로
+		PColor(1, 165);
+		PColor(2, 159);
+		PColor(3, 164);
+		PColor(4, 156);
+	}
+}
+
+Trigger { -- 죽고 부활 트리거
+	players = {Force1},
+	conditions = {
+		Deaths(P6, Exactly, 5, "Zerg Larva");
+		Switch("Switch 36", Set);
+		Deaths(P6, AtMost, 999, "Gerard DuGalle (Ghost)");
+		Deaths(P6, AtLeast, 505, "Gerard DuGalle (Ghost)");
+		Deaths(CurrentPlayer, AtMost, 1998, "분신 [2단계]");
+		Deaths(CurrentPlayer, AtLeast, 1000, "분신 [2단계]");
+		Command(CurrentPlayer, Exactly, 0, "군인 - 소총병");
+		Switch("Switch 56", Cleared);
+	},
+	actions = {
+		PreserveTrigger();
+		SetDeaths(CurrentPlayer, Add, 1, "분신 [2단계]");
+		
+		SetDeaths(CurrentPlayer, SetTo, 0, "Goliath Turret"); -- 1-1 패턴 가디언 안 없애서 나온 전멸기
+		
+		SetDeaths(CurrentPlayer, SetTo, 0, "Independent Command Center"); -- 1-1 패턴 가디언이 플레이어 피격 인식
+		SetDeaths(CurrentPlayer, SetTo, 0, "Left Wall Flame Trap");
+		SetDeaths(CurrentPlayer, SetTo, 0, "Left Upper Level Door");
+		SetDeaths(CurrentPlayer, SetTo, 0, "Left Pit Door");
+		SetDeaths(CurrentPlayer, SetTo, 0, "Kyadarin Crystal Formation");
+		
+		SetDeaths(CurrentPlayer, SetTo, 0, "Khaydarin Crystal Formation"); -- 1-1,3,4 패턴 마린 데미지 계산
+		
+		SetDeaths(CurrentPlayer, SetTo, 0, "Gerard DuGalle (Ghost)"); -- 1-2 패턴 폭발 데미지 인식
+		SetDeaths(CurrentPlayer, SetTo, 0, "Gantrithor (Carrier)");
+		SetDeaths(CurrentPlayer, SetTo, 0, "Floor Hatch (UNUSED)");
+		SetDeaths(CurrentPlayer, SetTo, 0, "Fenix (Zealot)");
+		SetDeaths(CurrentPlayer, SetTo, 0, "Edmund Duke (Siege Tank)");
+		
+		SetDeaths(CurrentPlayer, SetTo, 0, "Duke Turret2"); -- 1-4 패턴 마린 움직임 감지 50 데미지
+		SetDeaths(CurrentPlayer, SetTo, 0, "Duke Turret1"); -- 디바우러 닿으면 데미지 렉 방지용 카운트
+		
+		SetDeaths(CurrentPlayer, SetTo, 0, "Zerg Hydralisk Den"); -- 회피 시간 줄어드는 거 방지
+		
+		SetDeaths(CurrentPlayer, SetTo, 0, "Dark Templar (Hero)") -- 1-5 패턴 대미지 계산
+		
+		SetDeaths(CurrentPlayer, SetTo, 0, "Dark Swarm"); -- 스카웃 대미지
+	}
+}
+
+Trigger { -- 미션5 보스 패턴 1-2 / 끝나고 원상 복귀
+	players = {P6},
+	conditions = {
+		Deaths(P6, Exactly, 5, "Zerg Larva");
+		Deaths(P6, AtMost, 999, "Gerard DuGalle (Ghost)");
+		Deaths(P6, AtLeast, 505, "Gerard DuGalle (Ghost)");
+		Deaths(P7, AtMost, 2999, "Zerg Hydralisk Den");
+		Deaths(P7, AtLeast, 2115, "Zerg Hydralisk Den");
+		Switch("Switch 36", Set);
+	},
+	actions = {
+		PreserveTrigger();
+		
+		SetSwitch("Switch 45", Clear); -- 랜덤 자원 조절용
+		SetSwitch("Switch 46", Clear);
+		SetSwitch("Switch 47", Clear);
+		SetSwitch("Switch 48", Clear);
+		SetSwitch("Switch 49", Clear);
+		
+		SetSwitch("Switch 50", Clear); -- 1-3 패턴 미네랄&가스 바꾸는 거 1회만 하도록 인식
+		SetSwitch("Switch 51", Clear);
+		SetSwitch("Switch 52", Clear);
+		SetSwitch("Switch 53", Clear);
+		SetSwitch("Switch 54", Clear);
+		
+		SetSwitch("Switch 55", Clear); -- 1-3 패턴 시간 더 주는 용도(1)
+		
+		SetSwitch("Switch 57", Clear); -- 1-5 패턴 오류 방지
+		SetSwitch("Switch 59", Clear); -- 1-3 패턴 시간 더 주는 용도(2)
+		
+		SetSwitch("Switch 60", Clear); -- 치료기계 인식으로 6피 색깔 흰색으로 해주기
+		
+		SetSwitch("Switch 96", Clear); -- 1-5 패턴 시간 더 주는 용도
+		SetSwitch("Switch 97", Clear);
+		
+		SetDeaths(P6, SetTo, 0, "Disruption Field"); -- 셔틀색 초기화
+		SetDeaths(P6, SetTo, 0, "Data Disc"); -- 패턴 사용 중일 때 아칸은 공격 중지
+		
+		SetDeaths(P6, SetTo, 0, "Dark Swarm"); -- 1-1 패턴에서 가디언 빨리 안 없애면 전멸기
+		SetDeaths(P6, SetTo, 0, "Cocoon");
+		SetDeaths(P6, SetTo, 0, "Cantina");
+		SetDeaths(P6, SetTo, 0, "Bengalaas");
+		SetDeaths(P6, SetTo, 0, "Arcturus Mengsk (Battlecruiser)");
+		SetDeaths(P6, SetTo, 0, "Alan Turret"); -- 1-1 패턴 가디언 안 없애서 나온 즉사 패턴 카운트
+		
+		SetDeaths(P7, SetTo, 0, "Zerg Hydralisk Den"); -- 랜덤 패턴 결정값+패턴 쿨타임
+		SetDeaths(P7, SetTo, 0, "Zerg Evolution Chamber"); -- 셔틀이 따라가는 플레이어 정하기
+		SetDeaths(P7, SetTo, 0, "Zerg Cerebrate Daggoth"); -- 셔틀 아래 할루 이펙트
+		
+		SetDeaths(P7, SetTo, 0, "Xel'Naga Temple"); -- 마컨 3회 인식용
+		
+		SetDeaths(P7, SetTo, 0, "Warp Gate"); -- 셔틀 빨리 사라지게 하기
+		SetDeaths(P7, SetTo, 0, "Warbringer (Reaver)"); -- 다크 스윔 없애는 카운트용
+		
+		SetDeaths(Force1, SetTo, 0, "Map Revealer"); -- 패턴 알림 메시지
+		SetDeaths(Force1, SetTo, 0, "Kakaru"); -- 역병 패턴 소리 (가디언 나오는 거)
+		
+		SetDeaths(Force1, SetTo, 0, "Goliath Turret"); -- 1-1 패턴 가디언 안 없애서 나온 전멸기
+		
+		SetDeaths(Force1, SetTo, 0, "Independent Command Center"); -- 1-1 패턴 가디언이 플레이어 피격 인식
+		SetDeaths(Force1, SetTo, 0, "Left Wall Flame Trap");
+		SetDeaths(Force1, SetTo, 0, "Left Upper Level Door");
+		SetDeaths(Force1, SetTo, 0, "Left Pit Door");
+		SetDeaths(Force1, SetTo, 0, "Kyadarin Crystal Formation");
+		
+		SetDeaths(Force1, SetTo, 0, "Khaydarin Crystal Formation"); -- 1-1,3,4 패턴 마린 데미지 계산
+		SetDeaths(Force1, SetTo, 0, "Jump Gate"); -- 1-1 패턴 역병 맞고 데미지 면역
+		
+		SetDeaths(Force1, SetTo, 0, "Gerard DuGalle (Ghost)"); -- 1-2 패턴 폭발 데미지 인식
+		SetDeaths(Force1, SetTo, 0, "Gantrithor (Carrier)");
+		SetDeaths(Force1, SetTo, 0, "Floor Hatch (UNUSED)");
+		SetDeaths(Force1, SetTo, 0, "Fenix (Zealot)");
+		SetDeaths(Force1, SetTo, 0, "Edmund Duke (Siege Tank)");
+		
+		SetDeaths(Force1, SetTo, 0, "Duke Turret2"); -- 1-4 패턴 마린 움직임 감지 50 데미지
+		
+		SetDeaths(Force1, SetTo, 0, "Data Disc") -- 1-5 패턴 색깔 랜덤 데스값
+		SetDeaths(Force1, SetTo, 0, "Dark Templar (Hero)") -- 1-5 패턴 대미지 계산
+		
+		RemoveUnitAt(All, "치료기계", "Location 224", P6);
+		RemoveUnitAt(All, "치료기계", "Location 221", P6);
+		
+		RemoveUnit("Scanner Sweep", P7); -- 이펙트 제거
+		
+		KillUnit("역병", AllPlayers); -- 가디언 파괴
+		KillUnit("역병", P9);
+		KillUnit("역병", P10);
+		KillUnit("역병", P11);
+		KillUnit("역병", P12);
+		
+		GiveUnits(1, "가스 비콘", P6, "Location 224", P7); -- 비콘 12피한테 주기
+		GiveUnits(1, "가스 비콘", P7, "Location 224", P12);
+		GiveUnits(1, "미네랄 비콘", P6, "Location 224", P7);
+		GiveUnits(1, "미네랄 비콘", P7, "Location 224", P12);
+		
+		GiveUnits(All, "Zerg Zergling", P8, "Location 224", P7); -- 이펙트용 저글링 주기
+		GiveUnits(All, "Zerg Zergling", P9, "Location 224", P7);
+		GiveUnits(All, "Zerg Zergling", P10, "Location 224", P7);
+		GiveUnits(All, "Zerg Zergling", P11, "Location 224", P7);
+		GiveUnits(All, "Zerg Zergling", P12, "Location 224", P7);
+		
+		PColor(5, 84); -- 6피 색 원래대로
+	}
+}
+
+mi5bossp54p = {};
+
+table.insert(mi5bossp54p, {1,0});
+table.insert(mi5bossp54p, {10000,0});
+
+for i=1,2 do -- 미션5 보스 패턴 2-1 / 마컨 3회 성공 후 원래대로 되돌리기
+Trigger { --
+	players = {P6},
+	conditions = {
+		Deaths(P6, Exactly, 5, "Zerg Larva");
+		Deaths(P6, AtMost, 999, "Gerard DuGalle (Ghost)");
+		Deaths(P6, AtLeast, 505, "Gerard DuGalle (Ghost)");
+		Deaths(P7, Exactly, i-1, "Vulture Spider Mine"); -- 2-1 패턴 인식용
+		Deaths(P7, AtMost, 3999, "Zeratul (Dark Templar)");
+		Deaths(P7, AtLeast, 3000, "Zeratul (Dark Templar)");
+		Deaths(P7, AtMost, 1999, "Xel'Naga Temple");
+		Deaths(P7, AtLeast, 1000, "Xel'Naga Temple");
+		Switch("Switch 36", Set);
+		Switch("Switch 57", Set);
+		Bring(P9, Exactly, 0, "바이러스 가디언", "Location 224");
+		Bring(P7, AtLeast, 1, "바이러스 가디언", "Location 224");
+	},
+	actions = {
+		PreserveTrigger();
+		SetSwitch("Switch 57", Clear);
+		SetSwitch("Switch 61", Clear); -- 1-5 패턴 시간 조절용
+		
+		SetDeaths(P7, SetTo, mi5bossp54p[1][i], "Vulture Spider Mine");
+		SetDeaths(P7, SetTo, mi5bossp54p[2][i], "Zeratul (Dark Templar)"); -- 2-1 패턴 인식용
+		SetDeaths(P7, SetTo, 0, "Xel'Naga Temple");
+		SetDeaths(P6, SetTo, 0, "Data Disc");
+		
+		GiveUnits(All, "Zerg Zergling", P8, "Location 224", P7);
+		GiveUnits(All, "Zerg Zergling", P9, "Location 224", P7);
+		GiveUnits(All, "Zerg Zergling", P10, "Location 224", P7);
+		GiveUnits(All, "Zerg Zergling", P11, "Location 224", P7);
+		GiveUnits(All, "Zerg Zergling", P12, "Location 224", P7);
+	}
+}
+end

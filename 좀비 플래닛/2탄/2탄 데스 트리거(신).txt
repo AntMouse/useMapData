@@ -1,0 +1,227 @@
+테스트 마린 : 히페(배틀), 마젤란(배슬), 영웅 닥템, 쿠쿨자(뮤탈)
+
+유닛 생산으로 특정 트리거 실행
+고스트 = 기본 배속(포스1 캐리어 영웅 데스값100)
+파벳 = 4배속(포스1 고스트&배틀 영웅 데스값100)
+메딕 = 포스1 회피 사용
+레이스 = 포스1 힐 사용
+드랍쉽 = 포스1 분신 사용
+테란 발키리 = 포스1 소총병 생산(포스1 테란 발키리 데스값 1)
+배틀 = 포스1 마컨 사용
+
+키인식(TEP)
+R = 포스1 모든 유닛, 6피 공병 피 회복.
+T = 공병 죽이기.
+Y = 포스1 소총병 죽이기.
+Z, X, C, V, B, N = 1-1~5패턴 적용.
+G = 공유 목숨 1로 만듦.
+L = 마린 리스폰 왼쪽으로 모으기.
+J = 닥템 히어로 아칸 패턴 끊으러 중앙으로 이동
+P = 뮤탈 아칸 패턴 끊으러 중앙으로 이동
+M = 마린 전부 5피한테 이동.
+7,8,9,0 = 일반 패턴 1~4
+키인식 (TE)
+
+공병 사망 =Unused type   2
+최양훈 대위=Unused type   1
+신진호 대령=Unused Terran Bldg type   2
+로케 43=플레이어 마린 생성용
+Terran Valkyrie=마린 생성용
+
+스위치 134까지 사용 / 150 추가 사용
+TE 사용 스위치 : 99, 110~112, 120,123~125,127,129,131~134, 
+테스트용 스위치/트리거에는 없을 수도 있음. 테스트용이라 따로 빼뒀음.[9]
+스위치 13 >> 공병 자원 캐기 비활성화, 14 >> 자원 캐기 활성화
+16 >> 포스1, 6피 비전 설정.
+17 >> TEP, TE 테스트 트리거 조건용. 얘 안 켜져 있으면 작동 안 함. 회피 스킬도 기본 마린은 17 꺼져야 작동 되고 테스트 회피 스킬은 17 켜져야 작동됨.
+18 >> 미션2 테스트 용. 이거 꺼진 상태면 가스 캐는 거 테스트, 이거 켜진 상태면 공병 지키기 테스트.
+
+Zerg Spawning Pool = 난이도 설정(1=이지, 2=노말, 3=하드)
+Zerg Overmind = 미션 1~6 최초 시작 인식, 미션 오브젝트 결정.
+Zerg Larva = 각 미션 인식. 얘가 1 파괴면 미션1, 2파괴면 미션2. 위의 미션 오브젝트 텍스트 문구와는 다르게 얘는 해당 미션 트리거가 다음 미션 때 발동되지 않도록 하기 위한 조치.
+
+
+포스1
+Zerg Spawning Pool, Zerg Overmind, Zerg Marker[easy mode], Zerg Lurker, Zerg Lurker Egg, Zerg Larva, Zerg Hydralisk Den, Zerg Extractor, Zerg Evolution Chamber, Zerg Cerebrate Daggoth, Zerg Cerebrate, Zeratul (Dark Templar), Xel'Naga Temple, Warp Gate, Warbringer (Reaver), Vulture Spider Mine, Vespene Tank (Terran Type 2), Vespene Sac (Zerg Type 2), Vespene Sac (Zerg Type 1), Ursadon (Ice World), Uraj Crystal, Unused Zerg Bldg 5, Unused Zerg Bldg, Unused type   2, Unused type   1, Unused Terran Bldg type   2, Unused Terran Bldg type   1, Terran Valkyrie, Terran Supply Depot, Terran Starport, Terran Physics Lab, Terran Nuclear Silo, Terran Marker[Normal Mode], Terran Covert Ops, Terran Control Tower, Terran Comsat Station[통신기], Terran Armory, Tank Turret type   2, Tank Turret type   1, Stasis Cell/Prison, Start Location, Scantid (Desert), Scanner Sweep, Ruins, Right Wall Missile Trap, Right Wall Flame Trap, Right Upper Level Door, Right Pit Door, Rhynadon (Badlands), Raszagal (Dark Templar), Ragnasaur (Ash World), Psi Emitter, Psi Disrupter, Protoss Unused type   2, Protoss Unused type   1, Protoss Temple, Protoss Templar Archives, Protoss Stargate, Protoss Robotics Support Bay, Protoss Robotics Facility, Protoss Observatory, Protoss Nexus, Protoss Gateway, Protoss Forge, Protoss Fleet Beacon, Protoss Cybernetics Core, Protoss Citadel of Adun, Protoss Assimilator, Power Generator, Nuclear Missile, Norad II (Crashed Battlecruiser), Norad II (Battlecruiser), Mojo (Scout), Mineral Field (Type 3), Mineral Field (Type 2), Mineral Field (Type 1), Mature Crysalis, Map Revealer, Left Wall Missile Trap, Left Wall Flame Trap, Left Upper Level Door, Left Pit Door, Kyadarin Crystal Formation(TE에선 unused 붙고 이름도 조금 다름. kh로 시작), Khaydarin Crystal Formation, Kakaru, Jump Gate, 분신 [2단계] (원본:짐레이너(벌처)), Ion Cannon, Independent Command Center, Goliath Turret, Gerard DuGalle (Ghost), Gantrithor (Carrier), Floor Hatch (UNUSED), Fenix (Zealot), Edmund Duke (Siege Tank), Duke Turret2, Duke Turret1, Disruption Field(TE에선 Disruption Web), Data Disc, Dark Templar (Hero), Dark Swarm, Cocoon, Cantina, Bengalaas, Arcturus Mengsk (Battlecruiser), Alan Turret
+
+6피
+Zerg Spawning Pool, Zerg Overmind, Zerg Marker[easy mode], Zerg Lurker, Zerg Lurker Egg, Zerg Larva, Zerg Hydralisk Den, Zerg Extractor, Zerg Evolution Chamber, Zerg Cerebrate Daggoth, Zerg Cerebrate, Zeratul (Dark Templar), Xel'Naga Temple, Warp Gate, Warbringer (Reaver), Vulture Spider Mine, Vespene Tank (Terran Type 2), Vespene Sac (Zerg Type 2), Vespene Sac (Zerg Type 1), Ursadon (Ice World), Uraj Crystal, Unused Zerg Bldg 5, Unused Zerg Bldg, Unused type   2, Unused type   1, Unused Terran Bldg type   2, Unused Terran Bldg type   1, Terran Valkyrie, Terran Supply Depot, Terran Starport, Terran Physics Lab, Terran Nuclear Silo, Terran Marker[Normal Mode], Terran Covert Ops, Terran Control Tower, Terran Armory, Tank Turret type   2, Tank Turret type   1, Stasis Cell/Prison, Start Location, Scantid (Desert), Scanner Sweep [테스트용으로 사용, 미2], Ruins, Right Wall Missile Trap, Right Wall Flame Trap, Right Upper Level Door, Right Pit Door, Rhynadon (Badlands), Raszagal (Dark Templar), Ragnasaur (Ash World), Psi Emitter, Psi Disrupter, Protoss Unused type   2, Protoss Unused type   1, Protoss Temple, Protoss Templar Archives, Protoss Stargate, Protoss Robotics Support Bay, Protoss Robotics Facility, Protoss Observatory, Protoss Nexus, Protoss Gateway, Protoss Forge, Protoss Fleet Beacon, Protoss Cybernetics Core, Protoss Citadel of Adun, Protoss Assimilator, Power Generator, Nuclear Missile, Norad II (Crashed Battlecruiser), Norad II (Battlecruiser), Mojo (Scout), Mineral Field (Type 3), Mineral Field (Type 2), Mineral Field (Type 1), Mature Crysalis, Map Revealer, Magellan (Science Vessel), Left Wall Missile Trap, Left Wall Flame Trap, Left Upper Level Door, Letf Pit Door, Kyadarin Crystal Formation(TE에선 unused 붙고 이름도 조금 다름. kh로 시작), Khaydarin Crystal Formation, 스위치(Khalis Crystal), Kakaru, Jump Gate, 분신 [2단계] (원본:짐레이너(벌처)), Ion Cannon, Independent Command Center, Hyperion (Battlecruiser), Goliath Turret, Gerard DuGalle (Ghost), Gantrithor (Carrier), Floor Hatch (UNUSED), Fenix (Zealot), Edmund Duke (Siege Tank), Duke Turret2, Duke Turret1, Disruption Field(TE에선 Disruption Web), Data Disc, Dark Templar (Hero), Dark Swarm, Cocoon, Cantina, Bengalaas, Arcturus Mengsk (Battlecruiser), Alan Turret
+
+"Unused Zerg Bldg 5""Unused Zerg Bldg""Terran Valkyrie"
+
+7,8피
+Zerg Spawning Pool, Zerg Overmind, Zerg Marker[easy mode], Terran Supply Depot, Terran Starport,
+
+Nuclear Missile, Norad II (Crashed Battlecruiser), Norad II (Battlecruiser), Mojo (Scout)
+
+7피
+Zerg Lurker, Zerg Lurker Egg, Zerg Larva, Zerg Hydralisk Den, Zerg Extractor, Zerg Evolution Chamber, Zerg Cerebrate Daggoth, Zerg Cerebrate, Zeratul (Dark Templar), Xel'Naga Temple, Warp Gate, Warbringer (Reaver), Vulture Spider Mine, Vespene Tank (Terran Type 2), Vespene Sac (Zerg Type 2), Vespene Sac (Zerg Type 1), Ursadon (Ice World), Uraj Crystal, Unused Zerg Bldg 5, Unused Zerg Bldg, Unused type   2, Unused type   1, Unused Terran Bldg type   2, Unused Terran Bldg type   1, Terran Valkyrie, Terran Supply Depot, Terran Starport, Terran Physics Lab, Terran Nuclear Silo,
+
+이전에 마인 숫자 인식으로 썼다가 없앰. Terran Covert Ops, Terran Control Tower, Terran Armory, Tank Turret type   2
+
+미션5 EPD 사용
+6피 : mi4vessel2p, mi4vessel1p, mi4arbi4
+
+
+로케 재활용. 앞의 숫자는 기존에 사용되던 미션.
+
+1. 44,56,62,73,74,
+1-2. 79
+2. 115,118
+3. 135, 136
+3-2. 152
+4. 195,
+
+추가로 미션5에서 테스트 용으로 미리 만들어서 쓰는 로케.
+222,226,227,228,230,231,232
+
+
+CreateUnitWithProperties(1, "Zerg Zergling", "Location 81", P6, {
+			clocked = false,
+			burrowed = true,
+			intransit = false,
+			hallucinated = false,
+			invincible = true,
+			hitpoint = 100,
+			shield = 100,
+			energy = 100,
+			resource = 0,
+			hanger = 0,
+		});
+
+RunAIScriptAt("Recall Here", "Location 31");
+
+
+1. 미션1
+44 x 9 = 396 저글링
+20 x 6 = 120 히드라
+516
+46 x 2 = 92 퀸
+608
+
+클리어 평균 체력
+공병 : 914.67
+마린 : 297.2
+
+
+
+2. 미션2
+클리어 평균 체력
+공병 지키는 마린 평균 >> 179.67
+가스 캐는 마린 평균 >> 139.3
+마린 전체 평균 >> 159.485
+
+런처 평균 >> 228.83
+가스 보관실 평균 >> 310.83
+
+
+
+3. 미션3
+2169 평균 54.225 미네랄 >> 이때 히드라 죽이고 반응으로 드론 죽임. 10.075 딜레이.
+1766 평균 44.15 가스 >> 이때 드론 죽임
+드론 공격 시작 607 >> 24.28 / 24
+드론 24일 때 멈춰서 46일 때 죽이면 54.25
+
+힐팩 체력 200에 먹는다고 가정. 600x5 = 3,000
+처음 마린 체력 = 800x5 = 4,000
+총 체력 7,000
+
+클리어 평균 체력
+공병 : 753.3
+마린 : 323.467
+
+
+
+4. 미션4
+좌측, 중앙, 우측으로 나뉨. 중앙은 적 공격이 엄청 강해서 항상 플레이어가 지키고 있어야함. 배치는 131. 중앙이 물량이 많이 오고 울트라도 3마리 이상이 한꺼번에 온다. 왼쪽과 오른쪽은 가끔 1마리씩만 온다.
+
+1. 왼쪽과 오른쪽에는 아비터가 오는데 배슬 EMP를 아비터한테 맞춰서 쉴드가 0이 되면 아비터가 즉사. 아비터는 특정 지역에 가면 히드라를 리콜한다. 인공지능으로 진짜 리콜. 아비터 나오기 전에 아비터 소리.
+
+2. 왼쪽이랑 중앙 사이, 오른쪽이랑 중앙 사이에 위쪽에 지상 지형이 있는데 여기서 프로브가 나와서 캐논을 건설. 프로브는 안 보이게 처리하고 무적상태로. 캐논은 사거리가 미션4 지역 전체를 커버하고 데미지가 400이라 완성되기 전에 배슬 EMP로 건설중인 건물에 쏴야한다. 이때 건물에 EPD 유닛을 무한 무브로 생성해서 그 유닛 쉴드가 0이 되면 생성중인 건물도 같이 없어지는 방식. 프로브 나오기 전에 프로브 소리.
+
+3. 중앙에는 오버로드가 날아온다. 중앙 표식에 가면 오버 터지고 자폭맨 6마리 생산.
+
+4. 중앙에서 오른쪽이랑 왼쪽에 있는 작은 입구로 가는 용으로 공격하는 유닛 생성하는 로케에서 오버로드 생산. 왼쪽에서 생산한 오버는 오른쪽 X표시 있는 곳으로, 오른쪽에서 생산한 오버는 왼쪽 X표시 있는 곳으로 감. 이러면 중앙에 있는 마린이 잘라주기 편함.
+
+감염된 커멘드 센터가 오는데 여기서도 유닛이 계속 생성된다. 특정 지역에 도달하면 멈춤.
+
+미션4는 지형 크게 신경 안 써도 되니까 위에서 오는 적 막는 걸로 결정. 지원 필요한 곳 가서 지원해주면됨.
+
+양쪽에 좀 큰 구멍이 있는데 거기서 저그 건물 나옴. 플토 건물 써도 됨. 일단 둘 다 쉴드가 있음. 여기도 배슬로 EMP 쏘면 끝. 후반에는 전선 마린이 죽고 진영이 밀리니까 초반에만 나옴.
+
+타이머 1될 때 맞춰서 드랍쉽이 아래에서 날아옴. 지원군. 202연대에서만 온 게 아니라 군단에서 병력이랑 장비도 지원을 받고 그들이랑 합류해서 같이 왔음. 그래서 헬기로 온 것.
+
+
+
+이동 시간
+
+
+왼쪽
+오른쪽
+중앙
+울트라
+4.08
+4.66
+4.61
+캐리건
+9.23
+9.71
+9.59
+저글링
+4.91
+5.07
+5.01
+히드라
+6.77
+7.15
+7.39
+오버
+5.8
+5.9
+5.93
+뮤탈
+5.85
+5.95
+5.95
+아비터
+6.94
+6.99
+-
+중앙 오버 왼쪽
+
+
+6.45
+중앙 오버 오른쪽
+
+
+6.36
+중앙 뮤탈 왼쪽
+
+
+5.45
+중앙 뮤탈 오른쪽
+
+
+5.65
+
+뮤탈은 울트라보다 1.3초 빨리 출발, 타이머2초
+
+프로브 19,20 스위치, 아비터 11,12 스위치
+
+드랍쉽 목적지까지 10초. 카운트 타이머로 하면 15로 하면 될 듯.
+
+배슬 EMP 32칸 사거리 / 128이 4칸 정도
+
+5. 미션5
+
+해야 할 거.
+1. 임시폐기 : 테스트용으로 넣은 트리거인데 테스트 끝나서 never 넣었음.
+2. 임시폐기(체크) : 잠시 폐기 했다가 다시 부활. never 없애서 다시 사용한다는 뜻.
+3. 임시체크 << 다시 확인해야 하는 테스트용 트리거나 never 넣은 거 체크용도.
+
+9. 미션4 왼쪽, 오른쪽 유닛 제대로 오게 지형 수정.
+
+닉네임 인식으로 테스트 버전 패배처리.
+자동 하드 모드 고정.
+----------
+미션4에서 550킬을 못한 상태로 지원군이 도착하면 팅기는 버그가 있음.
